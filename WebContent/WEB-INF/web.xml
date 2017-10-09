@@ -6,31 +6,51 @@
 	<display-name>OA</display-name>
 	<description></description>
 	
-	<context-param>
+	<welcome-file-list>
+		<welcome-file>index</welcome-file>
+	</welcome-file-list>
+	
+	<!-- <context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:applicationContext-spring.xml,classpath:applicationContext-myBatis.xml</param-value>
-	</context-param>
+	</context-param> -->
 
 	<!-- Spring IoC/DI配置 -->
 	<!-- Spring监听器: 在启动Web容器时，自动装配Spring applicationContext.xml 的配置信息 -->
-	<listener>
+	<!-- <listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+	</listener> -->
 	
 	<!-- 此监听器主要用于解决java.beans.Introspector导致的内存泄漏的问题 -->
-	<listener>
+	<!-- <listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
-	</listener>
+	</listener> -->
 		
 	<!-- Request监听器 -->
 	<!-- 
 		在Spring2.0中除了以前的Singleton和Prototype外又加入了三个新的web作用域，分别为request、session和global session，如果你想让你的容器里的某个bean拥有其中某种新的web作用域，
 		除了在bean级上配置相应的scope属性，还必须在容器级做一个额外的初始化配置。 
 	-->
-	<listener>
+	<!-- <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-    </listener>
+    </listener> -->
 	
-	<!-- Spring Web配置 -->
+	<!-- Spring MVC配置:前段控制器，统一访问点 -->
+	<servlet>
+		<servlet-name>SpringWeb</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-web.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpringWeb</servlet-name>
+		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SpringWeb</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
 	
 </web-app>

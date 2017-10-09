@@ -1,123 +1,114 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="utf-8"%>
+	pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>index</title>
-		<link rel="stylesheet" type="text/css" href="framework/css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="framework/css/font-awesome.css" />
-		<link rel="stylesheet" type="text/css" href="css/base.css" />
-		<link rel="stylesheet" type="text/css" href="css/app.css" />
-		<link rel="stylesheet" type="text/css" href="css/index.css" />
-		<script src="js/jquery-2.1.4.min.js"></script>
-		<script src="framework/js/bootstrap.min.js"></script>
-	</head>
-	<body>
-		<!--引入头部-->
-		<div id="topNav" class="topNav"><%@ include file="shared/_topbar.jsp" %></div>
-		
-		<!--中间内容-->
-		<div class="main-container">
-			<!--引入左侧导航-->
-			<div class="sidebar" id="sidebar"><%@ include file="shared/_menubar.jsp" %></div>
-			
-			<!--主体内容-->
-			<div class="main-content">
-				<div class="main-content-inner">
-					<div class="contentTop">
-						<ul class="topNavTitle">
-							<li>
-								<i class="nav-icon fa fa-home"></i>
-								<a href="#"><span>Home</span></a>
-							</li>
-							<li class="active">Dashboard</li>
-						</ul>
-						<div class="nav-search">
-							<form class="form-search">
-								<span class="nav-search-inner">
-									<i class="search_icon fa fa-search"></i>
-									<input placeholder="搜索..." />
-								</span>
-							</form>
-						</div>
-						
+<head>
+<meta charset="utf-8" />
+<title>index</title>
+<link rel="stylesheet" type="text/css"
+	href="/content/framework/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="/content/framework/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="/content/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/content/css/app.css" />
+<script src="/content/js/jquery-2.1.4.min.js"></script>
+<script src="/content/framework/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!--引入头部-->
+	<div id="topNav" class="topNav"><%@ include
+			file="shared/_topbar.jsp"%></div>
+
+	<!--中间内容-->
+	<div class="main-container">
+		<!--引入左侧导航-->
+		<div class="sidebar" id="sidebar"><%@ include
+				file="shared/_menubar.jsp"%></div>
+
+		<!--主体内容-->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="contentTop">
+					<ul class="topNavTitle">
+						<li><i class="nav-icon fa fa-home"></i> <a href="#"><span>Home</span></a>
+						</li>
+						<li class="active">Dashboard</li>
+					</ul>
+					<div class="nav-search">
+						<form class="form-search">
+							<span class="nav-search-inner"> <i
+								class="search_icon fa fa-search"></i> <input placeholder="搜索..." />
+							</span>
+						</form>
 					</div>
+
 				</div>
-				<div class="page-content">
-					<div class="container">
-						<div class="row">
-							<div class="col-xs-12">
-								<div class="alert alert-success umar-t">
-									<i class="fa fa-check"></i>
-									<span>Demo</span>
-									<i class="close-icon fa fa-close pull-right"></i>
-								</div>
-								<div class="row">
-									<div class="col-xs-6">
-										<div class="panel-box">
-											<div class="panel-box-title"></div>
-											<div class="panel-box-content">
-												<p></p>
-												<ul>
-													<li></li>
-													
-												</ul>
-											</div>
-										</div>
-										<div class="panel-box umar-t">
-											<div class="panel-box-title"></div>
-											<div class="panel-box-content">
-												<ul>
-													<li>
-														<i class="fa fa-close"></i>
-														<span class="umar-l"><a></a></span>
-													</li>
-													<li>
-														<i class="fa fa-close"></i>
-														<span class="umar-l"><a></a></span>
-													</li>
-																										
-												</ul>
-											</div>
+			</div>
+			<div class="page-content">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="alert alert-success umar-t">
+								<i class="fa fa-check"></i> <span>Demo</span> <i
+									class="close-icon fa fa-close pull-right"></i>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="panel-box">
+										<div class="panel-box-title"></div>
+										<div class="panel-box-content">
+											<p></p>
+											<ul>
+												<li></li>
+
+											</ul>
 										</div>
 									</div>
-									<div class="col-xs-6">
-										<div class="panel-box">
-											<div class="panel-box-title">用户登录</div>
-											<div class="panel-box-content">
-												<ul>
-													<li class="panel-box-veision">
-														<span></span>
-														<span class="pull-right umar-r fgrey"></span>															
-													</li>
-													<li class="panel-box-veision umar-t">
-														<span></span>
-														<span class="pull-right umar-r fgrey"></span>															
-													</li>	
-													
-												</ul>
-											</div>
+									<div class="panel-box umar-t">
+										<div class="panel-box-title"></div>
+										<div class="panel-box-content">
+											<ul>
+												<li><i class="fa fa-close"></i> <span class="umar-l"><a></a></span>
+												</li>
+												<li><i class="fa fa-close"></i> <span class="umar-l"><a></a></span>
+												</li>
+
+											</ul>
 										</div>
 									</div>
 								</div>
-								<div id="footer" class="footer">
-									<span class="footerText pull-right"></span>
-									<span class="footerText pull-right"></span>									
+								<div class="col-xs-6">
+									<div class="panel-box">
+										<div class="panel-box-title">用户登录</div>
+										<div class="panel-box-content">
+											<ul>
+												<li class="panel-box-veision"><span></span> <span
+													class="pull-right umar-r fgrey"></span></li>
+												<li class="panel-box-veision umar-t"><span></span> <span
+													class="pull-right umar-r fgrey"></span></li>
+
+											</ul>
+										</div>
+									</div>
 								</div>
+							</div>
+							<div id="footer" class="footer">
+								<span class="footerText pull-right"></span> <span
+									class="footerText pull-right"></span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<script src="js/app.js"></script>
-		<script>
+	</div>
+	<script src="js/app.js"></script>
+	<script>
 			$(function(){
 				setTimeout(function(){
 					sidebarHeight();//控制侧导航的高度
 				},0);				
 			})
-		</script>		
-	</body>
+		</script>
+</body>
 </html>
