@@ -1,29 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
-<title>index</title>
+`
+<title>OA管理</title>
 <link rel="stylesheet" type="text/css"
-	href="/content/framework/css/bootstrap.min.css" />
+	href="content/framework/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="/content/framework/css/font-awesome.css" />
-<link rel="stylesheet" type="text/css" href="/content/css/base.css" />
-<link rel="stylesheet" type="text/css" href="/content/css/app.css" />
-<script src="/content/js/jquery-2.1.4.min.js"></script>
-<script src="/content/framework/js/bootstrap.min.js"></script>
+	href="content/framework/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="content/css/base.css" />
+<link rel="stylesheet" type="text/css" href="content/css/app.css" />
+<script src="content/js/jquery-2.1.4.min.js"></script>
+<script src="content/framework/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<!--引入头部-->
-	<div id="topNav" class="topNav"><%@ include
-			file="shared/_topbar.jsp"%></div>
+	<div id="topNav" class="topNav">
+		<%@ include file="shared/_topbar.jsp"%>
+	</div>
 
 	<!--中间内容-->
 	<div class="main-container">
 		<!--引入左侧导航-->
-		<div class="sidebar" id="sidebar"><%@ include
-				file="shared/_menubar.jsp"%></div>
+		<div class="sidebar" id="sidebar">
+			<%@ include file="shared/_menubar.jsp"%>
+		</div>
 
 		<!--主体内容-->
 		<div class="main-content">
@@ -104,11 +107,11 @@
 	</div>
 	<script src="js/app.js"></script>
 	<script>
-			$(function(){
-				setTimeout(function(){
-					sidebarHeight();//控制侧导航的高度
-				},0);				
-			})
-		</script>
+		$(function() {
+			setTimeout(function() {
+				sidebarHeight();//控制侧导航的高度
+			}, 0);
+		})
+	</script>
 </body>
 </html>
