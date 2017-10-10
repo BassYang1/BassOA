@@ -1,4 +1,4 @@
-package com.bass.model;
+package com.bass.oa.model;
 
 public class Result {
 	private String message;

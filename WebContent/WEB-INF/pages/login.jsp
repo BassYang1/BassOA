@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
@@ -6,13 +6,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>用户登录</title>
 <link rel="stylesheet" type="text/css"
-	href="../content/framework/css/bootstrap.min.css" />
+	href="content/framework/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="../content/framework/css/font-awesome.css" />
-<link rel="stylesheet" type="text/css" href="../content/css/base.css" />
-<link rel="stylesheet" type="text/css" href="../content/css/app.css" />
-<script src="../content/js/jquery-2.1.4.min.js"></script>
-<script src="../content/framework/js/bootstrap.min.js"></script>
+	href="content/framework/css/font-awesome.css" />
+<link rel="stylesheet" type="text/css" href="content/css/base.css" />
+<link rel="stylesheet" type="text/css" href="content/css/app.css" />
+<script src="content/js/jquery-2.1.4.min.js"></script>
+<script src="content/framework/js/bootstrap.min.js"></script>
 <style>
 .login-form {
 	position: absolute;

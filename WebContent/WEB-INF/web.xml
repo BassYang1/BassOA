@@ -28,6 +28,15 @@
 	<!-- <listener> <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> 
 		</listener> -->
 
+	<filter>
+		<filter-name>AuthorizationFilter</filter-name>
+		<filter-class>com.bass.oa.core.AuthorizationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthorizationFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+
 	<!-- Spring MVC配置:前段控制器，统一访问点 -->
 	<servlet>
 		<servlet-name>SpringWeb</servlet-name>
