@@ -19,7 +19,7 @@ public class IndexController {
 	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(){
-		System.out.println(this.testService.getMessage());
+		//System.out.println(this.testService.getMessage());
 		return "index";
 	}
 }
