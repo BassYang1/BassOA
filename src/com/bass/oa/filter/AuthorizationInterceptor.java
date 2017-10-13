@@ -20,6 +20,10 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, Object handler) throws Exception {
 		UserModel user = this.userService.getCurrentUser();
 		
+		/*System.out.println(request.getRequestURI());
+		System.out.println(request.getRequestURL());		
+		System.out.println(request.getServletPath());*/
+		
 		if(user == null){
 			System.out.println("用户未登录");
 			request.getRequestDispatcher("/login.do").forward(request, response);

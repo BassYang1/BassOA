@@ -7,19 +7,19 @@
 	<description></description>
 
 	<welcome-file-list>
-		<welcome-file>index</welcome-file>
+		<welcome-file>index.do</welcome-file>
 	</welcome-file-list>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext-bean.xml,classpath:applicationContext-myBatis.xml</param-value>
+	</context-param>
 
 	<!-- Spring IoC/DI配置 -->
 	<!-- Spring监听器: 在启动Web容器时，自动装配Spring applicationContext-bean.xml 的配置信息 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext-bean.xml,classpath:applicationContext-myBatis.xml</param-value>
-	</context-param>
 
 	<!-- 此监听器主要用于解决java.beans.Introspector导致的内存泄漏的问题 -->
 	<!-- <listener> <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class> 
@@ -33,6 +33,7 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
+	<!-- 多个excludeUrls用,分隔  -->
 	<!-- <filter>
 		<filter-name>authFilter</filter-name>
 		<filter-class>com.bass.oa.filter.AuthorizationFilter</filter-class>
@@ -55,10 +56,6 @@
 			<param-value>classpath:spring-web.xml</param-value>
 		</init-param>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>SpringWeb</servlet-name>
-		<url-pattern>/index</url-pattern>
-	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>SpringWeb</servlet-name>
 		<url-pattern>*.do</url-pattern>
