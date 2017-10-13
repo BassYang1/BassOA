@@ -70,5 +70,6 @@ public class AuthorizationFilter implements Filter {
 	private boolean isExcludedUrl(String url){
 		String[] urls = url.split(REQUEST_URI_SEPARATOR);
 		
+		return urls.length <= 0 || this.excludeUrls.contains(urls[urls.length - 1]);
 	}
 }
