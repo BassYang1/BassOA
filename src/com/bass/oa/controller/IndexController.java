@@ -1,5 +1,6 @@
 package com.bass.oa.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +13,7 @@ public class IndexController {
 
 	private ITestService testService;
 	
+	@Autowired
 	public void setTestService(ITestService testService){
 		this.testService = testService;
 	}
@@ -19,7 +21,7 @@ public class IndexController {
 	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(){
-		//System.out.println(this.testService.getMessage());
+		System.out.println(this.testService.getMessage());
 		return "index";
 	}
 }
