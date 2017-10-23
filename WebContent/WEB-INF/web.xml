@@ -6,10 +6,6 @@
 	<display-name>OA</display-name>
 	<description></description>
 
-	<welcome-file-list>
-		<welcome-file>index.do</welcome-file>
-	</welcome-file-list>
-
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:applicationContext-bean.xml,classpath:applicationContext-myBatis.xml</param-value>
@@ -33,19 +29,41 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
-	<!-- 多个excludeUrls用,分隔  -->
-	<!-- <filter>
-		<filter-name>authFilter</filter-name>
-		<filter-class>com.bass.oa.filter.AuthorizationFilter</filter-class>
-		<init-param>
-			<param-name>excludeUrls</param-name>
-			<param-value>login</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>authFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
-	</filter-mapping> -->
+	<!-- 多个excludeUrls用,分隔 -->
+	<!-- <filter> <filter-name>authFilter</filter-name> <filter-class>com.bass.oa.filter.AuthorizationFilter</filter-class> 
+		<init-param> <param-name>excludeUrls</param-name> <param-value>login</param-value> 
+		</init-param> </filter> <filter-mapping> <filter-name>authFilter</filter-name> 
+		<url-pattern>*.do</url-pattern> </filter-mapping> -->
+
+	<!-- <welcome-file-list>
+		<welcome-file>login.do</welcome-file>
+	</welcome-file-list> -->
+
+	<!-- 激活Tomcat的defaultServlet来处理静态文件 -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.woff2</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.woff</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.ttf</url-pattern>
+	</servlet-mapping>
 
 	<!-- Spring MVC配置:前段控制器，统一访问点 -->
 	<servlet>
@@ -56,8 +74,12 @@
 			<param-value>classpath:spring-web.xml</param-value>
 		</init-param>
 	</servlet>
+	<!-- <servlet-mapping>
+		<servlet-name>SpringWeb</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping> -->
 	<servlet-mapping>
 		<servlet-name>SpringWeb</servlet-name>
-		<url-pattern>*.do</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 </web-app>
