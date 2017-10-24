@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+	pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,6 +44,14 @@
 				</div>
 				<div class="panel-box-content">
 					<div class="form-group">
+						<div class="text-danger">
+							<c:if test="${result != null && result.status == false }">
+								${empty result.message ? "登录失败" : result.message }
+							</c:if>
+						</div>
+					</div>
+					<form:form method="POST" action="/user/loginSubmit">
+					<div class="form-group">
 						<input type="text" class="form-control" id="userName"
 							placeholder="请输入用户名" />
 					</div>
@@ -50,15 +60,14 @@
 							placeholder="请输入用户密码" />
 					</div>
 					<div class="form-group checkbox">
-						<label>
-							<input type="checkbox" id="cbRemember" />记住我
-						</label> 
+						<label> <input type="checkbox" id="cbRemember" />记住我
+						</label>
 					</div>
 					<div class="form-group">
-						<button class="btn btn-primary btn-block">登录 >> </button>
-						<span><a href="#"
-							class="pull-right">忘记密码?</a></span>
+						<button class="btn btn-primary btn-block">登录 >></button>
+						<span><a href="#" class="pull-right">忘记密码?</a></span>
 					</div>
+					</form:form>
 				</div>
 			</div>
 		</div>

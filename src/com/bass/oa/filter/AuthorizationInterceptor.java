@@ -3,17 +3,15 @@ package com.bass.oa.filter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.bass.oa.model.UserModel;
 import com.bass.oa.service.IUserService;
 
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
+	@Autowired
 	private IUserService userService;
-	
-	public void setUserService(IUserService userService){
-		this.userService = userService;
-	}
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request,
@@ -26,7 +24,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 		
 		if(user == null){
 			System.out.println("用户未登录");
-			request.getRequestDispatcher("/login.do").forward(request, response);
+			request.getRequestDispatcher("/user/login.do").forward(request, response);
 			return false;
 		}
 		

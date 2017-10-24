@@ -8,44 +8,53 @@ public class UserModel {
 	private String password;
 	private Date loginedDate;
 	private Date createdDate;
-	
-	public void setUserId(int userId){
+	private String[] favoriteFrameworks;
+
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	
-	public int getUserId(){
+
+	public int getUserId() {
 		return this.userId;
 	}
-	
-	public void setUserName(String userName){
+
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
-	public String getUserName(){
+
+	public String getUserName() {
 		return this.userName;
 	}
-	
-	public void setPassword(String password){
+
+	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public String getPassword(){
+
+	public String getPassword() {
 		return this.password;
 	}
-	
-	public void setLoginedDate(Date loginedDate){
+
+	public void setLoginedDate(Date loginedDate) {
 		this.loginedDate = loginedDate;
 	}
-	
-	public Date getLoginedDate(){
+
+	public Date getLoginedDate() {
 		return this.loginedDate;
 	}
-	
-	public void setCreatedDate(Date createdDate){
+
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-	
-	public Date getCreatedDate(){
+
+	public Date getCreatedDate() {
 		return this.createdDate;
+	}
+
+	public String[] getFavoriteFrameworks() {
+		return favoriteFrameworks;
+	}
+
+	public void setFavoriteFrameworks(String[] favoriteFrameworks) {
+		this.favoriteFrameworks = favoriteFrameworks;
 	}
 }

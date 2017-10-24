@@ -6,6 +6,12 @@
 	<display-name>OA</display-name>
 	<description></description>
 
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+			<taglib-location>WEB-INF/tld/c.tld</taglib-location>
+		</taglib>
+	</jsp-config>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:applicationContext-bean.xml,classpath:applicationContext-myBatis.xml</param-value>
@@ -18,29 +24,38 @@
 	</listener>
 
 	<!-- 此监听器主要用于解决java.beans.Introspector导致的内存泄漏的问题 -->
-	<!-- <listener> <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class> 
-		</listener> -->
+	<!-- <listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener> -->
 
 	<!-- Request监听器 -->
 	<!-- 在Spring2.0中除了以前的Singleton和Prototype外又加入了三个新的web作用域，分别为request、session和global 
 		session，如果你想让你的容器里的某个bean拥有其中某种新的web作用域， 除了在bean级上配置相应的scope属性，还必须在容器级做一个额外的初始化配置。 -->
 	<!-- 自动装载(@Autowired) HttpSession和HttpServletRequest -->
-	<listener>
+	<!-- <listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-	</listener>
+	</listener> -->
 
 	<!-- 多个excludeUrls用,分隔 -->
-	<!-- <filter> <filter-name>authFilter</filter-name> <filter-class>com.bass.oa.filter.AuthorizationFilter</filter-class> 
-		<init-param> <param-name>excludeUrls</param-name> <param-value>login</param-value> 
-		</init-param> </filter> <filter-mapping> <filter-name>authFilter</filter-name> 
-		<url-pattern>*.do</url-pattern> </filter-mapping> -->
+	<!-- <filter>
+		<filter-name>authFilter</filter-name>
+		<filter-class>com.bass.oa.filter.AuthorizationFilter</filter-class>
+		<init-param>
+			<param-name>excludeUrls</param-name>
+			<param-value>login</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>authFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping> -->
 
-	<!-- <welcome-file-list>
-		<welcome-file>login.do</welcome-file>
-	</welcome-file-list> -->
+	<welcome-file-list>
+		<welcome-file>index.do</welcome-file>
+	</welcome-file-list>
 
 	<!-- 激活Tomcat的defaultServlet来处理静态文件 -->
-	<servlet-mapping>
+	<!-- <servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.jpg</url-pattern>
 	</servlet-mapping>
@@ -63,7 +78,7 @@
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.ttf</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
 	<!-- Spring MVC配置:前段控制器，统一访问点 -->
 	<servlet>
@@ -74,12 +89,8 @@
 			<param-value>classpath:spring-web.xml</param-value>
 		</init-param>
 	</servlet>
-	<!-- <servlet-mapping>
-		<servlet-name>SpringWeb</servlet-name>
-		<url-pattern>/login</url-pattern>
-	</servlet-mapping> -->
 	<servlet-mapping>
 		<servlet-name>SpringWeb</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 </web-app>

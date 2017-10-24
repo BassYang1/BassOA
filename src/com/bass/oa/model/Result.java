@@ -1,9 +1,19 @@
 package com.bass.oa.model;
 
-public class Result {
+public class Result<T> {
 	private String message;
 	private boolean status;
 	private int code;
+	private T data;
+	
+	public Result(boolean status){
+		this.status = status;
+	}
+
+	public Result(boolean status, int code){
+		this.status = status;
+		this.code = code;
+	}
 	
 	public String getMessage(){
 		return this.message;
@@ -27,5 +37,13 @@ public class Result {
 	
 	public void setCode(int code){
 		this.code = code;
+	}
+	
+	public T getData(){
+		return this.data;
+	}
+	
+	public void setData(T data){
+		this.data = data;
 	}
 }

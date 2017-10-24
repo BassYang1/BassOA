@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bass.oa.service.ITestService;
 
 @Controller
+@RequestMapping(value="/index")
 public class IndexController {
 
 	private ITestService testService;
@@ -19,7 +20,7 @@ public class IndexController {
 	}
 	
 	
-	@RequestMapping(value="/index", method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public String index(){
 		System.out.println(this.testService.getMessage());
 		return "index";
