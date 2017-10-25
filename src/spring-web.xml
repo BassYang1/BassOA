@@ -16,6 +16,21 @@
 			expression="org.springframework.stereotype.Controller" /> -->
 	</context:component-scan>
 
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<!-- 国际化信息所在的文件名: 文件夹.文件前缀 -->
+		<!-- 默认使用messages/messages.properties文件 -->
+		<!-- <property name="basename" value="messages.labels" /> -->
+		<property name="basenames" value="messages.labels,messages.messages" />
+		<!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称 -->
+		<property name="useCodeAsDefaultMessage" value="true" />
+	</bean>
+	
+	<!-- 需要在界面上进行切换（session方式） -->  
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">  
+	    <!-- 会话属性不存在,默认属性设置 -->  
+	    <property name="defaultLocale" value="zh_CN" />  
+	</bean>
+	
 	<!-- 引入资源文件件，mvc:resources要和mvc:annotation-driven一起使用 -->
 	<!-- <mvc:annotation-driven />
 	<mvc:resources mapping="/content/**" location="/WEB-INF/content/" /> -->
@@ -26,10 +41,8 @@
 	<mvc:default-servlet-handler /> -->
 
 	<!-- context:component-scan默认使用RequestMappingHandlerMapping和RequestMappingHandlerAdapter，可不配置 -->
-	<bean
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
-	<bean
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
 
 	<mvc:interceptors>
 		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
@@ -45,6 +58,7 @@
 			<!-- 排除不需要拦截的请求 -->
 			<!-- <mvc:exclude-mapping path="/index.do" /> -->
 			<mvc:exclude-mapping path="/user/login.do" />
+			<mvc:exclude-mapping path="/user/test.do" />
 			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
 			<!-- 1) 手动注入bean -->
 			<!-- <bean class="com.bass.oa.filter.AuthorizationInterceptor">
