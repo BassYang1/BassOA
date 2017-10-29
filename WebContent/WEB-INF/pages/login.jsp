@@ -2,19 +2,11 @@
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+	
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>用户登录</title>
-<link rel="stylesheet" type="text/css"
-	href="content/framework/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css"
-	href="content/framework/css/font-awesome.css" />
-<link rel="stylesheet" type="text/css" href="content/css/base.css" />
-<link rel="stylesheet" type="text/css" href="content/css/app.css" />
-<script src="content/js/jquery-2.1.4.min.js"></script>
-<script src="content/framework/js/bootstrap.min.js"></script>
+<c:set var="pagename" scope="page" value="用户登录"/>
+<%@ include file="shared/_header.jsp"%>
 <style>
 .login-form {
 	position: absolute;
@@ -34,8 +26,11 @@
 	
 }
 </style>
-</head>
 <body>
+
+${pageContext.request.scheme} <br />
+${pageContext.request.serverName} <br />
+${pageContext.request.serverPort} <br />
 	<div class="main-container">
 		<div class="container">
 			<div class="panel-box login-form">
@@ -51,22 +46,22 @@
 						</div>
 					</div>
 					<form:form method="POST" action="/user/loginSubmit">
-					<div class="form-group">
-						<input type="text" class="form-control" id="userName"
-							placeholder="请输入用户名" />
-					</div>
-					<div class="form-group">
-						<input type="password" class="form-control" id="password"
-							placeholder="请输入用户密码" />
-					</div>
-					<div class="form-group checkbox">
-						<label> <input type="checkbox" id="cbRemember" />记住我
-						</label>
-					</div>
-					<div class="form-group">
-						<button class="btn btn-primary btn-block">登录 >></button>
-						<span><a href="#" class="pull-right">忘记密码?</a></span>
-					</div>
+						<div class="form-group">
+							<input type="text" class="form-control" id="userName"
+								placeholder="请输入用户名" />
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" id="password"
+								placeholder="请输入用户密码" />
+						</div>
+						<div class="form-group checkbox">
+							<label> <input type="checkbox" id="cbRemember" />记住我
+							</label>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-primary btn-block">登录 >></button>
+							<span><a href="#" class="pull-right">忘记密码?</a></span>
+						</div>
 					</form:form>
 				</div>
 			</div>

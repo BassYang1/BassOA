@@ -15,12 +15,25 @@
 		<!-- <context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" /> -->
 	</context:component-scan>
-
+	
+	<!-- model 验证 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<!--不设置，则默认为classpath下的 ValidationMessages.properties -->
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+	
+	<bean id="conversion-service" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
+	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<!-- 解决国际化资源中文乱码 -->
+		<property name="defaultEncoding">
+	        <value>UTF-8</value>
+	    </property>
 		<!-- 国际化信息所在的文件名: 文件夹.文件前缀 -->
 		<!-- 默认使用messages/messages.properties文件 -->
 		<!-- <property name="basename" value="messages.labels" /> -->
-		<property name="basenames" value="messages.labels,messages.messages" />
+		<property name="basenames" value="messages.validation" />
 		<!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称 -->
 		<property name="useCodeAsDefaultMessage" value="true" />
 	</bean>
