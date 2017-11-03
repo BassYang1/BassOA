@@ -13,4 +13,20 @@ public class UserService extends BaseService implements IUserService {
 		return (UserModel)getSession().getAttribute(LOGINED_USER);
 	}
 
+	/*
+	 * 根据User Id获取用户详细
+	 */
+	@Override
+	public UserModel getUserById(int id) {		
+		return null;
+	}
+
+	/*
+	 * 更新用户
+	 */
+	@Override
+	public boolean updateUser(UserModel user) {
+		return false;
+	}
+
 }

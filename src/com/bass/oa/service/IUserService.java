@@ -9,4 +9,14 @@ public interface IUserService {
 	 * 获取当前登录用户
 	 */
 	public UserModel getCurrentUser();
+	
+	/*
+	 * 根据User Id获取用户详细
+	 */
+	public UserModel getUserById(int id);	
+
+	/*
+	 * 更新用户
+	 */
+	public boolean updateUser(UserModel user);
 }

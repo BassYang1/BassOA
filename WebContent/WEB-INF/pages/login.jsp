@@ -27,10 +27,6 @@
 }
 </style>
 <body>
-
-${pageContext.request.scheme} <br />
-${pageContext.request.serverName} <br />
-${pageContext.request.serverPort} <br />
 	<div class="main-container">
 		<div class="container">
 			<div class="panel-box login-form">
@@ -43,6 +39,7 @@ ${pageContext.request.serverPort} <br />
 							<c:if test="${result != null && result.status == false }">
 								${empty result.message ? "登录失败" : result.message }
 							</c:if>
+							<form:errors path="*" />
 						</div>
 					</div>
 					<form:form method="POST" action="/user/loginSubmit">

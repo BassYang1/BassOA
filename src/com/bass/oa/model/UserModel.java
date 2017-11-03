@@ -2,9 +2,13 @@ package com.bass.oa.model;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserModel {
 	private int userId;
+	@NotEmpty
 	private String userName;
+	@NotEmpty
 	private String password;
 	private Date loginedDate;
 	private Date createdDate;

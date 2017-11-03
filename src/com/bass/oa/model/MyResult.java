@@ -1,16 +1,16 @@
 package com.bass.oa.model;
 
-public class Result<T> {
+public class MyResult<T> {
 	private String message;
 	private boolean status;
 	private int code;
 	private T data;
 	
-	public Result(boolean status){
+	public MyResult(boolean status){
 		this.status = status;
 	}
 
-	public Result(boolean status, int code){
+	public MyResult(boolean status, int code){
 		this.status = status;
 		this.code = code;
 	}
