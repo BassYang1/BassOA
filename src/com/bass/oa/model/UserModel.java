@@ -6,10 +6,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserModel {
 	private int userId;
-	@NotEmpty
+	@NotEmpty(message="{username.not.empty}")
 	private String userName;
-	@NotEmpty
+	@NotEmpty(message="密码不能为空")
 	private String password;
+	private String _userToken;
 	private Date loginedDate;
 	private Date createdDate;
 	private String[] favoriteFrameworks;
@@ -30,6 +31,13 @@ public class UserModel {
 		return this.userName;
 	}
 
+	public void setUserToken(String userToken) {
+		this._userToken = userToken;
+	}
+
+	public String getUserToken() {
+		return this._userToken;
+	}
 	public void setPassword(String password) {
 		this.password = password;
 	}

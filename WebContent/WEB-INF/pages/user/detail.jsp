@@ -31,6 +31,9 @@
 		<div class="container">
 			用户详细
 		</div>
+		<div>用户Id: ${user.userId}</div>
+		<div>用户名: ${user.userName}</div>
+		<div>用户Token: ${user.userToken}</div>
 	</div>
 </body>
 </html>

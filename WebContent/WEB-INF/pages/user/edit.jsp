@@ -29,7 +29,7 @@
 <body>
 	<div class="main-container">
 		<div class="container">
-			<form:form commandName="user" action="${pageContext.request.contextPath}/user/edit?userId=1" method="POST">
+			<form:form commandName="user" action="${pageContext.request.contextPath}/user/edit.do?userId=1" method="POST">
 			<form:label path="userName">姓名：</form:label>
 			<form:input path="userName"/>
 			<form:button>提交</form:button>

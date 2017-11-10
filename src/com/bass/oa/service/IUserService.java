@@ -11,6 +11,11 @@ public interface IUserService {
 	public UserModel getCurrentUser();
 	
 	/*
+	 * 根据Token获取用户详细
+	 */
+	public UserModel getUserByToken(String token);
+	
+	/*
 	 * 根据User Id获取用户详细
 	 */
 	public UserModel getUserById(int id);	

@@ -14,11 +14,30 @@ public class UserService extends BaseService implements IUserService {
 	}
 
 	/*
+	 * 根据Token获取用户详细
+	 */
+	@Override
+	public UserModel getUserByToken(String token) {
+		if(token == null || token.isEmpty()){
+			return null;
+		}
+		
+		UserModel user = new UserModel();
+		user.setUserId(1);
+		user.setUserName("test user");
+		user.setUserToken(token);
+		return user;
+	}
+
+	/*
 	 * 根据User Id获取用户详细
 	 */
 	@Override
-	public UserModel getUserById(int id) {		
-		return null;
+	public UserModel getUserById(int id) {
+		UserModel user = new UserModel();
+		user.setUserId(id);
+		user.setUserName("test user");
+		return user;
 	}
 
 	/*
@@ -28,5 +47,4 @@ public class UserService extends BaseService implements IUserService {
 	public boolean updateUser(UserModel user) {
 		return false;
 	}
-
 }

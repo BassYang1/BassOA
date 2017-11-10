@@ -39,17 +39,19 @@
 							<c:if test="${result != null && result.status == false }">
 								${empty result.message ? "登录失败" : result.message }
 							</c:if>
-							<form:errors path="*" />
 						</div>
 					</div>
-					<form:form method="POST" action="/user/loginSubmit">
+					<form:form method="POST" commandName="user" action="${pageContext.request.contextPath}/user/loginSubmit.do">
+						<div>${error}</div>
 						<div class="form-group">
 							<input type="text" class="form-control" id="userName"
 								placeholder="请输入用户名" />
+								<form:errors path="userName" />
 						</div>
 						<div class="form-group">
 							<input type="password" class="form-control" id="password"
 								placeholder="请输入用户密码" />
+								<form:errors path="password" />
 						</div>
 						<div class="form-group checkbox">
 							<label> <input type="checkbox" id="cbRemember" />记住我
