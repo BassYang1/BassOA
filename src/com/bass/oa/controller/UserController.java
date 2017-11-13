@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.RequestContext;
 
 import com.bass.oa.model.MyResult;
 import com.bass.oa.model.UserModel;
@@ -23,7 +22,7 @@ import com.bass.oa.service.IUserService;
 
 @Controller
 @RequestMapping(value = "/user")
-public class UserController {
+public class UserController extends BaseController {
 	@Autowired
 	private IUserService _userService;
 
@@ -35,7 +34,7 @@ public class UserController {
 	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
 	public String loginSubmit(@ModelAttribute("user") @Validated UserModel user, BindingResult result, Model model) {
 		if(result.hasErrors()){
-			model.addAttribute("error", getText("user.login.validation.error"));
+			model.addAttribute("error", getContext().getMessage("user.login.validation.error"));
 			return "login";
 		}
 		
@@ -72,9 +71,8 @@ public class UserController {
 	
 	@RequestMapping(value = "/test")
 	public ModelAndView test(HttpServletRequest request) {
-		RequestContext requestContext = new RequestContext(request);
 		MyResult myResult = new MyResult(false);
-		myResult.setMessage(requestContext.getMessage("app.name"));
+		myResult.setMessage(getContext().getMessage("app.name"));
 		return new ModelAndView("login", "result", myResult);
 	}
 	

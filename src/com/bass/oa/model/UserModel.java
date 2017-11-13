@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserModel {
 	private int userId;
-	@NotEmpty(message="{username.not.empty}")
+	@NotEmpty
 	private String userName;
 	@NotEmpty(message="密码不能为空")
 	private String password;

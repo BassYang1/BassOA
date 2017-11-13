@@ -8,14 +8,12 @@
 <c:set var="pagename" scope="page" value="用户登录"/>
 <%@ include file="shared/_header.jsp"%>
 <style>
-.login-form {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 280px;
-	height: 260px;
-	margin-left: -140px;
-	margin-top: -130px;
+.login-form {    
+	display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 140px;
+	width: 300px;
 }
 
 .login-form .login-form-title {
@@ -34,24 +32,17 @@
 					<i class="glyphicon glyphicon-user"></i>&nbsp;用户登录
 				</div>
 				<div class="panel-box-content">
-					<div class="form-group">
-						<div class="text-danger">
-							<c:if test="${result != null && result.status == false }">
-								${empty result.message ? "登录失败" : result.message }
-							</c:if>
-						</div>
-					</div>
-					<form:form method="POST" commandName="user" action="${pageContext.request.contextPath}/user/loginSubmit.do">
-						<div>${error}</div>
+					<form:form method="POST" commandName="user" action="${pageContext.request.contextPath}/user/loginSubmit.do">						
+						<div class="text-danger">${error}</div>
 						<div class="form-group">
 							<input type="text" class="form-control" id="userName"
 								placeholder="请输入用户名" />
-								<form:errors path="userName" />
+								<form:errors path="userName" class="text-danger" />
 						</div>
 						<div class="form-group">
 							<input type="password" class="form-control" id="password"
 								placeholder="请输入用户密码" />
-								<form:errors path="password" />
+								<form:errors path="password" class="text-danger" />
 						</div>
 						<div class="form-group checkbox">
 							<label> <input type="checkbox" id="cbRemember" />记住我

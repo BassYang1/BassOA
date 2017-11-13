@@ -28,7 +28,7 @@ public class PhotoManager {
 		}
 		
 		FileHandler handler = new FileHandler(prefix);
-		handler.RenameFile(path);		
+		handler.RenameFile(path);	
 	}
 
 }

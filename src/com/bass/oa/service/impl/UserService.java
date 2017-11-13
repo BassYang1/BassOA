@@ -10,7 +10,7 @@ public class UserService extends BaseService implements IUserService {
 	 */
 	@Override
 	public UserModel getCurrentUser() {
-		return (UserModel)getSession().getAttribute(LOGINED_USER);
+		return (UserModel)getContext().getSession().getAttribute(LOGINED_USER);
 	}
 
 	/*
