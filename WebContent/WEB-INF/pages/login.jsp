@@ -33,16 +33,16 @@
 				</div>
 				<div class="panel-box-content">
 					<form:form method="POST" commandName="user" action="${pageContext.request.contextPath}/user/loginSubmit.do">						
-						<div class="text-danger">${error}</div>
+						<div class="text-error">${error}</div>
 						<div class="form-group">
 							<input type="text" class="form-control" id="userName"
 								placeholder="请输入用户名" />
-								<form:errors path="userName" class="text-danger" />
+								<div class="text-error"><form:errors path="userName" /></div>
 						</div>
 						<div class="form-group">
 							<input type="password" class="form-control" id="password"
 								placeholder="请输入用户密码" />
-								<form:errors path="password" class="text-danger" />
+								<div class="text-error"><form:errors path="password" /></div>
 						</div>
 						<div class="form-group checkbox">
 							<label> <input type="checkbox" id="cbRemember" />记住我

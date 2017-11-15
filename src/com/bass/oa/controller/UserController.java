@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bass.oa.model.MyResult;
 import com.bass.oa.model.UserModel;
+import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IUserService;
 
 @Controller
@@ -32,7 +33,7 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
-	public String loginSubmit(@ModelAttribute("user") @Validated UserModel user, BindingResult result, Model model) {
+	public String loginSubmit(@ModelAttribute("user") @Validated UserLoginModel user, BindingResult result, Model model) {
 		if(result.hasErrors()){
 			model.addAttribute("error", getContext().getMessage("user.login.validation.error"));
 			return "login";
