@@ -16,11 +16,11 @@
 	padding: 0 5px !important;
 }
 
-.width140{
+#txtDose, #txtUnit{
 	width: 140px !important;
 }
 
-.width200{
+#txtDrug{
 	width: 200px !important;
 }
 </style>
@@ -61,7 +61,7 @@
 									<input type="radio" name="unitOption" id="rdGrain" autocomplete="off">粒
 								</label>
 							</div>
-							<input type="text" name="unit" id="txtUnit" class="form-control inline-block width140" placeholder="填写其它计量单位" />
+							<input type="text" name="unit" id="txtUnit" class="form-control inline-block" placeholder="填写其它计量单位" />
 						</div>
 	  					<div class="form-group form-item">
 							<label for="dose">药量</label>
@@ -85,7 +85,7 @@
 									<input type="checkbox" name="optDose" id="cbDose1$4" autocomplete="off">1/4
 								</label>
 							</div>	
-							<input type="text" name="dose" id="txtDose" class="form-control inline-block width140" placeholder="填写用药量" />					
+							<input type="text" name="dose" id="txtDose" class="form-control inline-block" placeholder="填写用药量" />					
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default">取消</button>

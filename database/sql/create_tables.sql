@@ -11,3 +11,12 @@ CREATE TABLE IF NOT EXISTS tbUser(
 	createdDate DATETIME
 )engine=innodb DEFAULT charset=utf8 auto_increment=1;
 INSERT INTO tbUser(userName, password, createdDate) VALUES('admin', '', now());
+
+--日常用药量
+CREATE TABLE IF NOT EXISTS tbDailyDose(
+	seqNumber INT PRIMARY KEY auto_increment,
+	drugName VARCHAR(50),
+	dose VARCHAR(100),
+	unit VARCHAR(100),
+	drugTime DATETIME
+)engine=innodb DEFAULT charset=utf8 auto_increment=1;
