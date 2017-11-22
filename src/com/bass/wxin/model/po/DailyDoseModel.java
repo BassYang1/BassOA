@@ -1,15 +1,13 @@
-package com.bass.wxin.model.vo;
+package com.bass.wxin.model.po;
 
-import com.bass.wxin.model.po.DailyDoseModel;
+import java.util.Date;
 
-/*
- * 编辑日常用药量
- */
-public class DailyDoseEditModel {
+import com.bass.wxin.model.vo.DailyDoseEditModel;
 
-	public DailyDoseEditModel(){}
+public class DailyDoseModel {	
+	public DailyDoseModel(){}
 
-	public DailyDoseEditModel(DailyDoseModel model){		
+	public DailyDoseModel(DailyDoseEditModel model){		
 		if(model != null){
 			this._seqNumber = model.getSeqNumber();
 			this._drugName = model.getDrugName();
@@ -18,6 +16,8 @@ public class DailyDoseEditModel {
 		}		
 	}
 	
+	
+
 	/*
 	 * 序列号
 	 */
@@ -32,20 +32,25 @@ public class DailyDoseEditModel {
 	 * 用药剂量
 	 */
 	private String _dose;
-
+	
 	/*
 	 * 剂量单位
 	 */
 	private String _unit;
-
-	public void setSeqNumber(int seqNumber){
-		this._seqNumber = seqNumber;
-	}
+	
+	/*
+	 * 用药时间
+	 */
+	private Date _drupTime;
 	
 	public int getSeqNumber(){
 		return this._seqNumber;
 	}
-
+	
+	public void setSeqNumber(int seqNumber){
+		this._seqNumber = seqNumber;
+	}
+	
 	public String getDrugName(){
 		return this._drugName;
 	}
@@ -54,19 +59,27 @@ public class DailyDoseEditModel {
 		this._drugName = drugName;
 	}
 
+	public String getDose(){
+		return this._dose;
+	}
+	
 	public void setDose(String dose){
 		this._dose = dose;
 	}
-	
-	public String getDose(){
-		return this._dose;
+
+	public String getUnit(){
+		return this._unit;
 	}
 	
 	public void setUnit(String unit){
 		this._unit = unit;
 	}
+
+	public Date getDrupTime(){
+		return this._drupTime;
+	}
 	
-	public String getUnit(){
-		return this._unit;
+	public void setDrupTime(Date drupTime){
+		this._drupTime = drupTime;
 	}
 }

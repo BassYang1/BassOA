@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<!-- 针对单个类型定义别名 -->  
+		<!-- <typeAlias type="com.bass.wxin.model.po.DailyDoseModel" alias="dailyDoseModel" /> -->
+		
+		<!-- 批量别名定义,指定包名，mybatis自动扫描包中的po类，自动定义别名，别名是类名(首字母大写或小写都可以,一般用小写) -->  
+		<package name="com.bass.wxin.model.po"/>
+	</typeAliases>
+	
+	<mappers>
+		<!-- DailyDoseMapper.mxl在包com.bass.wxin.mapper下面 -->
+		<mapper resource="com/bass/wxin/mapper/DailyDoseMapper.mxl" />
+	</mappers>
+</configuration>
