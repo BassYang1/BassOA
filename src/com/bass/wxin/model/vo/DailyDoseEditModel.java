@@ -68,5 +68,10 @@ public class DailyDoseEditModel {
 	
 	public String getUnit(){
 		return this._unit;
+	}	
+
+	@Override
+	public String toString(){
+		return String.format("[DailyDose=%d,%s,%s,%s]", this._seqNumber, this._drugName, this._dose, this._unit);
 	}
 }

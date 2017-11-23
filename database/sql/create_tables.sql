@@ -20,3 +20,5 @@ CREATE TABLE IF NOT EXISTS tbDailyDose(
 	unit VARCHAR(100),
 	drugTime DATETIME
 )engine=innodb DEFAULT charset=utf8 auto_increment=1;
+
+--INSERT INTO tbDailyDose(drugName, dose, unit, drugTime) VALUES('huafalin', '1,3/4', 'pian', sysdate());

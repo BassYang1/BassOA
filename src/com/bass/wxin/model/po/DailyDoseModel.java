@@ -1,5 +1,6 @@
 package com.bass.wxin.model.po;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.bass.wxin.model.vo.DailyDoseEditModel;
@@ -16,8 +17,6 @@ public class DailyDoseModel {
 		}		
 	}
 	
-	
-
 	/*
 	 * 序列号
 	 */
@@ -41,7 +40,7 @@ public class DailyDoseModel {
 	/*
 	 * 用药时间
 	 */
-	private Date _drupTime;
+	private Date _drugTime;
 	
 	public int getSeqNumber(){
 		return this._seqNumber;
@@ -75,11 +74,18 @@ public class DailyDoseModel {
 		this._unit = unit;
 	}
 
-	public Date getDrupTime(){
-		return this._drupTime;
+	public Date getDrugTime(){
+		return this._drugTime;
 	}
 	
-	public void setDrupTime(Date drupTime){
-		this._drupTime = drupTime;
+	public void setDrugTime(Date drugTime){
+		this._drugTime = drugTime;
+	}
+	
+	@Override
+	public String toString(){
+		 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 
+		return String.format("[DailyDose=%d,%s,%s,%s,%s]", this._seqNumber, this._drugName, this._dose, this._unit, format.format(this._drugTime));
 	}
 }
