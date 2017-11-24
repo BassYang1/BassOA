@@ -3,18 +3,31 @@
 <mapper namespace="com.bass.wxin.mapper.DailyDoseMapper">
 	<!-- 查询 -->
 	<select id="getDailydoseById" parameterType="int" resultType="dailyDoseModel">
-		SELECT seqNumber, drugName, dose, unit, drugTime FROM tbDailyDose WHERE seqNumber=#{id}		
+		SELECT seqNumber, userId, drugName, dose, unit, drugTime FROM
+		tbDailyDose WHERE seqNumber=#{id}
 	</select>
-	
+
+	<!-- 获取用户最近用药 -->
+	<select id="collectDailyDrugs" parameterType="int" resultType="string">
+		SELECT drugName
+		FROM (
+			SELECT drugName, MAX(drugTime) AS drugTime FROM tbDailyDose
+			WHERE userId=#{userId} 
+			GROUP BY drugName
+		) A
+		ORDER BY drugTime DESC;
+	</select>
+
 	<!-- 添加 -->
 	<insert id="addDailyDose" parameterType="dailyDoseModel">
-		INSERT INSERT tbDailyDose(drugName, dose, unit, drugTime) 
-			VALUES(#{drugName}, #{dose}, #{unit}, #{drugTime})
+		INSERT INSERT
+		tbDailyDose(drugName, dose, unit, drugTime)
+		VALUES(#{drugName}, #{dose}, #{unit}, #{drugTime})
 	</insert>
-	
+
 	<!-- 修改 -->
 	<!-- <update id=""></update> -->
-	
+
 	<!-- 删除 -->
 	<!-- <delete id=""></delete> -->
 </mapper>

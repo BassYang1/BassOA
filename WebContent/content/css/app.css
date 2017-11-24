@@ -466,3 +466,7 @@ input[type=radio].ace:checked + .lbl::before {
 .inline-block{
 	display: inline-block !important;
 }
+
+.text-error{
+	color:#f50b07;
+}

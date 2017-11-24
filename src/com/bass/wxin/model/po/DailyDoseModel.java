@@ -1,11 +1,11 @@
 package com.bass.wxin.model.po;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.bass.wxin.model.BaseModel;
 import com.bass.wxin.model.vo.DailyDoseEditModel;
 
-public class DailyDoseModel {	
+public class DailyDoseModel extends BaseModel {	
 	public DailyDoseModel(){}
 
 	public DailyDoseModel(DailyDoseEditModel model){		
@@ -84,8 +84,6 @@ public class DailyDoseModel {
 	
 	@Override
 	public String toString(){
-		 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		 
-		return String.format("[DailyDose=%d,%s,%s,%s,%s]", this._seqNumber, this._drugName, this._dose, this._unit, format.format(this._drugTime));
+		return String.format("[DailyDose=%d,%s,%s,%s,%s]", this._seqNumber, this._drugName, this._dose, this._unit, formatDateTime(this._drugTime));
 	}
 }

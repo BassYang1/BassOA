@@ -1,5 +1,7 @@
 package com.bass.wxin.model.vo;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.bass.wxin.model.po.DailyDoseModel;
 
 /*
@@ -26,16 +28,19 @@ public class DailyDoseEditModel {
 	/*
 	 * 药品名称
 	 */
+	@NotEmpty
 	private String _drugName;
 	
 	/*
 	 * 用药剂量
 	 */
+	@NotEmpty
 	private String _dose;
 
 	/*
 	 * 剂量单位
 	 */
+	@NotEmpty
 	private String _unit;
 
 	public void setSeqNumber(int seqNumber){
