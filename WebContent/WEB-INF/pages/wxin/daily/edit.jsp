@@ -149,7 +149,7 @@
 						</div>
 						<div class="form-group form-inline form-item">
 							<label class="form-item-label"></label>
-							<input type="text" name="drug" id="txtDrug" class="form-control inline-block width200" placeholder="填写药品" />
+							<input type="text" name="drugName" id="txtDrug" class="form-control inline-block width200" placeholder="填写药品" />
 							<label class="text-error drug-error form-item-msg"></label>
 						</div>							
 						<div class="form-group form-inline form-item">

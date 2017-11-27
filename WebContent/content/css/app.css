@@ -470,3 +470,7 @@ input[type=radio].ace:checked + .lbl::before {
 .text-error{
 	color:#f50b07;
 }
+
+.btn-nav{
+	margin: 5px;
+}

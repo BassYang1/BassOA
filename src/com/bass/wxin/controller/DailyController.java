@@ -13,12 +13,12 @@ import com.bass.wxin.service.IDailyDoseService;
 
 @Controller
 @RequestMapping("/wxin/daily")
-public class DailyController {
+public class DailyController extends BaseController {
 	@Autowired
 	IDailyDoseService _dailyDoseService;
 	
 	@RequestMapping("/index")
-	public String index(){
+	public String index() {
 		System.out.println(_dailyDoseService.getDailyDoseById(1));
 		return "wxin/daily/index";
 	}

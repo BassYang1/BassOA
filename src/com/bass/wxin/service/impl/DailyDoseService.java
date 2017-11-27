@@ -21,7 +21,9 @@ public class DailyDoseService extends BaseService implements IDailyDoseService {
 			return null;
 		}
 		
-		return _dailyDoseMapper.getDailydoseById(id);
+		DailyDoseModel model = _dailyDoseMapper.getDailydoseById(id);
+		
+		return model;
 	}
 
 	@Override
