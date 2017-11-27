@@ -12,6 +12,8 @@
 	href="${pageContext.request.contextPath}/content/css/base.css" />
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/content/css/app.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/content/css/table.css" />
 <script
 	src="${pageContext.request.contextPath}/content/js/jquery-2.1.4.min.js"></script>
 <script
