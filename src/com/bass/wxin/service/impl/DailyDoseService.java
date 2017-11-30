@@ -1,7 +1,9 @@
 package com.bass.wxin.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,7 @@ public class DailyDoseService extends BaseService implements IDailyDoseService {
 			return null;
 		}
 		
-		DailyDoseModel model = _dailyDoseMapper.getDailydoseById(id);
+		DailyDoseModel model = _dailyDoseMapper.getDailyDoseById(id);
 		
 		return model;
 	}
@@ -38,5 +40,10 @@ public class DailyDoseService extends BaseService implements IDailyDoseService {
 	public static void main(String[] args){
 		IDailyDoseService service = new DailyDoseService();
 		System.out.println(service.getDailyDoseById(1));
+	}
+
+	@Override
+	public List<DailyDoseModel> test() {
+		return _dailyDoseMapper.test(2, 0, 1);
 	}
 }

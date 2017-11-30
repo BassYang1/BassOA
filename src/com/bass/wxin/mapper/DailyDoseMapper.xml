@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.bass.wxin.mapper.DailyDoseMapper">
+	<sql id="queryFields" >
+	    seqNumber, userId, drugName, dose, unit, drugTime
+	</sql>
 	<!-- 查询 -->
-	<select id="getDailydoseById" parameterType="int" resultType="dailyDoseModel">
-		SELECT seqNumber, userId, drugName, dose, unit, drugTime FROM
-		tbDailyDose WHERE seqNumber=#{id}
+	<select id="getDailyDoseById" parameterType="int" resultType="dailyDoseModel">
+		SELECT
+		<include refid="queryFields" />
+		FROM tbDailyDose WHERE seqNumber=#{id}
 	</select>
-
+	
+	<!-- 获取记录数 -->
+	<!-- <select id="count" parameterType="int">
+		SELECT COUNT(1) FROM tbDailyDose
+		<if test="userId != null and userId > 0">
+			WHERE userId=#{userId}
+		</if>
+	</select> -->
+	
+	<!-- <select id="query" parameterType="queryMap" resultType="dailyDoseModel">
+		SELECT		
+		<include refid="queryFields" />
+		FROM tbDailyDose WHERE seqNumber=#{id}
+	</select> -->
+	
 	<!-- 获取用户最近用药 -->
 	<select id="collectDailyDrugs" parameterType="int" resultType="string">
 		SELECT drugName
@@ -25,6 +43,16 @@
 		VALUES(#{drugName}, #{dose}, #{unit}, #{drugTime})
 	</insert>
 
+	<!-- 添加 -->
+	<select id="test" resultType="dailyDoseModel">
+		SELECT * FROM tbDailyDose WHERE userId=#{0} limit #{start}, #{limit}
+	</select>
+
+	<!-- <parameterMap type="java.util.Map" id="pagerCondition">
+		<parameter property="userId" />
+		<parameter property="start" />
+		<parameter property="limit" />
+	</parameterMap> -->
 	<!-- 修改 -->
 	<!-- <update id=""></update> -->
 
