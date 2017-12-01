@@ -13,7 +13,7 @@
 	<div id="topNav" class="topNav">
 		<%@ include file="../../shared/_topbar.jsp"%>
 	</div>
-
+${myoa.root }
 	<!--中间内容-->
 	<div class="main-container">
 		<!--引入左侧导航-->

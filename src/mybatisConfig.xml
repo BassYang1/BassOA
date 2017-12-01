@@ -2,6 +2,9 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
 	<typeAliases>
 		<!-- 针对单个类型定义别名 -->  
 		<!-- <typeAlias type="com.bass.wxin.model.po.DailyDoseModel" alias="dailyDoseModel" /> -->
@@ -15,3 +18,4 @@
 		<mapper resource="com/bass/wxin/mapper/DailyDoseMapper.mxl" />
 	</mappers>
 </configuration>
+

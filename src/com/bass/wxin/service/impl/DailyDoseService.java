@@ -44,6 +44,6 @@ public class DailyDoseService extends BaseService implements IDailyDoseService {
 
 	@Override
 	public List<DailyDoseModel> test() {
-		return _dailyDoseMapper.test(2, 0, 1);
+		return _dailyDoseMapper.test(1, 0, 1);
 	}
 }

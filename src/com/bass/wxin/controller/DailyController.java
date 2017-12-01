@@ -1,5 +1,6 @@
 package com.bass.wxin.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,8 @@ import com.bass.wxin.service.IDailyDoseService;
 @Controller
 @RequestMapping("/wxin/daily")
 public class DailyController extends BaseController {
+	private static Logger Log = Logger.getLogger(DailyController.class);
+	
 	@Autowired
 	IDailyDoseService _dailyDoseService;
 	

@@ -45,7 +45,7 @@
 
 	<!-- 添加 -->
 	<select id="test" resultType="dailyDoseModel">
-		SELECT * FROM tbDailyDose WHERE userId=#{0} limit #{start}, #{limit}
+		SELECT * FROM tbDailyDose WHERE userId=#{userId} limit #{start}, #{limit}
 	</select>
 
 	<!-- <parameterMap type="java.util.Map" id="pagerCondition">

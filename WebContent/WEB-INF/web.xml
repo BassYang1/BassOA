@@ -17,6 +17,25 @@
 		<param-value>classpath:applicationContext-bean.xml,classpath:applicationContext-myBatis.xml</param-value>
 	</context-param>
 
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>myoa.root</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:resource/log4j.properties</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>log4jRefreshInterval</param-name>
+		<param-value>6000</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
 	<!-- Spring IoC/DI配置 -->
 	<!-- Spring监听器: 在启动Web容器时，自动装配Spring applicationContext-bean.xml 的配置信息 -->
 	<listener>

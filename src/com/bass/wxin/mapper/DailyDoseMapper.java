@@ -13,6 +13,6 @@ public interface DailyDoseMapper {
 	public DailyDoseModel getDailyDoseById(int id);
 	public List<String> collectDailyDrugs(int userId);
 	public int addDailyDose(DailyDoseModel model);
-	public List<DailyDoseModel> test(int userId, @Param("start") int start, @Param("limit") int limit);
+	public List<DailyDoseModel> test(@Param("userId") int userId, @Param("start") int start, @Param("limit") int limit);
 }
 
