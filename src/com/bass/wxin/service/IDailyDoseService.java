@@ -5,7 +5,7 @@ import java.util.List;
 import com.bass.wxin.model.po.DailyDoseModel;
 
 public interface IDailyDoseService {
-	public DailyDoseModel getDailyDoseById(int id);
+	public DailyDoseModel getDailyDoseById(int iid);
 	public List<String> collectDailyDrugs(int userId);
-	public List<DailyDoseModel> test();
+	public List<DailyDoseModel> queryDailyDose();
 }

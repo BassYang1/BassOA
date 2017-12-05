@@ -23,7 +23,7 @@ public class DailyController extends BaseController {
 	@RequestMapping("/index")
 	public String index() {
 		//System.out.println(_dailyDoseService.getDailyDoseById(1));
-		System.out.println(_dailyDoseService.test());
+		System.out.println(_dailyDoseService.queryDailyDose());
 		return "wxin/daily/index";
 	}
 	

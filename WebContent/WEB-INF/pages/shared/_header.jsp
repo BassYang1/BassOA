@@ -18,4 +18,11 @@
 	src="${pageContext.request.contextPath}/content/js/jquery-2.1.4.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/content/framework/js/bootstrap.min.js"></script>
+
+<script>
+	var appDomain = "${pageContext.request.contextPath}";
+</script>
+
+<script
+	src="${pageContext.request.contextPath}/content/js/app.js"></script>
 </head>

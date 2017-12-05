@@ -40,12 +40,16 @@
 		<property name="useCodeAsDefaultMessage" value="true" />
 	</bean>
 	
-	<!-- 需要在界面上进行切换（session方式） -->  
-	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">  
-	    <!-- 会话属性不存在,默认属性设置 -->  
-	    <property name="defaultLocale" value="zh_CN" />  
+	<!-- 在用户区域固定不需要更改的环境中，可以设置固定的默认的区域语言 -->  
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">  
+	    <property name="defaultLocale" value="en_US" />
 	</bean>
 	
+	<!-- 需要在界面上进行切换（session方式） --> 
+      <!-- <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"> 
+          会话属性不存在,默认属性设置 
+          <property name="defaultLocale" value="zh_CN" />
+      </bean> -->
 	<!-- 引入资源文件件，mvc:resources要和mvc:annotation-driven一起使用 -->
 	<!-- <mvc:annotation-driven />
 	<mvc:resources mapping="/content/**" location="/WEB-INF/content/" /> -->
@@ -59,7 +63,7 @@
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
 
-	<mvc:interceptors>
+	<mvc:interceptors>	
 		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
 		<!-- <bean class="com.bass.oa.filter.AuthorizationInterceptor">
 			<property name="userService">
@@ -67,6 +71,12 @@
 			</property>
 		</bean> -->
 		<bean class="com.bass.oa.filter.CookieInterceptor" />
+		
+	 	<!-- 国际化操作拦截器 如果采用基于（请求/Session/Cookie）则必需配置 --> 
+	    <!-- <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="lang"/>
+        </bean> -->
+	
 		
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />

@@ -21,6 +21,11 @@ public class DailyDoseModel extends BaseModel {
 	 * 序列号
 	 */
 	private int _seqNumber;
+
+	/*
+	 * 用户Id
+	 */
+	private int _userId;
 	
 	/*
 	 * 药品名称
@@ -49,7 +54,14 @@ public class DailyDoseModel extends BaseModel {
 	public void setSeqNumber(int seqNumber){
 		this._seqNumber = seqNumber;
 	}
+
+	public int getUserId(){
+		return this._userId;
+	}
 	
+	public void setUserId(int userId){
+		this._userId = userId;
+	}
 	public String getDrugName(){
 		return this._drugName;
 	}

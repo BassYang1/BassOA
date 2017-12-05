@@ -10,9 +10,9 @@ import com.bass.wxin.model.po.DailyDoseModel;
 
 @Repository
 public interface DailyDoseMapper {
-	public DailyDoseModel getDailyDoseById(int id);
+	public DailyDoseModel getDailyDoseById(@Param("id1") int id1);
 	public List<String> collectDailyDrugs(int userId);
 	public int addDailyDose(DailyDoseModel model);
-	public List<DailyDoseModel> test(@Param("userId") int userId, @Param("start") int start, @Param("limit") int limit);
+	public List<DailyDoseModel> queryDailyDose(DailyDoseModel model, @Param("start") int start, @Param("limit") int limit);
 }
 

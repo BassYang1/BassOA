@@ -5,7 +5,7 @@
 	    seqNumber, userId, drugName, dose, unit, drugTime
 	</sql>
 	<!-- 查询 -->
-	<select id="getDailyDoseById" parameterType="int" resultType="dailyDoseModel">
+	<select id="getDailyDoseById" resultType="dailyDoseModel">
 		SELECT
 		<include refid="queryFields" />
 		FROM tbDailyDose WHERE seqNumber=#{id}
@@ -44,8 +44,8 @@
 	</insert>
 
 	<!-- 添加 -->
-	<select id="test" resultType="dailyDoseModel">
-		SELECT * FROM tbDailyDose WHERE userId=#{userId} limit #{start}, #{limit}
+	<select id="queryDailyDose" resultType="dailyDoseModel">
+		SELECT * FROM tbDailyDose WHERE userId=#{0.userId} limit #{start}, #{limit}
 	</select>
 
 	<!-- <parameterMap type="java.util.Map" id="pagerCondition">
@@ -53,6 +53,7 @@
 		<parameter property="start" />
 		<parameter property="limit" />
 	</parameterMap> -->
+
 	<!-- 修改 -->
 	<!-- <update id=""></update> -->
 

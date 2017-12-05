@@ -18,12 +18,12 @@ public class DailyDoseService extends BaseService implements IDailyDoseService {
 	DailyDoseMapper _dailyDoseMapper;
 	
 	@Override
-	public DailyDoseModel getDailyDoseById(int id) {
-		if(id <= 0){
+	public DailyDoseModel getDailyDoseById(int iid) {
+		if(iid <= 0){
 			return null;
 		}
 		
-		DailyDoseModel model = _dailyDoseMapper.getDailyDoseById(id);
+		DailyDoseModel model = _dailyDoseMapper.getDailyDoseById(iid);
 		
 		return model;
 	}
@@ -43,7 +43,9 @@ public class DailyDoseService extends BaseService implements IDailyDoseService {
 	}
 
 	@Override
-	public List<DailyDoseModel> test() {
-		return _dailyDoseMapper.test(1, 0, 1);
+	public List<DailyDoseModel> queryDailyDose() {
+		DailyDoseModel model = new DailyDoseModel();
+		model.setUserId(2);
+		return _dailyDoseMapper.queryDailyDose(model, 0, 1);
 	}
 }

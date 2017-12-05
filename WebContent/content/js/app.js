@@ -1,22 +1,24 @@
 /* 
  * @description 各种接口变量
 ===============================================================================================*/
-var interfaces = {};
+var com = {};
+com.api = {};
 
-(function(interfaces, undefined) {
+(function(api, undefined) {
 	//获取顶部相关Html
-	interfaces.getTopbarHtml = '_topbar.html';
+	api.getTopbarHtml = '_topbar.html';
 	
 	//获取底部相关html
-	interfaces.getSidebarHtml = '_sidebar.html';
+	api.getSidebarHtml = '_sidebar.html';
 	
-	//获取table数据
-	interfaces.getSimpleTable = 'table/json/simpleTable.json';
-	
-	//获取table数据jsonp
-	interfaces.getSimpleTableJsonp = 'table/json/simpleTable.jsonp';
-	
-})(interfaces);
+})(com.api);
+
+//定义初使化参数
+com.init = {};
+(function(init, undefined) {
+	//站点domain
+	init.domain = $.trim(appDomain);
+})(com.init);
 
 /* 
  * @description 控制侧边栏高度
@@ -41,7 +43,7 @@ function sidebarHeight(){
 function getTopbarHtml(){
 	$.ajax({
 		type: "get",
-		url: interfaces.getTopbarHtml,
+		url: com.api.getTopbarHtml,
 		success: function(data) {
 			$('#topNav').html(data);
 		}
@@ -54,7 +56,7 @@ function getTopbarHtml(){
 function getSidebarHtml(name,submenu){
 	$.ajax({
 		type: "get",
-		url: interfaces.getSidebarHtml,
+		url: com.api.getSidebarHtml,
 		success: function(data) {
 			$('#sidebar').html(data);
 			$("#sidebar").find(".nav > li").each(function(i,e){
@@ -77,3 +79,16 @@ function getSidebarHtml(name,submenu){
 	});
 }
 
+//设置请求地址
+function setRequestAddr(url){
+	if(url == undefined){
+		return com.init.domain;
+	}
+
+	var addr = com.init.domain;
+	if(addr.length > 0 && addr.charAt(addr.length - 1) != "/"){
+		addr += "/";
+	}
+	
+	return addr + (url.length > 0 && url.charAt(0) == "/" ? url.substr(1) : url);
+}

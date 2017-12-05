@@ -1,5 +1,7 @@
 package com.bass.oa.controller;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.bass.oa.model.MyResult;
 import com.bass.oa.model.UserModel;
@@ -33,7 +36,7 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
-	public String loginSubmit(@ModelAttribute("user") @Validated UserLoginModel user, BindingResult result, Model model) {
+	public String login(@ModelAttribute("user") @Validated UserLoginModel user, BindingResult result, Model model) {
 		if(result.hasErrors()){
 			model.addAttribute("error", getContext().getMessage("user.login.validation.error"));
 			return "login";
