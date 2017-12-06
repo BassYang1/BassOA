@@ -70,7 +70,7 @@
 				<ref bean="userService" />
 			</property>
 		</bean> -->
-		<bean class="com.bass.oa.filter.CookieInterceptor" />
+		<bean class="com.bass.oa.filter.CommonInterceptor" />
 		
 	 	<!-- 国际化操作拦截器 如果采用基于（请求/Session/Cookie）则必需配置 --> 
 	    <!-- <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
