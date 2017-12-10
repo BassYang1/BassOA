@@ -2,19 +2,8 @@
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8" />
-`
-<title>OA管理</title>
-<link rel="stylesheet" type="text/css"
-	href="content/framework/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css"
-	href="content/framework/css/font-awesome.css" />
-<link rel="stylesheet" type="text/css" href="content/css/base.css" />
-<link rel="stylesheet" type="text/css" href="content/css/app.css" />
-<script src="content/js/jquery-2.1.4.min.js"></script>
-<script src="content/framework/js/bootstrap.min.js"></script>
-</head>
+<%@ include file="shared/_header.jsp" %>
+
 <body>
 	<!--引入头部-->
 	<div id="topNav" class="topNav">

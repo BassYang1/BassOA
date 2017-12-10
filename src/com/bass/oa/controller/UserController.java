@@ -31,7 +31,8 @@ public class UserController extends BaseController {
 	private IUserService _userService;
 
 	@RequestMapping(value = "/login")
-	public String login() {
+	public String login(Model model) {
+		
 		return "login";
 	}
 
@@ -41,8 +42,8 @@ public class UserController extends BaseController {
 			model.addAttribute("error", getContext().getMessage("user.login.validation.error"));
 			return "login";
 		}
-		
-		return "redirect:dashboard";
+		return "login";
+		//return "redirect:dashboard";
 	}
 	
 	@RequestMapping(value = "/{userId}/detail")

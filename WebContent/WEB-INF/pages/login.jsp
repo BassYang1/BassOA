@@ -1,12 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 	
 <!DOCTYPE html>
 <html>
-<c:set var="pagename" scope="page" value="用户登录"/>
 <%@ include file="shared/_header.jsp"%>
 <style>
 .login-form {    
@@ -23,6 +19,11 @@
 
 .login-control {
 	
+}
+
+#cbRemember {
+	vertical-align:middle;
+	margin-top:6px;
 }
 </style>
 <script>
@@ -75,7 +76,7 @@
 								<div class="text-error password-msg"><form:errors path="password" /></div>
 						</div>
 						<div class="form-group checkbox">
-							<label> <input type="checkbox" id="cbRemember" />记住我
+							<label><input type="checkbox" id="cbRemember" />记住我
 							</label>
 						</div>
 						<div class="form-group">

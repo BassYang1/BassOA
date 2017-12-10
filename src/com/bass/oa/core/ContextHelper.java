@@ -1,8 +1,10 @@
 package com.bass.oa.core;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContext;
@@ -47,11 +49,33 @@ public class ContextHelper {
 	}
 	
 	/*
+	 * 获取Servlet上下文
+	 */
+	public ServletContext getServletContext(){
+		return getRequest().getServletContext();
+	}
+
+	/*
+	 * 获取Spring应用上下文
+	 */
+	public WebApplicationContext getWebApplicationContext(){
+		return (WebApplicationContext)getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+	}
+	
+	/*
 	 * 获取Spring国际化信息
 	 */
 	public String getMessage(String code){
 		return getRequestContext().getMessage(code);
 	}
+	
+	/*
+	 * 获取Spring配置信息
+	 */
+	/*public String getProperty(String code){
+		//return getWebApplicationContext().getEnvironment().getRequiredProperty(code);
+		return getWebApplicationContext().getEnvironment().getProperty(code);
+	}*/
 }
 
 
