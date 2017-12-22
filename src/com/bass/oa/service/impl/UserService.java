@@ -1,6 +1,7 @@
 package com.bass.oa.service.impl;
 
 import com.bass.oa.model.UserModel;
+import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IUserService;
 
 public class UserService extends BaseService implements IUserService {	
@@ -24,7 +25,7 @@ public class UserService extends BaseService implements IUserService {
 		UserModel user = new UserModel();
 		user.setUserId(1);
 		user.setUserName("test user");
-		user.setUserToken(token);
+		//user.setUserToken(token);
 		return user;
 	}
 
@@ -36,6 +37,20 @@ public class UserService extends BaseService implements IUserService {
 		UserModel user = new UserModel();
 		user.setUserId(id);
 		user.setUserName("test user");
+		return user;
+	}
+
+	/*
+	 * 用户登录
+	 */
+	public UserModel login(UserLoginModel model) {
+		if (model == null || model.getUserName() == null
+				|| model.getPassword() == "" || model.getPassword() == null
+				|| model.getUserName() == "") {
+			return null;
+		}
+		
+		UserModel user = new UserModel();
 		return user;
 	}
 

@@ -5,68 +5,83 @@ import java.util.Date;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserModel {
-	private int userId;
+	private int _userId;
 	@NotEmpty
-	private String userName;
+	private String _userName;
 	@NotEmpty(message="密码不能为空")
-	private String password;
-	private String _userToken;
-	private Date loginedDate;
-	private Date createdDate;
-	private String[] favoriteFrameworks;
+	private String _password;
+	private String _token;
+	private String _series;
+	private Date _loginDate;
+	private Date _expiredDate;
+	private Date _createdDate;
 
 	public void setUserId(int userId) {
-		this.userId = userId;
+		this._userId = userId;
 	}
 
 	public int getUserId() {
-		return this.userId;
+		return this._userId;
 	}
 
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this._userName = userName;
 	}
 
 	public String getUserName() {
-		return this.userName;
+		return this._userName;
 	}
 
-	public void setUserToken(String userToken) {
-		this._userToken = userToken;
-	}
-
-	public String getUserToken() {
-		return this._userToken;
-	}
 	public void setPassword(String password) {
-		this.password = password;
+		this._password = password;
 	}
 
 	public String getPassword() {
-		return this.password;
+		return this._password;
+	}
+	
+	public void setToken(String token) {
+		this._token = token;
 	}
 
-	public void setLoginedDate(Date loginedDate) {
-		this.loginedDate = loginedDate;
+	public String getToken() {
+		return this._token;
 	}
 
-	public Date getLoginedDate() {
-		return this.loginedDate;
+	public void setSeries(String series) {
+		this._series = series;
+	}
+
+	public String getSeries() {
+		return this._series;
+	}
+
+	public void setLoginDate(Date loginDate) {
+		this._loginDate = loginDate;
+	}
+
+	public Date getLoginDate() {
+		return this._loginDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+		this._createdDate = createdDate;
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return this._createdDate;
 	}
 
-	public String[] getFavoriteFrameworks() {
-		return favoriteFrameworks;
+	public void setExpiredDate(Date expiredDate) {
+		this._expiredDate = expiredDate;
 	}
 
-	public void setFavoriteFrameworks(String[] favoriteFrameworks) {
-		this.favoriteFrameworks = favoriteFrameworks;
+	public Date getExpiredDate() {
+		return this._expiredDate;
+	}
+
+	@Override
+	public String toString(){
+		return String.format("[User=%d,%s,%s,%s,%s]", this._userId, this._userName, this._loginDate, this._expiredDate, this._createdDate);
 	}
 }

@@ -56,12 +56,15 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 	}
 	
 	public static void main(String[] args){
-		Pattern pattern = Pattern.compile("\\w+(?=\\.|\\/)");
-		Matcher matcher = pattern.matcher("/");
+		Pattern pattern = Pattern.compile("Windows (?!95|98|NT|2000)");
+		Matcher matcher = pattern.matcher("Windows XP");
 
-		while(matcher.find()){
-			System.out.println(matcher.group());
+		if(matcher.find()){
+			System.out.println(matcher.group(0));
+			System.out.println(matcher.group(1));
 		}
-		
+		/*while(matcher.find()){
+			System.out.println(matcher.group());
+		}*/		
 	}
 }

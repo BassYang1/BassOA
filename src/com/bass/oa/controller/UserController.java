@@ -36,14 +36,16 @@ public class UserController extends BaseController {
 		return "login";
 	}
 
-	@RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") @Validated UserLoginModel user, BindingResult result, Model model) {
+		
+		
 		if(result.hasErrors()){
 			model.addAttribute("error", getContext().getMessage("user.login.validation.error"));
 			return "login";
 		}
-		return "login";
-		//return "redirect:dashboard";
+		
+		return "redirect:dashboard";
 	}
 	
 	@RequestMapping(value = "/{userId}/detail")

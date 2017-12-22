@@ -1,6 +1,7 @@
 package com.bass.oa.service;
 
 import com.bass.oa.model.UserModel;
+import com.bass.oa.model.vo.UserLoginModel;
 
 public interface IUserService {
 	public final static String LOGINED_USER = "LOGINED_USER";
@@ -20,6 +21,11 @@ public interface IUserService {
 	 */
 	public UserModel getUserById(int id);	
 
+	/*
+	 * 用户登录
+	 */
+	public UserModel login(UserLoginModel model);
+	
 	/*
 	 * 更新用户
 	 */

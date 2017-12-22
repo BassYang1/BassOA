@@ -42,7 +42,8 @@
 	
 	<!-- 在用户区域固定不需要更改的环境中，可以设置固定的默认的区域语言 -->  
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">  
-	    <property name="defaultLocale" value="en_US" />
+	    <!-- <property name="defaultLocale" value="en_US" /> -->
+	    <property name="defaultLocale" value="zh_CN" />
 	</bean>
 	
 	<!-- 需要在界面上进行切换（session方式） --> 

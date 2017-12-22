@@ -11,12 +11,19 @@ import com.bass.oa.service.IUserService;
 
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
-	private IUserService userService;
+	private IUserService _userService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		UserModel user = this.userService.getCurrentUser();
+		UserModel user = _userService.getCurrentUser();
+		
+		if(user == null){
+			//String token = request.getCookies();
+			//user = _userService.getUserByToken(token);
+		}
+		
+		
 		
 		/*System.out.println(request.getRequestURI());
 		System.out.println(request.getRequestURL());		
