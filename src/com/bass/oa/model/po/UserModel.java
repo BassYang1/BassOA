@@ -1,10 +1,12 @@
-package com.bass.oa.model;
+package com.bass.oa.model.po;
 
 import java.util.Date;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserModel {
+import com.bass.oa.model.BaseModel;
+
+public class UserModel extends BaseModel {
 	private int _userId;
 	@NotEmpty
 	private String _userName;
@@ -82,6 +84,6 @@ public class UserModel {
 
 	@Override
 	public String toString(){
-		return String.format("[User=%d,%s,%s,%s,%s]", this._userId, this._userName, this._loginDate, this._expiredDate, this._createdDate);
+		return String.format("[User=%d,%s,%s,%s,%s]", this._userId, this._userName, _app.formatDateTime(this._loginDate), _app.formatDateTime(this._expiredDate), _app.formatDateTime(this._createdDate));
 	}
 }

@@ -1,6 +1,6 @@
 package com.bass.oa.service.impl;
 
-import com.bass.oa.model.UserModel;
+import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IUserService;
 
@@ -10,7 +10,7 @@ public class UserService extends BaseService implements IUserService {
 	 */
 	@Override
 	public UserModel getCurrentUser() {
-		return (UserModel)getContext().getSession().getAttribute(LOGINED_USER);
+		return (UserModel)_context.getSession().getAttribute(LOGINED_USER);
 	}
 
 	/*
@@ -44,12 +44,11 @@ public class UserService extends BaseService implements IUserService {
 	 * 用户登录
 	 */
 	public UserModel login(UserLoginModel model) {
-		if (model == null || model.getUserName() == null
-				|| model.getPassword() == "" || model.getPassword() == null
-				|| model.getUserName() == "") {
+		if (model == null || _app.isEmptyOrNull(model.getUserName())
+				|| _app.isEmptyOrNull(model.getPassword())) {
 			return null;
 		}
-		
+
 		UserModel user = new UserModel();
 		return user;
 	}

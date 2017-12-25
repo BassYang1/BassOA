@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.bass.oa.model.UserModel;
+import com.bass.oa.model.po.UserModel;
 import com.bass.oa.service.IUserService;
 
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {

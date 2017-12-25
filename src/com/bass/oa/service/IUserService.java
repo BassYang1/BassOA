@@ -1,6 +1,6 @@
 package com.bass.oa.service;
 
-import com.bass.oa.model.UserModel;
+import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
 
 public interface IUserService {

@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.bass.oa.model.MyResult;
-import com.bass.oa.model.UserModel;
+import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IUserService;
 
@@ -37,13 +37,13 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@ModelAttribute("user") @Validated UserLoginModel user, BindingResult result, Model model) {
-		
-		
+	public String login(@ModelAttribute("user") @Validated UserLoginModel userLoginModel, BindingResult result, Model model) {
 		if(result.hasErrors()){
-			model.addAttribute("error", getContext().getMessage("user.login.validation.error"));
+			model.addAttribute("error", _context.getMessage("user.login.validation.error"));
 			return "login";
 		}
+		
+		UserModel user = _userService.login(userLoginModel);		
 		
 		return "redirect:dashboard";
 	}
@@ -79,7 +79,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/test")
 	public ModelAndView test(HttpServletRequest request) {
 		MyResult myResult = new MyResult(false);
-		myResult.setMessage(getContext().getMessage("app.name"));
+		myResult.setMessage(_context.getMessage("app.name"));
 		return new ModelAndView("login", "result", myResult);
 	}
 	

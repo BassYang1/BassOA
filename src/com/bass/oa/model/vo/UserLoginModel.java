@@ -2,7 +2,9 @@ package com.bass.oa.model.vo;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserLoginModel {
+import com.bass.oa.model.BaseModel;
+
+public class UserLoginModel extends BaseModel {
 	@NotEmpty
 	private String _userName;
 	@NotEmpty
@@ -22,5 +24,10 @@ public class UserLoginModel {
 
 	public String getPassword() {
 		return this._password;
+	}
+	
+	@Override
+	public String toString(){
+		return String.format("[User=%d,%s]", this._userName, "******");
 	}
 }

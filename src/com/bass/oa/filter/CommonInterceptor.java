@@ -17,7 +17,7 @@ import com.bass.oa.core.ContextHelper;
 
 @Component
 public class CommonInterceptor extends HandlerInterceptorAdapter {
-	private ContextHelper _contextHelper = ContextHelper.getInstance();
+	private ContextHelper _context = ContextHelper.getInstance();
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
@@ -52,7 +52,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 			code = codeBuffer.toString();
 		}
 		
-		request.setAttribute("pageTitle", _contextHelper.getMessage(code));
+		request.setAttribute("pageTitle", _context.getMessage(code));
 	}
 	
 	public static void main(String[] args){

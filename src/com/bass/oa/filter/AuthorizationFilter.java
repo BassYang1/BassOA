@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.bass.oa.model.UserModel;
+import com.bass.oa.model.po.UserModel;
 import com.bass.oa.service.IUserService;
 
 public class AuthorizationFilter implements Filter {

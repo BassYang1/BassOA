@@ -1,4 +1,4 @@
-package com.bass.wxin.model;
+package com.bass.oa.model;
 
 import com.bass.oa.core.AppHelper;
 
