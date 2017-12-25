@@ -27,6 +27,7 @@ public class ContextHelper {
 		
 	}
 	
+	private final static String SESSION_ERROR = "session_error";
 	/*
 	 * 获取当前请求
 	 */
@@ -67,6 +68,23 @@ public class ContextHelper {
 	 */
 	public String getMessage(String code){
 		return getRequestContext().getMessage(code);
+	}
+	
+	/*
+	 * 设置session级别error
+	 */
+	public void setError(String error){
+		getSession().setAttribute(SESSION_ERROR, error);
+	}
+
+	/*
+	 * 设置session级别error
+	 */
+	public String getError(){
+		String error = (String)getSession().getAttribute(SESSION_ERROR);
+		getSession().removeAttribute(SESSION_ERROR);
+		
+		return error;
 	}
 	
 	/*

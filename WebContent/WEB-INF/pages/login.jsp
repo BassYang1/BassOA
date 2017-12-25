@@ -66,12 +66,12 @@
 					<form:form id="frmUserLogin" method="POST" commandName="user" action="${pageContext.request.contextPath}/user/login.do">						
 						<div class="text-error form-msg">${error}</div>
 						<div class="form-group">
-							<input type="text" class="form-control" id="userName"
+							<input type="text" class="form-control" id="userName" name="userName"
 								placeholder="请输入用户名" />
 								<div class="text-error userName-msg"><form:errors path="userName" /></div>
 						</div>
 						<div class="form-group">
-							<input type="password" class="form-control" id="password"
+							<input type="password" class="form-control" id="password" name="password"
 								placeholder="请输入用户密码" />
 								<div class="text-error password-msg"><form:errors path="password" /></div>
 						</div>

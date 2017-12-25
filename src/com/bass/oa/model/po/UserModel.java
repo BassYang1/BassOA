@@ -7,83 +7,92 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.bass.oa.model.BaseModel;
 
 public class UserModel extends BaseModel {
-	private int _userId;
+	private int userId;
 	@NotEmpty
-	private String _userName;
+	private String userName;
 	@NotEmpty(message="密码不能为空")
-	private String _password;
-	private String _token;
-	private String _series;
-	private Date _loginDate;
-	private Date _expiredDate;
-	private Date _createdDate;
+	private String password;
+	private String token;
+	private String series;
+	private Date loginDate;
+	private Date expiredDate;
+	private Date createdDate;
 
+	public UserModel(){
+		
+	}
+	
+	public UserModel(String userName, String password){
+		this.userName = userName;
+		this.password = password;
+	}
+	
 	public void setUserId(int userId) {
-		this._userId = userId;
+		this.userId = userId;
 	}
 
 	public int getUserId() {
-		return this._userId;
+		return this.userId;
 	}
 
 	public void setUserName(String userName) {
-		this._userName = userName;
+		this.userName = userName;
 	}
 
 	public String getUserName() {
-		return this._userName;
+		return this.userName;
 	}
 
 	public void setPassword(String password) {
-		this._password = password;
+		this.password = password;
 	}
 
 	public String getPassword() {
-		return this._password;
+		return this.password;
 	}
 	
 	public void setToken(String token) {
-		this._token = token;
+		this.token = token;
 	}
 
 	public String getToken() {
-		return this._token;
+		return this.token;
 	}
 
 	public void setSeries(String series) {
-		this._series = series;
+		this.series = series;
 	}
 
 	public String getSeries() {
-		return this._series;
+		return this.series;
 	}
 
 	public void setLoginDate(Date loginDate) {
-		this._loginDate = loginDate;
+		this.loginDate = loginDate;
 	}
 
 	public Date getLoginDate() {
-		return this._loginDate;
+		return this.loginDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
-		this._createdDate = createdDate;
+		this.createdDate = createdDate;
 	}
 
 	public Date getCreatedDate() {
-		return this._createdDate;
+		return this.createdDate;
 	}
 
 	public void setExpiredDate(Date expiredDate) {
-		this._expiredDate = expiredDate;
+		this.expiredDate = expiredDate;
 	}
 
 	public Date getExpiredDate() {
-		return this._expiredDate;
+		return this.expiredDate;
 	}
 
 	@Override
 	public String toString(){
-		return String.format("[User=%d,%s,%s,%s,%s]", this._userId, this._userName, _app.formatDateTime(this._loginDate), _app.formatDateTime(this._expiredDate), _app.formatDateTime(this._createdDate));
+		return String.format("[User=%d,%s,%s,%s,%s]", this.userId, this.userName, _app.formatDateTime(this.loginDate), _app.formatDateTime(this.expiredDate), _app.formatDateTime(this.createdDate));
 	}
 }

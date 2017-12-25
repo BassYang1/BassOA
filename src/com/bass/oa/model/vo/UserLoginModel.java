@@ -3,31 +3,36 @@ package com.bass.oa.model.vo;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.bass.oa.model.BaseModel;
+import com.bass.oa.model.po.UserModel;
 
 public class UserLoginModel extends BaseModel {
 	@NotEmpty
-	private String _userName;
+	private String userName;
 	@NotEmpty
-	private String _password;
+	private String password;
 	
 	public void setUserName(String userName) {
-		this._userName = userName;
+		this.userName = userName;
 	}
 
 	public String getUserName() {
-		return this._userName;
+		return this.userName;
 	}
 
 	public void setPassword(String password) {
-		this._password = password;
+		this.password = password;
 	}
 
 	public String getPassword() {
-		return this._password;
+		return this.password;
+	}
+	
+	public UserModel convertToUserModel(){
+		return new UserModel(this.userName, this.password);
 	}
 	
 	@Override
 	public String toString(){
-		return String.format("[User=%d,%s]", this._userName, "******");
+		return String.format("[User=%d,%s]", this.userName, "******");
 	}
 }

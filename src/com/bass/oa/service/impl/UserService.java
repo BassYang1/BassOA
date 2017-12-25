@@ -1,10 +1,15 @@
 package com.bass.oa.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.bass.oa.mapper.UserMapper;
 import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IUserService;
 
 public class UserService extends BaseService implements IUserService {	
+	@Autowired
+	private UserMapper _userMapper;
 	/*
 	 * 获取当前登录用户
 	 */
@@ -49,8 +54,20 @@ public class UserService extends BaseService implements IUserService {
 			return null;
 		}
 
-		UserModel user = new UserModel();
-		return user;
+		UserModel entity = model.convertToUserModel();
+		entity = _userMapper.getUserByUserName(entity);
+		
+		if(entity == null){
+			_context.setError(_context.getMessage("user.login.userName.error"));
+			return null;
+		}
+		
+		if(entity.getPassword().equals(entity.getPassword())){
+			_context.setError(_context.getMessage("user.login.password.error"));
+			return null;
+		}
+
+		return entity;
 	}
 
 	/*
