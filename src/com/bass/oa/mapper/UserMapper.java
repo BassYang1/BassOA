@@ -4,4 +4,5 @@ import com.bass.oa.model.po.UserModel;
 
 public interface UserMapper {
 	public UserModel getUserByUserName(UserModel entity);
+	public void updateLoginLimit(UserModel entity);
 }

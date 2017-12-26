@@ -15,6 +15,7 @@ public class UserModel extends BaseModel {
 	private String token;
 	private String series;
 	private Date loginDate;
+	private int loginCount;
 	private Date expiredDate;
 	private Date createdDate;
 
@@ -67,6 +68,14 @@ public class UserModel extends BaseModel {
 		return this.series;
 	}
 
+	public int getLoginCount(){
+		return loginCount;
+	}
+	
+	public void setLoginCount(int loginCount){
+		this.loginCount = loginCount;
+	}
+	
 	public void setLoginDate(Date loginDate) {
 		this.loginDate = loginDate;
 	}

@@ -7,14 +7,15 @@ CREATE TABLE IF NOT EXISTS tbUser(
 	userId INT PRIMARY KEY auto_increment,
 	userName VARCHAR(20) UNIQUE,
 	password VARCHAR(20) NOT NULL,
-	loginDate DATETIME,	
-	expiredDate DATETIME,
-	createdDate DATETIME,
-	token VARCHAR(200),
-	series VARCHAR(200)
+	loginCount INT DEFAULT(0),	--登录次数
+	loginDate DATETIME,	--登录时间
+	expiredDate DATETIME,	--token过期时间
+	token VARCHAR(200),	--userName+GUID+加密
+	series VARCHAR(200),	--登录密文, userName+密码+token过期时间+Salt+加密
+	createdDate DATETIME
 )engine=innodb DEFAULT charset=utf8 auto_increment=1;
 
-INSERT INTO tbUser(userName, password, createdDate) VALUES('admin', '123456', now());
+INSERT INTO tbUser(userName, password, createdDate) VALUES('admin', 'admin', now());
 
 --日常用药量
 CREATE TABLE IF NOT EXISTS tbDailyDose(

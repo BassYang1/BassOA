@@ -3,7 +3,11 @@
 <mapper namespace="com.bass.oa.mapper.UserMapper">
 	<!-- 查询 -->
 	<select id="getUserByUserName" parameterType="userModel" resultType="userModel">
-		SELECT userId, userName, password, createdDate
+		SELECT userId, userName, password, loginLimit, loginDate, createdDate
 		FROM tbUser WHERE userName=#{userName}
 	</select>
+	
+	<update id="updateLoginLimit" parameterType="userModel">
+		UPDATE tbUser SET loginCount=#{loginCount}, loginDate=#{loginDate} WHERE userId=#{userId}
+	</update>
 </mapper>

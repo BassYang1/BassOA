@@ -36,13 +36,13 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@ModelAttribute("user") @Validated UserLoginModel userLoginModel, BindingResult result, Model model) {
-		if(result.hasErrors()){
+	public String login(@ModelAttribute("user") @Validated UserLoginModel userLoginInfo, BindingResult result, Model model) {
+		if(userLoginInfo == null || result.hasErrors()){
 			model.addAttribute("error", _context.getMessage("user.login.validation.error"));
 			return "login";
 		}
 		
-		UserModel user = _userService.login(userLoginModel);
+		UserModel user = _userService.login(userLoginInfo);
 		
 		if(user == null){
 			model.addAttribute("error", _context.getError());

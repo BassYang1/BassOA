@@ -1,6 +1,9 @@
 package com.bass.oa.service.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.bass.oa.mapper.UserMapper;
 import com.bass.oa.model.po.UserModel;
@@ -8,6 +11,12 @@ import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IUserService;
 
 public class UserService extends BaseService implements IUserService {	
+	@Value("${login.limit.count.enabled ?: false}")
+	private boolean isEnabledLimitCount;	
+
+	@Value("${login.limit.count ?: 0}")
+	private int limitCount;
+	
 	@Autowired
 	private UserMapper _userMapper;
 	/*
@@ -54,19 +63,27 @@ public class UserService extends BaseService implements IUserService {
 			return null;
 		}
 
+		String password = model.getPassword();
 		UserModel entity = model.convertToUserModel();
 		entity = _userMapper.getUserByUserName(entity);
 		
 		if(entity == null){
-			_context.setError(_context.getMessage("user.login.userName.error"));
+			_context.setError(_context.getMessage("user.login.userName.invalid"));
 			return null;
 		}
 		
-		if(entity.getPassword().equals(entity.getPassword())){
-			_context.setError(_context.getMessage("user.login.password.error"));
+		//更新登录次数
+		entity.setLoginCount(entity.getLoginCount() + 1);
+		entity.setLoginDate(new Date());
+		
+		if(!password.equals(entity.getPassword())){
+			_context.setError(_context.getMessage("user.login.password.invalid"));
+			_userMapper.updateLoginLimit(entity);
 			return null;
 		}
 
+		
+		
 		return entity;
 	}
 
@@ -77,4 +94,8 @@ public class UserService extends BaseService implements IUserService {
 	public boolean updateUser(UserModel user) {
 		return false;
 	}
+	
+	/*private boolean limitLoginCount(){
+		PropertiesUtils.
+	}*/
 }
