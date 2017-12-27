@@ -5,6 +5,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import com.bass.oa.core.Constant;
 import com.bass.oa.model.MyResult;
 import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
@@ -31,14 +33,14 @@ public class UserController extends BaseController {
 	private IUserService _userService;
 
 	@RequestMapping(value = "/login")
-	public String login(Model model) {		
+	public String login() {
 		return "login";
 	}
-
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") @Validated UserLoginModel userLoginInfo, BindingResult result, Model model) {
 		if(userLoginInfo == null || result.hasErrors()){
-			model.addAttribute("error", _context.getMessage("user.login.validation.error"));
+			model.addAttribute("error", _context.getMessage("user.login.failed"));
 			return "login";
 		}
 		
@@ -49,7 +51,28 @@ public class UserController extends BaseController {
 			return "login";
 		}
 		
-		return "redirect:dashboard";
+		if(StringUtils.isEmpty(user.getToken())){
+			model.addAttribute("error", _context.getMessage("user.login.failed"));
+			return "login";
+		}
+
+		//添加cookie
+		if(userLoginInfo.isRemembered()){
+			_context.addCookie(Constant.USER_TOKEN, user.getToken());
+			_context.addCookie(Constant.USER_LOGIN_NAME, user.getUserName());
+		}
+
+		//存储到session中
+		_context.getSession().setAttribute(Constant.USER_SESSION, user);
+
+		//页面跳转
+		String callback = _context.getRequest().getParameter(Constant.LOGIN_CALLBACK);
+		
+		if(StringUtils.isNotBlank(callback)){
+			return String.format("redirect:%s", callback);
+		}
+		
+		return "redirect:/index.do";
 	}
 	
 	@RequestMapping(value = "/{userId}/detail")

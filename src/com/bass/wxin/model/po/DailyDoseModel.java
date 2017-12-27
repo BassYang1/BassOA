@@ -2,6 +2,7 @@ package com.bass.wxin.model.po;
 
 import java.util.Date;
 
+import com.bass.oa.core.AppUtil;
 import com.bass.wxin.model.BaseModel;
 import com.bass.wxin.model.vo.DailyDoseEditModel;
 
@@ -96,6 +97,6 @@ public class DailyDoseModel extends BaseModel {
 	
 	@Override
 	public String toString(){
-		return String.format("[DailyDose=%d,%s,%s,%s,%s]", this._seqNumber, this._drugName, this._dose, this._unit, _app.formatDateTime(this._drugTime));
+		return String.format("[DailyDose=%d,%s,%s,%s,%s]", this._seqNumber, this._drugName, this._dose, this._unit, AppUtil.formatDateTime(this._drugTime));
 	}
 }

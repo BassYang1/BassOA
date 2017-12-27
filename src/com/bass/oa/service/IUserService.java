@@ -4,13 +4,6 @@ import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
 
 public interface IUserService {
-	public final static String LOGINED_USER = "LOGINED_USER";
-
-	/*
-	 * 获取当前登录用户
-	 */
-	public UserModel getCurrentUser();
-	
 	/*
 	 * 根据Token获取用户详细
 	 */

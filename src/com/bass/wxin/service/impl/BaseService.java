@@ -1,9 +1,9 @@
 package com.bass.wxin.service.impl;
 
-import com.bass.oa.core.ContextHelper;
+import com.bass.oa.core.ContextInstance;
 
 public class BaseService {
-	protected final ContextHelper getContext(){
-		return ContextHelper.getInstance();
+	protected final ContextInstance getContext(){
+		return ContextInstance.getInstance();
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.bass.oa.core.AppUtil;
 import com.bass.oa.model.BaseModel;
 
 public class UserModel extends BaseModel {
@@ -13,8 +14,16 @@ public class UserModel extends BaseModel {
 	@NotEmpty(message="密码不能为空")
 	private String password;
 	private String token;
+	
+	/*
+	 * 登录有效密文
+	 */
 	private String series;
 	private Date loginDate;
+	
+	/*
+	 * 登录失败次数
+	 */
 	private int loginCount;
 	private Date expiredDate;
 	private Date createdDate;
@@ -102,6 +111,6 @@ public class UserModel extends BaseModel {
 
 	@Override
 	public String toString(){
-		return String.format("[User=%d,%s,%s,%s,%s]", this.userId, this.userName, _app.formatDateTime(this.loginDate), _app.formatDateTime(this.expiredDate), _app.formatDateTime(this.createdDate));
+		return String.format("[User=%d,%s,%s,%s,%s]", this.userId, this.userName, AppUtil.formatDateTime(this.loginDate), AppUtil.formatDateTime(this.expiredDate), AppUtil.formatDateTime(this.createdDate));
 	}
 }

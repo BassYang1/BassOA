@@ -8,16 +8,20 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.bass.oa.core.ContextHelper;
+import com.bass.oa.core.AppUtil;
+import com.bass.oa.core.ContextInstance;
+import com.bass.oa.model.po.UserModel;
 
 @Component
 public class CommonInterceptor extends HandlerInterceptorAdapter {
-	private ContextHelper _context = ContextHelper.getInstance();
+	private ContextInstance _context = ContextInstance.getInstance();
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
@@ -56,15 +60,49 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 	}
 	
 	public static void main(String[] args){
-		Pattern pattern = Pattern.compile("Windows (?!95|98|NT|2000)");
+		/*Pattern pattern = Pattern.compile("Windows (?!95|98|NT|2000)");
 		Matcher matcher = pattern.matcher("Windows XP");
 
 		if(matcher.find()){
 			System.out.println(matcher.group(0));
 			System.out.println(matcher.group(1));
-		}
+		}*/
 		/*while(matcher.find()){
 			System.out.println(matcher.group());
-		}*/		
+		}*/	
+		
+		/*System.out.println(StringUtils.isNotBlank("Windows XP"));
+		System.out.println(StringUtils.isNoneBlank("Windows XP"));
+		System.out.println(StringUtils.isAllBlank("Windows XP"));
+		System.out.println(StringUtils.isNotEmpty("Windows XP"));
+		System.out.println(StringUtils.isNotEmpty(null));
+		System.out.println(StringUtils.isNotEmpty(""));
+		System.out.println(StringUtils.isNotEmpty(" "));
+		System.out.println(StringUtils.isNotBlank(null));
+		System.out.println(StringUtils.isNotBlank(""));
+		System.out.println(StringUtils.isNotBlank(" "));
+		System.out.println(ObjectUtils.anyNotNull(null));
+		System.out.println(ObjectUtils.anyNotNull(new UserModel()));
+		System.out.println(ObjectUtils.anyNotNull(null));*/
+		
+
+		/*System.out.println(AppUtil.sha256Hex("admin"));
+		System.out.println(AppUtil.sha256Hex("admin" + ""));
+		
+		System.out.println(AppUtil.sha256Hex("123456"));
+		System.out.println(AppUtil.sha256Hex("123456").length());
+		System.out.println(AppUtil.sha256Hex("aa"));
+		System.out.println(AppUtil.sha256Hex("aa").length());
+		System.out.println(AppUtil.sha1Hex("123456"));
+		System.out.println(AppUtil.sha1Hex("123456").length());
+		System.out.println(AppUtil.sha1Hex("aa"));
+		System.out.println(AppUtil.sha1Hex("aa").length());
+		System.out.println(AppUtil.md5Hex("123456"));
+		System.out.println(AppUtil.md5Hex("123456").length());
+		System.out.println(AppUtil.md5Hex("aa"));
+		System.out.println(AppUtil.md5Hex("aa").length());*/
+		
+
+		System.out.println(AppUtil.sha256Hex("adminadmin"));
 	}
 }

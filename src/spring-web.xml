@@ -20,6 +20,10 @@
 	
 	<mvc:annotation-driven />
 	
+	<!-- 无需handler处理的页面 -->
+	<mvc:view-controller path="/login.do" view-name="login" />
+	<mvc:view-controller path="/index.do" view-name="index" />
+	
 	<!-- model 验证 -->
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
@@ -83,12 +87,7 @@
 			<mvc:mapping path="/**" />
 
 			<!-- 排除不需要拦截的请求 -->
-			<mvc:exclude-mapping path="/**" />
-			<!-- <mvc:exclude-mapping path="/index.do" /> -->
-			<mvc:exclude-mapping path="/user/login.do" />
-			<mvc:exclude-mapping path="/user/**" />
-			<mvc:exclude-mapping path="/wxin/**" />
-			<mvc:exclude-mapping path="/**" />
+			<mvc:exclude-mapping path="/**/login.do" />
 			<mvc:exclude-mapping path="/user/test.do" />
 			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
 			<!-- 1) 手动注入bean -->

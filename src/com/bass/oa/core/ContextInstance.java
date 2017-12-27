@@ -1,38 +1,52 @@
 package com.bass.oa.core;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContext;
 
-public class ContextHelper {
+import com.bass.oa.model.po.UserModel;
+
+public class ContextInstance {
 	private final static class ContextInstanceHolder{
-		public static ContextHelper _instance = null;
+		public static ContextInstance _instance = null;
 		
 		static{
 			//System.out.println("创建ContextHelper单例");
-			_instance = new ContextHelper();
+			_instance = new ContextInstance();
 		}
 	}
 	
-	public static ContextHelper getInstance(){
+	public static ContextInstance getInstance(){
 		return ContextInstanceHolder._instance;
 	}
 	
-	private ContextHelper(){
+	private ContextInstance(){
 		
 	}
 	
 	private final static String SESSION_ERROR = "session_error";
+	private final static int COOKIE_MAX_AGE = 24 * 60 * 60; //小时 * 分 * 秒
+	
 	/*
 	 * 获取当前请求
 	 */
 	public HttpServletRequest getRequest(){
 		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();  
+	}
+
+	/*
+	 * 获取当前请求
+	 */
+	public HttpServletResponse getResponse(){
+		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();  
 	}
 	
 	/*
@@ -64,12 +78,82 @@ public class ContextHelper {
 	}
 	
 	/*
+	 * 添加cookie
+	 */
+	public void addCookie(String name, String value){
+		if(StringUtils.isEmpty(name)){
+			return;
+		}
+		
+		value = value == null? "" : value;
+		
+		Cookie cookie = new Cookie(name, value);
+		cookie.setMaxAge(COOKIE_MAX_AGE);
+		cookie.setPath("/");
+		
+		getResponse().addCookie(cookie);
+	}
+	
+	/*
+	 * 获取cookie
+	 */
+	public Cookie getCookie(String name){
+		if(StringUtils.isEmpty(name)){
+			return null;
+		}
+		
+		Cookie[] cookies = getRequest().getCookies();
+		
+		for(Cookie cookie : cookies){
+			if(cookie.getName().equalsIgnoreCase(name)){
+				return cookie;
+			}
+		}
+		
+		return null;
+	}
+	
+	/*
+	 * 获取cookie的值
+	 */
+	public String getCookieValue(String name){
+		Cookie cookie = getCookie(name); 
+		
+		if(cookie == null){
+			return "";
+		}
+		
+		return cookie.getValue();
+	}
+	
+	/*
+	 * 移除cookie
+	 */
+	public void removeCookie(String name){
+		Cookie cookie = getCookie(name);
+		
+		if(cookie != null){
+			cookie.setPath("/");
+			cookie.setMaxAge(0);
+			cookie.setValue(null);
+			
+			getResponse().addCookie(cookie);
+		}
+	}
+	/*
 	 * 获取Spring国际化信息
 	 */
 	public String getMessage(String code){
 		return getRequestContext().getMessage(code);
 	}
 	
+	/*
+	 * 设置session级别error
+	 */
+	public void setI18nError(String label){
+		getSession().setAttribute(SESSION_ERROR, getMessage(label));
+	}
+
 	/*
 	 * 设置session级别error
 	 */
@@ -85,8 +169,8 @@ public class ContextHelper {
 		getSession().removeAttribute(SESSION_ERROR);
 		
 		return error;
-	}
-	
+	}	
+
 	/*
 	 * 获取Spring配置信息
 	 */
