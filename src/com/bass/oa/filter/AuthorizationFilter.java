@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.bass.oa.core.Constant;
+import com.bass.oa.core.ContextInstance;
 import com.bass.oa.model.po.UserModel;
 import com.bass.oa.service.IUserService;
 
@@ -26,10 +28,11 @@ public class AuthorizationFilter implements Filter {
 	private final static String REQUEST_URI_SEPARATOR = "/";
 	private List<String> excludeUrls; //不需要过滤的请求url
 	
-	private IUserService userService;
+	private ContextInstance _context = ContextInstance.getInstance();
+	private IUserService _userService;
 	
 	public void setUserService(IUserService userService){
-		this.userService = userService;
+		this._userService = userService;
 	}
 	
 	@Override
@@ -40,7 +43,7 @@ public class AuthorizationFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		UserModel user = this.userService.getCurrentUser();
+		UserModel user = (UserModel)_context.getSessionValue(Constant.USER_SESSION);
 		String url = ((HttpServletRequest)request).getRequestURI();
 		
 		if(user == null || !isExcludedUrl(url)){
@@ -61,7 +64,7 @@ public class AuthorizationFilter implements Filter {
 		//手动注入Spring bean
 		ServletContext sc = config.getServletContext();
 		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc);
-		this.userService = (IUserService)context.getBean(BEAN_USERSERVICE);
+		this._userService = (IUserService)context.getBean(BEAN_USERSERVICE);
 	}
 	
 	/*

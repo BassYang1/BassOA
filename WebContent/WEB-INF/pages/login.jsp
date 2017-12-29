@@ -21,7 +21,7 @@
 	
 }
 
-#cbRemember {
+#rememberme {
 	vertical-align:middle;
 	margin-top:6px;
 }
@@ -50,7 +50,7 @@
 					$(".form-msg").text("<spring:message code="user.login.validation.error"/>");
 				}
 				
-				$("#remembered").val($("#remembered").is(":checked") ? true : false);
+				$("#rememberme").val($("#rememberme").is(":checked") ? true : false);
 				
 				return doSubmit;
 			}
@@ -78,7 +78,7 @@
 								<div class="text-error password-msg"><form:errors path="password" /></div>
 						</div>
 						<div class="form-group checkbox">
-							<label><input type="checkbox" id="remembered" name="remembered" />记住我
+							<label><input type="checkbox" id="rememberme" name="rememberme" />记住我
 							</label>
 						</div>
 						<div class="form-group">

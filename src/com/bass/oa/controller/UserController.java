@@ -1,10 +1,6 @@
 package com.bass.oa.controller;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.bass.oa.core.Constant;
 import com.bass.oa.model.MyResult;
@@ -28,11 +23,11 @@ import com.bass.oa.service.IUserService;
 
 @Controller
 @RequestMapping(value = "/user")
-public class UserController extends BaseController {
+public class UserController extends BaseController {	
 	@Autowired
 	private IUserService _userService;
 
-	@RequestMapping(value = "/login")
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "login";
 	}
@@ -40,6 +35,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") @Validated UserLoginModel userLoginInfo, BindingResult result, Model model) {
 		if(userLoginInfo == null || result.hasErrors()){
+			_logger.debug(_context.getMessage("user.login.failed"));
 			model.addAttribute("error", _context.getMessage("user.login.failed"));
 			return "login";
 		}
@@ -47,17 +43,20 @@ public class UserController extends BaseController {
 		UserModel user = _userService.login(userLoginInfo);
 		
 		if(user == null){
-			model.addAttribute("error", _context.getError());
+			String error = _context.getError();
+			_logger.debug(error);
+			model.addAttribute("error", error);
 			return "login";
 		}
 		
 		if(StringUtils.isEmpty(user.getToken())){
+			_logger.debug(_context.getMessage("user.login.failed"));
 			model.addAttribute("error", _context.getMessage("user.login.failed"));
 			return "login";
 		}
 
 		//添加cookie
-		if(userLoginInfo.isRemembered()){
+		if(userLoginInfo.isRememberme()){
 			_context.addCookie(Constant.USER_TOKEN, user.getToken());
 			_context.addCookie(Constant.USER_LOGIN_NAME, user.getUserName());
 		}
@@ -105,7 +104,7 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/test")
 	public ModelAndView test(HttpServletRequest request) {
-		MyResult myResult = new MyResult(false);
+		MyResult<String> myResult = new MyResult<String>(false);
 		myResult.setMessage(_context.getMessage("app.name"));
 		return new ModelAndView("login", "result", myResult);
 	}

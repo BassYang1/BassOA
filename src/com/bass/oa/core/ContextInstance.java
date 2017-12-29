@@ -12,8 +12,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContext;
 
-import com.bass.oa.model.po.UserModel;
-
 public class ContextInstance {
 	private final static class ContextInstanceHolder{
 		public static ContextInstance _instance = null;
@@ -57,6 +55,20 @@ public class ContextInstance {
 	}
 	
 	/*
+	 * 获取session value
+	 */
+	public Object getSessionValue(String attributeName){
+		return getSession().getAttribute(attributeName);
+	}
+
+	/*
+	 * 设置session value
+	 */
+	public void setSessionValue(String attributeName, Object value){
+		getSession().setAttribute(attributeName, value);
+	}	
+	
+	/*
 	 * 获取Spring请求上下文
 	 */
 	public RequestContext getRequestContext(){
@@ -76,20 +88,37 @@ public class ContextInstance {
 	public WebApplicationContext getWebApplicationContext(){
 		return (WebApplicationContext)getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 	}
-	
+
 	/*
 	 * 添加cookie
 	 */
 	public void addCookie(String name, String value){
+		addCookie(name, value, null, COOKIE_MAX_AGE, false, false, null);
+	}
+	
+	/*
+	 * 添加cookie
+	 */
+	public void addCookie(String name, String value, String domain, int expiry, boolean secure, boolean httpOnly, String path){
 		if(StringUtils.isEmpty(name)){
 			return;
 		}
 		
-		value = value == null? "" : value;
+		Cookie cookie = new Cookie(name, value == null? "" : value);
+		cookie.setMaxAge(expiry);
+		cookie.setSecure(secure);
+		cookie.setHttpOnly(httpOnly);
 		
-		Cookie cookie = new Cookie(name, value);
-		cookie.setMaxAge(COOKIE_MAX_AGE);
-		cookie.setPath("/");
+		if(StringUtils.isNotBlank(path)) {
+			cookie.setPath(path);
+		}
+		else{
+			cookie.setPath("/");
+		}
+		
+		if(StringUtils.isNotBlank(domain)){
+			cookie.setDomain(domain);
+		}
 		
 		getResponse().addCookie(cookie);
 	}

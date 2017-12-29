@@ -22,7 +22,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		//获取session
-		UserModel user = (UserModel)_context.getSession().getAttribute(Constant.USER_SESSION);
+		UserModel user = (UserModel)_context.getSessionValue(Constant.USER_SESSION);
 		
 		if(user == null){
 			String token = _context.getCookieValue(Constant.USER_TOKEN);
@@ -34,7 +34,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 			}
 			
 			//添加session
-			_context.getSession().setAttribute(Constant.USER_SESSION, user);
+			_context.setSessionValue(Constant.USER_SESSION, user);
 		}
 		
 		if(user == null){

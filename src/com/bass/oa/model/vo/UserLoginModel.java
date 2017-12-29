@@ -10,7 +10,7 @@ public class UserLoginModel extends BaseModel {
 	private String userName;
 	@NotEmpty
 	private String password;
-	private boolean remembered;
+	private boolean rememberme;
 	
 	public void setUserName(String userName) {
 		this.userName = userName;
@@ -28,12 +28,12 @@ public class UserLoginModel extends BaseModel {
 		return this.password;
 	}
 
-	public void setRemembered(boolean remembered) {
-		this.remembered = remembered;
+	public void setRememberme(boolean rememberme) {
+		this.rememberme = rememberme;
 	}
 	
-	public boolean isRemembered() {
-		return this.remembered;
+	public boolean isRememberme() {
+		return this.rememberme;
 	}
 	
 	public UserModel convertToUserModel(){
