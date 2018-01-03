@@ -5,12 +5,14 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.bass.oa.core.AppUtil;
 import com.bass.oa.core.Constant;
 import com.bass.oa.mapper.UserMapper;
+import com.bass.oa.model.MyResult;
 import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IUserService;
@@ -28,6 +30,8 @@ public class UserService extends BaseService implements IUserService {
 	@Value("${encrypt.salt ?: ''}")
 	private String _encryptSalt;
 	
+	private final static Logger _logger = Logger.getLogger(UserService.class);
+	
 	@Autowired
 	private UserMapper _userMapper;
 
@@ -35,12 +39,35 @@ public class UserService extends BaseService implements IUserService {
 	 * 根据Token获取用户详细
 	 */
 	@Override
-	public UserModel getUserByToken(String token) {
+	public MyResult<UserModel> getUserByToken(String token) {
+		MyResult<UserModel> result = new MyResult<UserModel>();
+		
 		if(StringUtils.isBlank(token)){
-			return null;
+			return result;
 		}
 		
-		return _userMapper.getUserByToken(token);
+		UserModel user = _userMapper.getUserByToken(token);
+		
+		if(user == null){
+			result.setMessage(_context.getMessage("oa.login.token.invalid"));
+			return result;
+		}
+		
+		if(user.isEnabled() == false){
+			result.setMessage(_context.getMessage("oa.login.user.invalid"));
+			return result;
+		}
+		
+		String series = String.format("%s%s%s", user.getUserName(), AppUtil.formatDateTime(user.getExpiredDate()), _encryptSalt);
+		series = AppUtil.sha256Hex(series); //编码
+		
+		if(StringUtils.isEmpty(user.getSeries()) || !user.getSeries().equals(series)){
+			result.setMessage(_context.getMessage("oa.login.token.expired"));
+			return result;
+		}
+		
+		result = new MyResult<UserModel>(true, user);		
+		return result;
 	}
 
 	/*
@@ -57,10 +84,12 @@ public class UserService extends BaseService implements IUserService {
 	/*
 	 * 用户登录
 	 */
-	public UserModel login(UserLoginModel model) {
+	public MyResult<UserModel> login(UserLoginModel model) {
+		MyResult<UserModel> result = new MyResult<UserModel>();
+		
 		if (model == null || StringUtils.isEmpty(model.getUserName())
 				|| StringUtils.isEmpty(model.getPassword())) {
-			return null;
+			return result;
 		}
 
 		try {
@@ -69,36 +98,40 @@ public class UserService extends BaseService implements IUserService {
 
 			// 验证用户名是否有效
 			if (user == null) {
-				_context.setI18nError("user.login.userName.invalid");
-				return null;
+				result.setMessage(_context.getMessage("user.login.userName.invalid"));
+				return result;
 			}
 
+			if(user.isEnabled() == false){
+				result.setMessage(_context.getMessage("oa.login.user.invalid"));
+				return result;
+			}
+			
 			// 验证是否超过登录次数限制
 			if (_enabledCountLimit && isOverCountLimit(user.getLoginDate(), user.getLoginCount())) {
-				_context.setI18nError("user.login.count.limit");
-				return null;
+				result.setMessage(_context.getMessage("user.login.count.limit"));
+				return result;
 			}
 
 			// 验证登录密码是否有效
 			String password = AppUtil.sha256Hex(String.format("%s%s",
 					model.getUserName(), model.getPassword()));
 			if (!password.equals(user.getPassword())) {
-				_context.setI18nError("user.login.password.invalid");
-
 				// 更新登录次数
 				user.setLoginCount(user.getLoginCount() + 1);
 				user.setLoginDate(new Date());
 				_userMapper.updateLoginLimit(user);
 
-				return null;
+				result.setMessage(_context.getMessage("user.login.password.invalid"));
+				return result;
 			}
 
 			// 过期时间
 			Date expiredDate = DateUtils.addDays(new Date(), _tokenDays);
 			// 登录token
-			String token = String.format("%s%s%s", model.getUserName(), Constant.USER_TOKEN_SEPARATE, UUID.randomUUID().toString());
+			String token = String.format("%s%s%s", model.getUserName(), Constant.SEPARATE_USER_TOKEN, UUID.randomUUID().toString());
 			// 登录有效密文
-			String series = String.format("%s%s%s%s", model.getUserName(), model.getPassword(), AppUtil.formatDateTime(expiredDate), _encryptSalt);
+			String series = String.format("%s%s%s", model.getUserName(), AppUtil.formatDateTime(expiredDate), _encryptSalt);
 
 			// 更新用户
 			user.setExpiredDate(expiredDate);
@@ -107,13 +140,21 @@ public class UserService extends BaseService implements IUserService {
 			user.setLoginDate(new Date());
 			_userMapper.updateLoginUser(user);
 			
-			return user;
+			result = new MyResult<UserModel>(true, user);			
+			return result;
 		} catch (Exception ex) {
-			_context.setError(ex.getMessage());
-			return null;
+			_logger.error(ex);
+			result.setMessage(ex.getMessage());
+			return result;
 		}
 	}
 
+	/*
+	 * 用户登出
+	 */
+	public void logout(int userId){
+		_userMapper.updateLogoutUser(userId);
+	}
 	/*
 	 * 更新用户
 	 */

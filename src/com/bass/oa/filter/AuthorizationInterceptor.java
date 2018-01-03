@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -15,6 +16,7 @@ import com.bass.oa.service.IUserService;
 
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 	private ContextInstance _context = ContextInstance.getInstance();
+	private final static Logger _logger = Logger.getLogger(AuthorizationInterceptor.class);
 	
 	@Autowired
 	private IUserService _userService;
@@ -22,33 +24,37 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		//获取session
-		UserModel user = (UserModel)_context.getSessionValue(Constant.USER_SESSION);
-		
+		UserModel user = (UserModel)_context.getSessionValue(Constant.SESSION_USER);
+				
 		if(user == null){
-			String token = _context.getCookieValue(Constant.USER_TOKEN);
+			String token = _context.getCookieValue(Constant.COOKIE_USER_TOKEN);
 			
 			if(StringUtils.isNotBlank(token)){
-				String userName = AppUtil.base64Decode(token).split(Constant.USER_TOKEN_SEPARATE)[0];
-				user = _userService.getUserByToken(token);
+				String userName = AppUtil.base64Decode(token).split(Constant.SEPARATE_USER_TOKEN)[0];
+				user = _userService.getUserByToken(token).getData();				
 				user = user == null || user.getUserName().equals(userName) ? null : user;
 			}
 			
 			//添加session
-			_context.setSessionValue(Constant.USER_SESSION, user);
+			_context.setSessionValue(Constant.SESSION_USER, user);
 		}
-		
-		if(user == null){
+
+		//重新登录
+		if(!request.getRequestURI().endsWith("/login.do") && user == null){
 			String callback = request.getRequestURL().toString();
-			String dispatcherUrl = String.format("/login.do?%s=%s", Constant.LOGIN_CALLBACK, callback);
-			System.out.println(request.getRequestURL().toString());
-			System.out.println(request.getRequestURI());
-			request.getRequestDispatcher(dispatcherUrl).forward(request, response);
+			String dispatcherUrl = String.format("%s/login.do?%s=%s", request.getContextPath(), Constant.PARAM_LOGIN_CALLBACK, callback);
+			_logger.debug(request.getRequestURL().toString());
+			_logger.debug(request.getRequestURI());
+			//request.getRequestDispatcher(dispatcherUrl).forward(request, response);
+			response.sendRedirect(dispatcherUrl);
 			
 			return false;
 		}
 		
-		if(request.getRequestURI().endsWith("/login.do")){
-			request.getRequestDispatcher("/index.do").forward(request, response);
+		//转到首页
+		if(request.getRequestURI().endsWith("/login.do") && user != null){
+			//request.getRequestDispatcher("/index.do").forward(request, response);
+			response.sendRedirect(String.format("%s/index.do", request.getContextPath()));
 		}
 		
 		return true;

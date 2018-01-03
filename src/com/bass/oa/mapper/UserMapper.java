@@ -7,4 +7,5 @@ public interface UserMapper {
 	public UserModel getUserByToken(String token);
 	public void updateLoginLimit(UserModel entity);
 	public void updateLoginUser(UserModel entity);
+	public void updateLogoutUser(int userId);
 }

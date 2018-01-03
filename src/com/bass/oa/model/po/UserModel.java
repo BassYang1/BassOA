@@ -13,6 +13,10 @@ public class UserModel extends BaseModel {
 	private String userName;
 	@NotEmpty(message="密码不能为空")
 	private String password;
+	/*
+	 * 账号是否可用
+	 */
+	private boolean enabled;
 	private String token;
 	
 	/*
@@ -59,6 +63,14 @@ public class UserModel extends BaseModel {
 
 	public String getPassword() {
 		return this.password;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public boolean isEnabled() {
+		return this.enabled;
 	}
 	
 	public void setToken(String token) {
@@ -108,7 +120,7 @@ public class UserModel extends BaseModel {
 	public Date getExpiredDate() {
 		return this.expiredDate;
 	}
-
+	
 	@Override
 	public String toString(){
 		return String.format("[User=%d,%s,%s,%s,%s]", this.userId, this.userName, AppUtil.formatDateTime(this.loginDate), AppUtil.formatDateTime(this.expiredDate), AppUtil.formatDateTime(this.createdDate));

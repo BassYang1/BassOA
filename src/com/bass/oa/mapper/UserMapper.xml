@@ -3,11 +3,11 @@
 <mapper namespace="com.bass.oa.mapper.UserMapper">
 	<!-- 查询 -->
 	<select id="getUserByUserName" parameterType="userModel" resultType="userModel">
-		SELECT userId, userName, password, loginCount, loginDate, createdDate
+		SELECT userId, userName, password, enabled, loginCount, series, loginDate, expiredDate, createdDate
 		FROM tbUser WHERE userName=#{userName}
 	</select>
 	<select id="getUserByToken" parameterType="string" resultType="userModel">
-		SELECT userId, userName, password, loginCount, loginDate, createdDate
+		SELECT userId, userName, password, enabled, loginCount, series, loginDate, expiredDate, createdDate
 		FROM tbUser WHERE token=#{token}
 	</select>
 	
@@ -17,5 +17,9 @@
 	
 	<update id="updateLoginUser" parameterType="userModel">
 		UPDATE tbUser SET token=#{token}, series=#{series}, expiredDate=#{expiredDate}, loginDate=#{loginDate} WHERE userId=#{userId}
+	</update>
+	
+	<update id="updateLogoutUser" parameterType="int">
+		UPDATE tbUser SET token=null, series=null, expiredDate=null WHERE userId=#{userId}
 	</update>
 </mapper>

@@ -2,11 +2,11 @@ USE oa
 GO
 
 --用户表
---SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='oa' AND TABLE_NAME='userinfo'
 CREATE TABLE IF NOT EXISTS tbUser(
 	userId INT PRIMARY KEY auto_increment,
 	userName VARCHAR(20) UNIQUE,
 	password VARCHAR(100) NOT NULL,
+	enabled TINYINT(1) DEFAULT TRUE,
 	loginCount INT,	--登录次数
 	loginDate DATETIME,	--登录时间
 	expiredDate DATETIME,	--token过期时间
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS tbUser(
 	createdDate DATETIME
 )engine=innodb DEFAULT charset=utf8 auto_increment=1;
 
-INSERT INTO tbUser(userName, password, createdDate) VALUES('admin', 'dbb9d59223a6b90a075acc65aad5a637a39379e96a56481bcd205810db435515', now());
+INSERT INTO tbUser(userName, password, createdDate) VALUES('admin', 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892', now());
 
 --日常用药量
 CREATE TABLE IF NOT EXISTS tbDailyDose(

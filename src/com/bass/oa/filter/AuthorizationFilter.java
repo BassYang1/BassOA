@@ -43,7 +43,7 @@ public class AuthorizationFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		UserModel user = (UserModel)_context.getSessionValue(Constant.USER_SESSION);
+		UserModel user = (UserModel)_context.getSessionValue(Constant.SESSION_USER);
 		String url = ((HttpServletRequest)request).getRequestURI();
 		
 		if(user == null || !isExcludedUrl(url)){

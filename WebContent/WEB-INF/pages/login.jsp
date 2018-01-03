@@ -65,7 +65,7 @@
 					<i class="glyphicon glyphicon-user"></i>&nbsp;用户登录
 				</div>
 				<div class="panel-box-content">
-					<form:form id="frmUserLogin" method="POST" commandName="user" action="${pageContext.request.contextPath}/user/login.do">						
+					<form:form id="frmUserLogin" method="POST" commandName="user" action="${pageContext.request.contextPath }/user/login.do?${pageContext.request.queryString }">						
 						<div class="text-error form-msg">${error}</div>
 						<div class="form-group">
 							<input type="text" class="form-control" id="userName" name="userName"

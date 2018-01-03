@@ -1,5 +1,7 @@
 package com.bass.oa.controller;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bass.oa.core.AppUtil;
 import com.bass.oa.core.Constant;
 import com.bass.oa.model.MyResult;
 import com.bass.oa.model.po.UserModel;
@@ -40,12 +43,12 @@ public class UserController extends BaseController {
 			return "login";
 		}
 		
-		UserModel user = _userService.login(userLoginInfo);
+		MyResult<UserModel> myResult = _userService.login(userLoginInfo);
+		UserModel user = myResult.getData();
 		
 		if(user == null){
-			String error = _context.getError();
-			_logger.debug(error);
-			model.addAttribute("error", error);
+			_logger.debug(myResult.getMessage());
+			model.addAttribute("error", myResult.getMessage());
 			return "login";
 		}
 		
@@ -57,15 +60,15 @@ public class UserController extends BaseController {
 
 		//添加cookie
 		if(userLoginInfo.isRememberme()){
-			_context.addCookie(Constant.USER_TOKEN, user.getToken());
-			_context.addCookie(Constant.USER_LOGIN_NAME, user.getUserName());
+			_context.addCookie(Constant.COOKIE_USER_TOKEN, user.getToken());
+			_context.addCookie(Constant.COOKIE_USER_LOGIN_NAME, user.getUserName());
 		}
 
 		//存储到session中
-		_context.getSession().setAttribute(Constant.USER_SESSION, user);
+		_context.getSession().setAttribute(Constant.SESSION_USER, user);
 
 		//页面跳转
-		String callback = _context.getRequest().getParameter(Constant.LOGIN_CALLBACK);
+		String callback = _context.getRequest().getParameter(Constant.PARAM_LOGIN_CALLBACK);
 		
 		if(StringUtils.isNotBlank(callback)){
 			return String.format("redirect:%s", callback);
@@ -74,6 +77,33 @@ public class UserController extends BaseController {
 		return "redirect:/index.do";
 	}
 	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logout() throws UnsupportedEncodingException{
+		UserModel user = (UserModel)_context.getSession().getAttribute(Constant.SESSION_USER);
+		int userId = user == null ? 0 : user.getUserId();
+		
+		if(userId <= 0){
+			String token = _context.getCookieValue(Constant.COOKIE_USER_TOKEN);
+			
+			if(StringUtils.isNotBlank(token)){
+				String userName = AppUtil.base64Decode(token).split(Constant.SEPARATE_USER_TOKEN)[0];
+				user = _userService.getUserByToken(token).getData();				
+				userId = user == null || user.getUserName().equals(userName) ? 0 : user.getUserId();
+			}
+		}
+		
+		if(userId > 0){
+			_logger.debug(_context.getMessage("oa.user.logout"));
+			_logger.debug(user);
+			_userService.logout(userId);
+		}
+		
+		_context.removeCookie(Constant.COOKIE_USER_TOKEN);
+		_context.removeCookie(Constant.COOKIE_USER_LOGIN_NAME);
+		_context.getSession().removeAttribute(Constant.SESSION_USER);
+		
+		return "redirect:/login.do";
+	}
 	@RequestMapping(value = "/{userId}/detail")
 	public ModelAndView showDetail(@PathVariable("userId") int id){
 		UserModel user = _userService.getUserById(id);
@@ -82,7 +112,7 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/detail")
 	public ModelAndView showDetail(@CookieValue (value = "userToken", required = false) String token){
-		UserModel user = _userService.getUserByToken(token);
+		UserModel user = _userService.getUserByToken(token).getData();
 		return new ModelAndView("user/detail", "user", user);
 	}
 		

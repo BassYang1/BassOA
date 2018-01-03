@@ -6,13 +6,28 @@ public class MyResult<T> {
 	private int code;
 	private T data;
 	
+	public MyResult(){
+		this.status = false;
+		this.message = "";
+		this.data = null;
+	}
+	
 	public MyResult(boolean status){
 		this.status = status;
+		this.message = "";
+		this.data = null;
 	}
 
-	public MyResult(boolean status, int code){
+	public MyResult(boolean status, String message){
 		this.status = status;
-		this.code = code;
+		this.message = message;
+		this.data = null;
+	}
+	
+	public MyResult(boolean status, T data){
+		this.status = status;
+		this.message = "";
+		this.data = data;
 	}
 	
 	public String getMessage(){

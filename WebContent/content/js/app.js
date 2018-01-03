@@ -16,6 +16,11 @@ com.api = {};
 //定义初使化参数
 com.init = {};
 (function(init, undefined) {
+	init.style = function(){
+		//用户菜单样式产设置
+		$(".dropdown-menu").css("min-width", $(".user-menu").width());
+	}
+	
 	//站点domain
 	init.domain = $.trim(appDomain);
 })(com.init);

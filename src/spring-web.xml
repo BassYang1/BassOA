@@ -86,7 +86,7 @@
 			<mvc:mapping path="/**" />
 
 			<!-- 排除不需要拦截的请求 -->
-			<mvc:exclude-mapping path="/**/login.do" />
+			<mvc:exclude-mapping path="/user/logout.do" />
 			<mvc:exclude-mapping path="/user/test.do" />
 			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
 			<!-- 1) 手动注入bean -->

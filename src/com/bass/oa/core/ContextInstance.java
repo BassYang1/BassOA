@@ -133,6 +133,10 @@ public class ContextInstance {
 		
 		Cookie[] cookies = getRequest().getCookies();
 		
+		if(cookies == null){
+			return null;
+		}
+		
 		for(Cookie cookie : cookies){
 			if(cookie.getName().equalsIgnoreCase(name)){
 				return cookie;
