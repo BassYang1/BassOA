@@ -1,8 +1,11 @@
 <%@ page pageEncoding="utf-8"%>
 <ul class="nav nav-list">
-	<li data-html="index"><a href="index.html"> <i
-			class="nav-icon fa fa-tachometer"></i> <span class="menu-text">Dashboard</span>
-	</a></li>
+	<li data-html="index">
+		<a href="${pageContext.request.contextPath }/index.do"> 
+			<i class="nav-icon fa fa-tachometer"></i> 
+			<span class="menu-text">Dashboard</span>
+		</a>
+	</li>
 	<li data-html="jqueryui"><a href="jqueryui.html"> <i
 			class="nav-icon fa fa-magnet"></i> <span class="menu-text">Jquery
 				UI</span>

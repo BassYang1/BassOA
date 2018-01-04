@@ -14,7 +14,7 @@ public class Constant {
 	/*
 	 * session name
 	 */
-	public final static String SESSION_USER = "logined_user";
+	public final static String SESSION_USER = "user";
 	
 	/*
 	 * cookie token 分隔符

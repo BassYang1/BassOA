@@ -16,7 +16,7 @@
 		<li class="bg-blue dropdown user-menu">
 			<a id="userMenu" data-target="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
 				<img class="nav-img" src="img/img-1.jpg">
-				<span class="fwhite">Andy</span> 
+				<span class="fwhite">${sessionScope.user.name }</span> 
 				<i class="fa fa-angle-down nav-icon"></i>
 			</a>
 			<ul class="dropdown-menu" aria-labelledby="userMenu">

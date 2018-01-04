@@ -26,6 +26,11 @@ public class UserModel extends BaseModel {
 	private Date loginDate;
 	
 	/*
+	 * 用户名
+	 */
+	private String name;
+	
+	/*
 	 * 登录失败次数
 	 */
 	private int loginCount;
@@ -55,6 +60,14 @@ public class UserModel extends BaseModel {
 
 	public String getUserName() {
 		return this.userName;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return this.name;
 	}
 
 	public void setPassword(String password) {
