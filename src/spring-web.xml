@@ -21,7 +21,7 @@
 	<mvc:annotation-driven />
 	
 	<!-- 无需handler处理的页面 -->
-	<mvc:view-controller path="/login.do" view-name="login" />
+	<mvc:view-controller path="/user/login.do" view-name="login" />
 	<mvc:view-controller path="/index.do" view-name="index" />
 	
 	<!-- model 验证 -->

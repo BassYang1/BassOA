@@ -102,8 +102,15 @@ public class UserController extends BaseController {
 		_context.removeCookie(Constant.COOKIE_USER_LOGIN_NAME);
 		_context.getSession().removeAttribute(Constant.SESSION_USER);
 		
-		return "redirect:/login.do";
+		return "redirect:/user/login.do";
 	}
+	
+	@RequestMapping(value="forgetPwd", method = RequestMethod.GET)
+	public String forgetPassword(){
+		
+		return "reditect:/login.do";
+	}
+	
 	@RequestMapping(value = "/{userId}/detail")
 	public ModelAndView showDetail(@PathVariable("userId") int id){
 		UserModel user = _userService.getUserById(id);
