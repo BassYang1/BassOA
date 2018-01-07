@@ -54,7 +54,7 @@ public class UserService extends BaseService implements IUserService {
 		}
 		
 		if(user.isEnabled() == false){
-			result.setMessage(_context.getMessage("oa.login.user.invalid"));
+			result.setMessage(_context.getMessage("Invalid.user.account"));
 			return result;
 		}
 		
@@ -66,6 +66,33 @@ public class UserService extends BaseService implements IUserService {
 			return result;
 		}
 		
+		result = new MyResult<UserModel>(true, user);		
+		return result;
+	}
+
+	/*
+	 * 根据User email获取用户详细
+	 */
+	@Override
+	public MyResult<UserModel> getUserByEmail(String email) {
+		MyResult<UserModel> result = new MyResult<UserModel>();
+		
+		if(StringUtils.isBlank(email)){
+			return result;
+		}
+		
+		UserModel user = _userMapper.getUserByEmail(email);
+		
+		if(user == null){
+			result.setMessage(_context.getMessage("Email.user.email"));
+			return result;
+		}
+		
+		if(user.isEnabled() == false){
+			result.setMessage(_context.getMessage("Invalid.user.account"));
+			return result;
+		}
+
 		result = new MyResult<UserModel>(true, user);		
 		return result;
 	}

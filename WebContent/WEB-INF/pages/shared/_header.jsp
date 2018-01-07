@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ page import="com.bass.oa.core.Constant" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
@@ -25,6 +26,7 @@
 
 <script>
 	var appDomain = "${pageContext.request.contextPath}";
+	var tokenCookie = "<%=Constant.COOKIE_USER_TOKEN%>";
 </script>
 
 <script

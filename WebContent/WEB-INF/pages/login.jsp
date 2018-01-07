@@ -67,15 +67,21 @@
 				<div class="panel-box-content">
 					<form:form id="frmUserLogin" method="POST" commandName="user" action="${pageContext.request.contextPath }/user/login.do?${pageContext.request.queryString }">						
 						<div class="text-error form-msg">${error}</div>
-						<div class="form-group">
+						<div class="form-group">	
+							<div><label>用户名</label></div>
+							<div>
 							<input type="text" class="form-control" id="userName" name="userName"
 								placeholder="请输入用户名" />
 								<div class="text-error userName-msg"><form:errors path="userName" /></div>
+							</div>
 						</div>
 						<div class="form-group">
+							<div><label>密码</label></div>
+							<div>
 							<input type="password" class="form-control" id="password" name="password"
 								placeholder="请输入用户密码" />
 								<div class="text-error password-msg"><form:errors path="password" /></div>
+							</div>
 						</div>
 						<div class="form-group checkbox">
 							<label><input type="checkbox" id="rememberme" name="rememberme" />记住我
@@ -83,7 +89,7 @@
 						</div>
 						<div class="form-group">
 							<button class="btn btn-primary btn-block btn-submit">登录 >></button>
-							<span><a href="#" class="pull-right">忘记密码?</a></span>
+							<span><a href="${pageContext.request.contextPath }/user/forgetPwd.do" class="pull-right">忘记密码?</a></span>
 						</div>
 					</form:form>
 				</div>

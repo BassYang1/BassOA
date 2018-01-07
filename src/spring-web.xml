@@ -21,7 +21,6 @@
 	<mvc:annotation-driven />
 	
 	<!-- 无需handler处理的页面 -->
-	<mvc:view-controller path="/user/login.do" view-name="login" />
 	<mvc:view-controller path="/index.do" view-name="index" />
 	
 	<!-- model 验证 -->
@@ -39,15 +38,15 @@
 		<!-- 国际化信息所在的文件名: 文件夹.文件前缀 -->
 		<!-- 默认使用messages/messages.properties文件 -->
 		<!-- <property name="basename" value="messages.labels" /> -->
-		<property name="basenames" value="resource.validation,resource.labels" />
+		<property name="basenames" value="resource.labels" />
 		<!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称 -->
 		<property name="useCodeAsDefaultMessage" value="true" />
 	</bean>
 	
 	<!-- 在用户区域固定不需要更改的环境中，可以设置固定的默认的区域语言 -->  
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">  
-	    <property name="defaultLocale" value="en_US" />
-	    <!-- <property name="defaultLocale" value="zh_CN" /> -->
+	    <!-- <property name="defaultLocale" value="en_US" /> -->
+	    <property name="defaultLocale" value="zh_CN" />
 	</bean>
 	
 	<!-- 需要在界面上进行切换（session方式） --> 
@@ -87,6 +86,8 @@
 
 			<!-- 排除不需要拦截的请求 -->
 			<mvc:exclude-mapping path="/user/logout.do" />
+			<mvc:exclude-mapping path="/user/forgetPwd.do" />
+			<mvc:exclude-mapping path="/user/sendCaptcha.do" />
 			<mvc:exclude-mapping path="/user/test.do" />
 			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
 			<!-- 1) 手动注入bean -->

@@ -24,8 +24,47 @@
 </style>
 <script>
 	$(function() {
-		$("#userName, #password").focus(function(){
-			$(".userName-msg, .password-msg, .form-msg").text("");
+		$(".btn-captcha").click(function(){
+			var email = $.trim($("#email").val());
+			
+			if(email == "" || !com.checkEmail(email)){
+				$(".email-msg").text("<spring:message code="Email.captcha.email"/>");
+				return;
+			}
+			
+			$.post("${pageContext.request.contextPath }/user/sendCaptcha.do", {email: email}).then(
+				function(res){
+					if(rest = null || res == ""){
+						var msg = "<spring:message code="captcha.send.again" />";
+						var sec = 60;
+						$(".captcha-success").html(msg.replace(/\\$\d?\\$/i, sec));
+						$(".btn-captcha").hide();
+						$(".captcha-success").show();
+						
+						var timer = window.setInterval(function(){
+							$(".captcha-success").html(msg.replace(/\\$\d?\\$/i, --sec));
+							
+							if(sec <= 0){
+								if(timer != null){
+									$(".btn-captcha").show();
+									$(".captcha-success").hide();
+									window.clearInterval(timer);
+								}
+							}
+						}, 1000);
+					}
+					else{
+						$(".form-msg").text(res);
+					}
+				}, 
+				function(p1, p2, p3){
+					$(".form-msg").text(p3);
+				}
+			);
+		});
+		
+		$("#email, #captcha").focus(function(){
+			$(".email-msg, .captcha-msg, .form-msg").text("");
 		});
 		
 		$(".btn-submit").click(
@@ -58,20 +97,28 @@
 		<div class="container">
 			<div class="panel-box login-form">
 				<div class="panel-box-title login-form-title">
-					<i class="glyphicon glyphicon-user"></i>&nbsp;忘记密码
+					<i class="glyphicon glyphicon-lock"></i>&nbsp;忘记密码
 				</div>
 				<div class="panel-box-content">
 					<form:form id="frmUserLogin" method="POST" commandName="captcha" action="${pageContext.request.contextPath }/user/checkCaptcha.do?${pageContext.request.queryString }">						
 						<div class="text-error form-msg">${message}</div>
-						<div class="form-group">
-							<input type="text" class="form-control" id="email" name="email"
+						<div class="form-group">				
+							<div><label>邮箱</label></div>
+							<div>
+							<input type="email" class="form-control" id="email" name="email"
 								placeholder="请输入用户邮箱" />
-								<div class="text-error userName-msg"><form:errors path="userName" /></div>
+								<div class="text-error email-msg"><form:errors path="email" /></div>
+							</div>
 						</div>
-						<div class="form-group">
-							<input type="password" class="form-control" id="captcha" name="captcha"
+						<div class="form-group">							
+							<div><label>验证码</label></div>
+							<div>
+							<input type="text" class="form-control" style="width:40%; display:inline;" id="captcha" name="captcha"
 								placeholder="请输入验证码" />
-								<div class="text-error password-msg"><form:errors path="password" /></div>
+								<a class="btn btn-link btn-captcha">发送验证码</a>
+								<span class="captcha-success"></span>
+								<div class="text-error captcha-msg"><form:errors path="captcha" /></div>
+							</div>
 						</div>
 						<div class="form-group">
 							<button class="btn btn-primary btn-block btn-submit">确认 >></button>

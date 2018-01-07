@@ -3,6 +3,7 @@ package com.bass.oa.controller;
 import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bass.oa.core.AppUtil;
@@ -106,9 +108,26 @@ public class UserController extends BaseController {
 	}
 	
 	@RequestMapping(value="forgetPwd", method = RequestMethod.GET)
-	public String forgetPassword(){
+	public String forgetPassword(){		
+		return "/user/forgetPwd";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="sendCaptcha", method = RequestMethod.POST)
+	public String sendCaptcha(String email){
+		if(StringUtils.isEmpty(email) || !AppUtil.checkEmail(email)){
+			_logger.debug(_context.getMessage("Email.captcha.email"));
+			return _context.getMessage("Email.captcha.email");
+		}
+
+		MyResult<UserModel> myResult = _userService.getUserByEmail(email);
 		
-		return "reditect:/login.do";
+		if(StringUtils.isNotBlank(myResult.getMessage())){
+			_logger.debug(myResult.getMessage());
+			return myResult.getMessage();
+		}
+		
+		return "";
 	}
 	
 	@RequestMapping(value = "/{userId}/detail")

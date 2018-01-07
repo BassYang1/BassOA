@@ -10,6 +10,10 @@
 		SELECT userId, userName, password, name, enabled, loginCount, series, loginDate, expiredDate, createdDate
 		FROM tbUser WHERE token=#{token}
 	</select>
+	<select id="getUserByEmail" parameterType="string" resultType="userModel">
+		SELECT userId, userName, password, name, enabled, loginCount, series, loginDate, expiredDate, createdDate
+		FROM tbUser WHERE email=#{email}
+	</select>
 	
 	<update id="updateLoginLimit" parameterType="userModel">
 		UPDATE tbUser SET loginCount=#{loginCount}, loginDate=#{loginDate} WHERE userId=#{userId}

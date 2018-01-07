@@ -2,6 +2,25 @@
  * @description 各种接口变量
 ===============================================================================================*/
 var com = {};
+
+(function(com, undefined){
+	//验证邮箱
+	com.checkEmail = function(val){
+		if(val == undefined || val == "" || typeof val != "string"){
+			return false;
+		}
+		
+		var reg = /^\w|\.+@\w+\.\w+$/g;
+		return reg.test(val);
+	};
+	
+	com.getToken = function(){
+		if(tokenCookie){
+			
+		}
+	};
+})(com);
+
 com.api = {};
 
 (function(api, undefined) {
@@ -19,7 +38,7 @@ com.init = {};
 	init.style = function(){
 		//用户菜单样式产设置
 		$(".dropdown-menu").css("min-width", $(".user-menu").width());
-	}
+	};
 	
 	//站点domain
 	init.domain = $.trim(appDomain);

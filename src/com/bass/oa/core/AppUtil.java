@@ -3,9 +3,12 @@ package com.bass.oa.core;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class AppUtil {
 	/*
@@ -125,5 +128,19 @@ public class AppUtil {
      * */
     public static String sha256Hex(String data){
         return DigestUtils.sha256Hex(data);
+    }
+    
+    /*
+     * 验证邮箱
+     */
+    public static boolean checkEmail(String val){
+    	if(StringUtils.isEmpty(val)){
+    		return false;
+    	}
+    	
+    	Pattern pattern = Pattern.compile("^\\w|\\.+@\\w+\\.\\w+$");
+    	Matcher matcher = pattern.matcher(val);
+    	
+    	return matcher.find();    	
     }
 }

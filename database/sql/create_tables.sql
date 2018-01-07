@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS tbUser(
 	userName VARCHAR(20) UNIQUE,
 	password VARCHAR(100) NOT NULL,
 	name VARCHAR(20) NOT NULL,
+	email VARCHAR(50) NOT NULL,
 	enabled TINYINT(1) DEFAULT TRUE,
 	loginCount INT,	--登录次数
 	loginDate DATETIME,	--登录时间
@@ -16,7 +17,7 @@ CREATE TABLE IF NOT EXISTS tbUser(
 	createdDate DATETIME
 )engine=innodb DEFAULT charset=utf8 auto_increment=1;
 
-INSERT INTO tbUser(loginName, password, name, createdDate) VALUES('admin', 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892', 'AdminUser', now());
+INSERT INTO tbUser(userName, password, name, email, createdDate) VALUES('admin', 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892', 'AdminUser', '672836012@qq.com',now());
 
 --日常用药量
 CREATE TABLE IF NOT EXISTS tbDailyDose(

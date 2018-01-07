@@ -16,6 +16,11 @@ public interface IUserService {
 	public UserModel getUserById(int id);	
 
 	/*
+	 * 根据User email获取用户详细
+	 */
+	public MyResult<UserModel> getUserByEmail(String email);	
+
+	/*
 	 * 用户登录
 	 */
 	public MyResult<UserModel> login(UserLoginModel model);

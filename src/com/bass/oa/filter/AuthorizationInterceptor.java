@@ -42,7 +42,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 		//重新登录
 		if(!request.getRequestURI().endsWith("/login.do") && user == null){
 			String callback = request.getRequestURL().toString();
-			String dispatcherUrl = String.format("%s/login.do?%s=%s", request.getContextPath(), Constant.PARAM_LOGIN_CALLBACK, callback);
+			String dispatcherUrl = String.format("%s/user/login.do?%s=%s", request.getContextPath(), Constant.PARAM_LOGIN_CALLBACK, callback);
 			_logger.debug(request.getRequestURL().toString());
 			_logger.debug(request.getRequestURI());
 			//request.getRequestDispatcher(dispatcherUrl).forward(request, response);
