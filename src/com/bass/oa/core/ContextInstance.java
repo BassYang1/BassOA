@@ -173,11 +173,19 @@ public class ContextInstance {
 			getResponse().addCookie(cookie);
 		}
 	}
+	
 	/*
 	 * 获取Spring国际化信息
 	 */
 	public String getMessage(String code){
 		return getRequestContext().getMessage(code);
+	}
+
+	/*
+	 * 获取Spring国际化信息
+	 */
+	public String getMessage(String code, Object[] args){
+		return getRequestContext().getMessage(code, args);
 	}
 	
 	/*

@@ -14,7 +14,7 @@
 	</jsp-config>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext-bean.xml,classpath:applicationContext-myBatis.xml</param-value>
+		<param-value>classpath:applicationContext-bean.xml,classpath:applicationContext-myBatis.xml,classpath:applicationContext-ehcache.xml</param-value>
 	</context-param>
 
 	<context-param>
@@ -71,6 +71,7 @@
 
 	<welcome-file-list>
 		<welcome-file>index.do</welcome-file>
+		<!-- <welcome-file>/WEB-INF/pages/login.jsp</welcome-file> -->
 	</welcome-file-list>
 
 	<!-- 激活Tomcat的defaultServlet来处理静态文件 -->

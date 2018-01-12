@@ -25,6 +25,9 @@
 <script>
 	$(function() {
 		$(".btn-captcha").click(function(){
+			$(".text-error").text("");
+			$(this).removeAttr("disabled");
+			
 			var email = $.trim($("#email").val());
 			
 			if(email == "" || !com.checkEmail(email)){
@@ -34,6 +37,8 @@
 			
 			$.post("${pageContext.request.contextPath }/user/sendCaptcha.do", {email: email}).then(
 				function(res){
+					$(this).removeAttr("disabled");
+					
 					if(rest = null || res == ""){
 						var msg = "<spring:message code="captcha.send.again" />";
 						var sec = 60;
@@ -58,17 +63,21 @@
 					}
 				}, 
 				function(p1, p2, p3){
+					$(this).attr("disabled", false);
+					
 					$(".form-msg").text(p3);
 				}
 			);
 		});
 		
 		$("#email, #captcha").focus(function(){
-			$(".email-msg, .captcha-msg, .form-msg").text("");
+			$(".text-error").text("");
 		});
 		
 		$(".btn-submit").click(
 			function() {
+				$(".text-error").text("");
+				
 				var doSubmit = true;
 	
 				if ($.trim($("#userName").val()) == "") {

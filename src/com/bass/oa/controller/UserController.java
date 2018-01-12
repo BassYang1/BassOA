@@ -1,6 +1,7 @@
 package com.bass.oa.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +25,7 @@ import com.bass.oa.core.Constant;
 import com.bass.oa.model.MyResult;
 import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
+import com.bass.oa.service.IMailService;
 import com.bass.oa.service.IUserService;
 
 @Controller
@@ -31,6 +33,13 @@ import com.bass.oa.service.IUserService;
 public class UserController extends BaseController {	
 	@Autowired
 	private IUserService _userService;
+	
+	@Autowired
+	private IMailService _mailService;
+	
+
+	@Autowired
+	private IMailService _mailService2;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
@@ -112,22 +121,32 @@ public class UserController extends BaseController {
 		return "/user/forgetPwd";
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="sendCaptcha", method = RequestMethod.POST)
-	public String sendCaptcha(String email){
+	@RequestMapping(value="sendCaptcha", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+	public @ResponseBody String sendCaptcha(String email){
 		if(StringUtils.isEmpty(email) || !AppUtil.checkEmail(email)){
 			_logger.debug(_context.getMessage("Email.captcha.email"));
 			return _context.getMessage("Email.captcha.email");
 		}
 
-		MyResult<UserModel> myResult = _userService.getUserByEmail(email);
+		return "测试信息";
+		/*//查找用户
+		MyResult myResult = _userService.getUserByEmail(email);
 		
 		if(StringUtils.isNotBlank(myResult.getMessage())){
 			_logger.debug(myResult.getMessage());
 			return myResult.getMessage();
 		}
 		
-		return "";
+		//生成验证码
+		String code = AppUtil.getRandomNum(4);
+		myResult = _mailService.sendSimpleText(new String[] { email }, "修改密码验证码", String.format("你的验证码是%s", code));
+
+		if(StringUtils.isNotBlank(myResult.getMessage())){
+			_logger.debug(myResult.getMessage());
+			return myResult.getMessage();
+		}
+		
+		return "";*/
 	}
 	
 	@RequestMapping(value = "/{userId}/detail")

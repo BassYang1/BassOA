@@ -8,12 +8,15 @@
 	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 	
     <context:component-scan base-package="com.bass.wxin.service"></context:component-scan>
-    <context:property-placeholder location="classpath:resource/config.properties,classpath:resource/log4j.properties,classpath:resource/jdbc.properties" />
+    <context:property-placeholder location="classpath:resource/config.properties,classpath:resource/log4j.properties,classpath:resource/jdbc.properties,classpath:resource/mail.properties" />
                 
 	<bean id="testService" class="com.bass.oa.service.impl.TestService" />
 	
 	<!-- 用户处理 -->
-	<bean id="userService" class="com.bass.oa.service.impl.UserService" />
+	<bean id="userService" class="com.bass.oa.service.impl.UserService" scope="prototype" />
+
+	<!-- 用户处理 -->
+	<bean id="mailService" class="com.bass.oa.service.impl.MailService" />
 
 	<!-- 登录验证 -->
 	<!-- <bean id="authFilter" class="com.bass.oa.filter.AuthorizationFilter">
@@ -21,4 +24,19 @@
 			<ref bean="userService" />
 		</property>
 	</bean> -->
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${mail.smtp.host}"></property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">25000</prop>
+				<prop key="mail.smtp.port">25</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+		<property name="username" value="${mail.username}"></property>
+		<property name="password" value="${mail.password}"></property>
+	</bean>
 </beans>

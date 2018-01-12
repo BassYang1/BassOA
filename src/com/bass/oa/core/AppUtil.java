@@ -3,6 +3,7 @@ package com.bass.oa.core;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -142,5 +143,23 @@ public class AppUtil {
     	Matcher matcher = pattern.matcher(val);
     	
     	return matcher.find();    	
+    }
+    
+    /*
+     * 获取指字长度的随机数字
+     */
+    public static String getRandomNum(int length){
+    	if(length <= 0){
+    		return "";
+    	}
+    	
+    	Random ran = new Random(System.currentTimeMillis());    	
+    	StringBuffer buf = new StringBuffer();
+    	
+    	for(int i = 0; i < length; i ++){
+    		buf.append(ran.nextInt(10 - i));
+    	}
+    	
+    	return buf.toString();
     }
 }

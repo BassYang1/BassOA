@@ -27,7 +27,7 @@ public class UserService extends BaseService implements IUserService {
 	@Value("${login.token.days ?: 1}")
 	private int _tokenDays;
 
-	@Value("${encrypt.salt ?: ''}")
+	@Value("${encrypt.salt ?: }")
 	private String _encryptSalt;
 	
 	private final static Logger _logger = Logger.getLogger(UserService.class);
