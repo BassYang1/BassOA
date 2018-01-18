@@ -3,6 +3,10 @@ package com.bass.oa.service.impl;
 import java.util.Date;
 import java.util.UUID;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
@@ -35,6 +39,33 @@ public class UserService extends BaseService implements IUserService {
 	@Autowired
 	private UserMapper _userMapper;
 
+	/*
+	 * 获取修改密码验证码
+	 */
+	/*@Cacheable(value="userCache", key="'getCaptcha4Pwd:' + #user.getUserName()")
+	public String getCaptcha4Pwd(UserModel user){
+		return AppUtil.getRandomNum(4);
+	}*/
+	public String getCaptcha4Pwd(UserModel user){
+		String captcha = null;
+		String key = String.format("getCaptcha4Pwd:%s", user.getUserName());
+		CacheManager cacheManager = CacheManager.newInstance();
+		Cache cache = cacheManager.getCache("oaCache");
+		
+		Element cacheItem = cache.get(key);
+		if(cacheItem != null && cacheItem.getObjectValue() != null){
+			captcha = (String)cacheItem.getObjectValue();
+		}
+		
+		if(StringUtils.isEmpty(captcha)){
+			captcha = AppUtil.getRandomNum(4);
+			cacheItem = new Element(key, captcha, 120, 120);
+			cache.put(cacheItem);
+		}
+		
+		return captcha;
+	}
+	
 	/*
 	 * 根据Token获取用户详细
 	 */

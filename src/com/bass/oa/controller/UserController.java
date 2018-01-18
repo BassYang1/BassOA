@@ -121,15 +121,15 @@ public class UserController extends BaseController {
 		return "/user/forgetPwd";
 	}
 	
-	@RequestMapping(value="sendCaptcha", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
-	public @ResponseBody String sendCaptcha(String email){
+	@RequestMapping(value="sendCaptcha4Pwd", method = RequestMethod.POST)
+	public @ResponseBody String sendCaptcha4Pwd(String email){
 		if(StringUtils.isEmpty(email) || !AppUtil.checkEmail(email)){
 			_logger.debug(_context.getMessage("Email.captcha.email"));
 			return _context.getMessage("Email.captcha.email");
 		}
 
-		return "测试信息";
-		/*//查找用户
+		
+		//查找用户
 		MyResult myResult = _userService.getUserByEmail(email);
 		
 		if(StringUtils.isNotBlank(myResult.getMessage())){
@@ -137,6 +137,11 @@ public class UserController extends BaseController {
 			return myResult.getMessage();
 		}
 		
+		String captcha = _userService.getCaptcha4Pwd((UserModel)myResult.getData());
+		System.out.println(captcha);
+		return captcha;
+		
+		/*
 		//生成验证码
 		String code = AppUtil.getRandomNum(4);
 		myResult = _mailService.sendSimpleText(new String[] { email }, "修改密码验证码", String.format("你的验证码是%s", code));

@@ -4,6 +4,32 @@
 var com = {};
 
 (function(com, undefined){
+	//清空message
+	com.clearMsg = function (selector){
+		if(selector){
+			$(selector).text("");
+			$(selector).html("");
+		}
+	}
+	
+	//禁用Button
+	com.offButton = function (selector){
+		if(selector){
+			$(selector).attr("disabled", true);
+			$(selector).addClass("disabled");
+			$(selector).click(null);
+		}
+	}
+	
+	//启用Button
+	com.onButton = function (selector, callfunc){
+		if(selector){
+			$(selector).removeAttr("disabled");
+			$(selector).removeClass("disabled");
+			$(selector).click(callfunc);
+		}
+	}
+	
 	//验证邮箱
 	com.checkEmail = function(val){
 		if(val == undefined || val == "" || typeof val != "string"){

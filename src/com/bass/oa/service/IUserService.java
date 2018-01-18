@@ -5,6 +5,12 @@ import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.model.MyResult;
 
 public interface IUserService {
+
+	/*
+	 * 获取修改密码验证码
+	 */
+	public String getCaptcha4Pwd(UserModel user);
+	
 	/*
 	 * 根据Token获取用户详细
 	 */
