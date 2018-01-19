@@ -30,5 +30,6 @@
 </script>
 
 <script
-	src="${pageContext.request.contextPath}/content/js/app.js"></script>
+	src="${pageContext.request.contextPath}/content/js/app.js">	
+	</script>
 </head>

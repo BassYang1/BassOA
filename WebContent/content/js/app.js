@@ -4,31 +4,58 @@
 var com = {};
 
 (function(com, undefined){
+	com.post = function(url, data, async, success, fail){
+		//获取触发事件
+		var event = window.event || arguments.callee.caller.arguments[0]; 
+		
+		if($.trim(url) == "" || event == null){
+			return null;
+		}
+
+		//事件处理函数(click)
+		var func = $(event.target).prop(event.type);
+		//禁用button，防止重复点击
+		com.offButton(event.target);
+		
+		$.when($.ajax({
+			url : url,
+			dataType : "JSON",
+			type : "POST",
+			data : data
+		}))
+		.done(success)
+		.fail(fail)
+		.then(function(data) {
+			//取消禁用
+			com.onButton(event.target, func);
+		});
+	};
+	
 	//清空message
 	com.clearMsg = function (selector){
 		if(selector){
 			$(selector).text("");
 			$(selector).html("");
 		}
-	}
+	};
 	
 	//禁用Button
-	com.offButton = function (selector){
-		if(selector){
-			$(selector).attr("disabled", true);
-			$(selector).addClass("disabled");
-			$(selector).click(null);
+	com.offButton = function (button){
+		if(button){
+			$(button).attr("disabled", true);
+			$(button).addClass("disabled");
+			$(button).click(function(){});
 		}
-	}
+	};
 	
 	//启用Button
-	com.onButton = function (selector, callfunc){
-		if(selector){
-			$(selector).removeAttr("disabled");
-			$(selector).removeClass("disabled");
-			$(selector).click(callfunc);
+	com.onButton = function (button, func){
+		if(button){
+			$(button).removeAttr("disabled");
+			$(button).removeClass("disabled");
+			$(button).click(func);
 		}
-	}
+	};
 	
 	//验证邮箱
 	com.checkEmail = function(val){
@@ -37,6 +64,16 @@ var com = {};
 		}
 		
 		var reg = /^\w|\.+@\w+\.\w+$/g;
+		return reg.test(val);
+	};
+
+	//验证Url
+	com.checkUrl = function(val){
+		if(val == undefined || val == "" || typeof val != "string"){
+			return false;
+		}
+		
+		var reg = /^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/;
 		return reg.test(val);
 	};
 	

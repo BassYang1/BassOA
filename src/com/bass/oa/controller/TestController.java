@@ -12,11 +12,16 @@ import com.bass.oa.model.MyResult;
 
 @Controller
 //@ResponseBody
-@RequestMapping(value = "test")
+@RequestMapping(value = "")
 public class TestController {
-	@RequestMapping(value = "")
+	@RequestMapping(value = "test")
 	public String test() {
-		return "test";
+		return "test/test";
+	}
+
+	@RequestMapping(value = "test2")
+	public String test2() {
+		return "test/test2";
 	}
 	
 	/*public String test() {

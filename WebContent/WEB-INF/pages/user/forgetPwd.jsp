@@ -23,33 +23,6 @@
 
 </style>
 <script>
-Function.prototype.before = function(func){
-	var _self = this;
-	
-	return function(){
-		if(func.apply(this, arguments) === false){
-			return false;
-		}
-		
-		return _self.apply(this, arguments);
-	}
-};
-
-Function.prototype.after = function(func){
-	var _self = this;
-	
-	return function(){
-		var ret = _self.apply(this, arguments);
-		
-		if(ret == false){
-			return false;
-		}
-		
-		func.apply(this, arguments);
-		return ret;
-	}
-};
-
 	$(function() {
 		$(".btn-captcha").click(doSend);
 		
@@ -86,7 +59,6 @@ Function.prototype.after = function(func){
 		//发送验证码
 		function doSend() {
 			com.clearMsg(".text-error");
-			com.offButton(".btn-captcha");
 			
 			var email = $.trim($("#email").val());
 			
@@ -95,7 +67,38 @@ Function.prototype.after = function(func){
 				return;
 			}
 			
-			$.post("${pageContext.request.contextPath }/user/sendCaptcha4Pwd.do", {email: email}).then(
+			var success = function(res) {				
+				if(res == null || res == ""){
+					var msg = "<spring:message code="captcha.send.again" />";
+					var sec = 60;
+					$(".captcha-success").html(msg.replace(/\\$\d?\\$/i, sec));
+					$(".btn-captcha").hide();
+					$(".captcha-success").show();
+					
+					var timer = window.setInterval(function(){
+						$(".captcha-success").html(msg.replace(/\\$\d?\\$/i, --sec));
+						
+						if(sec <= 0){
+							if(timer != null){
+								$(".btn-captcha").show();
+								$(".captcha-success").hide();
+								window.clearInterval(timer);
+							}
+						}
+					}, 1000);
+				}
+				else{
+					$(".form-msg").text(res);
+				}
+			};
+			
+			var error = function(p1, p2, p3){				
+				$(".form-msg").text(p3);
+			};
+			
+			com.post("${pageContext.request.contextPath }/user/sendCaptcha4Pwd.do", {email: email}, false, success, error);
+			
+			/* $.post("${pageContext.request.contextPath }/user/sendCaptcha4Pwd.do", {email: email}).then(
 				function(res){
 					com.onButton(".btn-captcha", doSend);
 					
@@ -127,7 +130,7 @@ Function.prototype.after = function(func){
 					
 					$(".form-msg").text(p3);
 				}
-			);
+			); */
 		}
 	});
 </script>
