@@ -3,7 +3,20 @@ package com.mng.file;
 import java.util.ArrayList;
 import java.util.List; 
 import java.io.File;
+import java.util.Iterator;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+
+import com.drew.imaging.jpeg.JpegMetadataReader;
+import com.drew.imaging.jpeg.JpegProcessingException;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Tag;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
+
+//https://www.cnblogs.com/haha12/p/4679644.html
+//https://github.com/drewnoakes/metadata-extractor
+//http://files.cnblogs.com/files/haha12/readPic.rar
 
 public class FileHandler {
 	private int count;
@@ -11,6 +24,9 @@ public class FileHandler {
 	private SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
 	private String prefix;
 	private List renamedFiles = new ArrayList();
+
+	public FileHandler(){
+	}
 	
 	public FileHandler(String prefix){
 		this.prefix = prefix;
@@ -19,8 +35,16 @@ public class FileHandler {
 	public void setPrefix(String prefix){
 		this.prefix = prefix;
 	}
+
+	public void mkdirs(String dirName){
+		File dir = new File(dirName);
+		
+        if (dir.exists() == false) {  
+        	dir.mkdirs();
+        }    
+	}
 	
-	public void RenameFile(String path){
+	public void RenameFile(String path) throws JpegProcessingException, IOException{
 		if(path.isEmpty()){
 			System.out.println("无效的文件路径.");
 			return;
@@ -48,7 +72,8 @@ public class FileHandler {
 				File descFile;
 				
 				if(!tmpDate.equals(date)){
-					date = tmpDate;
+					date = getOriginalDate(srcFile);
+					date = date == null || date == "" ? tmpDate : date;
 					count = 0;
 				}
 				
@@ -60,11 +85,43 @@ public class FileHandler {
 				} while(descFile.exists() || renamedFiles.contains(newName));
 				
 				renamedFiles.add(newName);
-				
 				srcFile.renameTo(descFile);
 				System.out.println(newName);
 				//break;
 			}
 		}
 	}
+
+	private String getOriginalDate(File file) {
+        Metadata metadata;
+        try {
+            metadata = JpegMetadataReader.readMetadata(file);
+            Iterator<Directory> it = metadata.getDirectories().iterator();
+            while (it.hasNext()) {
+                Directory exif = it.next();
+                
+                if("ExifSubIFDDirectory".equalsIgnoreCase(exif.getClass().getSimpleName() )){
+                	String time2 = null;
+                	String time1 = exif.getString(ExifSubIFDDirectory.TAG_DATETIME);
+                	
+                	if(time1 != null && time1 != ""){
+	                    time2 = time1.replace( ":","");  
+	                    return time2.substring(0, 7);
+                	}
+                	
+                	time1 = exif.getString(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL); 
+                	if(time1 != null && time1 != ""){
+	                    time2 = time1.replace( ":","");  
+	                    return time2.substring(0, 7);
+                	}
+                }
+            }
+        } catch (JpegProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    } 
 }
