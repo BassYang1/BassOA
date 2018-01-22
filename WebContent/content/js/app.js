@@ -44,7 +44,7 @@ var com = {};
 		if(button){
 			$(button).attr("disabled", true);
 			$(button).addClass("disabled");
-			$(button).click(function(){});
+			$(button).off( "click");
 		}
 	};
 	

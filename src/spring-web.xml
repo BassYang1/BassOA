@@ -105,6 +105,7 @@
 			<mvc:exclude-mapping path="/user/logout.do" />
 			<mvc:exclude-mapping path="/user/forgetPwd.do" />
 			<mvc:exclude-mapping path="/user/sendCaptcha4Pwd.do" />
+			<mvc:exclude-mapping path="/user/resetPwd.do" />
 			<mvc:exclude-mapping path="/**/test*.do" />
 			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
 			<!-- 1) 手动注入bean -->

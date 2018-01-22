@@ -7,9 +7,10 @@
 	String pageTitle = (String)request.getAttribute("pageTitle");
 
 	if(pageTitle == "" || pageTitle == ""){
-		request.setAttribute("pageTitle", "邮箱验证");
+		request.setAttribute("pageTitle", "重置密码");
 	}
 %>
+
 <%@ include file="../shared/_header.jsp"%>
 <style>
 .login-form {    
@@ -30,36 +31,40 @@
 
 </style>
 <script>
-	$(function() {		
+	$(function() {
+		$(".btn-captcha").click(doSend);
+		
 		$("#email, #captcha").focus(function(){
 			$(".text-error").text("");
 		});
 		
-		//提交请求
 		$(".btn-submit").click(
 			function() {
 				$(".text-error").text("");
 				
-				var doSubmit = true;captcha
-				var email = $.trim($("#email").val());
-				var captcha = $.trim($("#captcha").val());
-				
-				if(email == "" || !com.checkEmail(email)){
-					$(".email-msg").text("<spring:message code="Email.captcha.email"/>");
+				var doSubmit = true;
+	
+				if ($.trim($("#userName").val()) == "") {
+					$(".userName-msg").text("<spring:message code="NotEmpty.user.userName"/>");
 					doSubmit = false;
 				}
 
-				if (captcha == "") {
-					$(".captcha-msg").text("<spring:message code="NotEmpty.captcha.captcha"/>");
+				if ($.trim($("#password").val()) == "") {
+					$(".password-msg").text("<spring:message code="NotEmpty.user.password"/>");
 					doSubmit = false;
 				}
-								
+				
+				if(doSubmit == false){
+					$(".form-msg").text("<spring:message code="user.login.validation.error"/>");
+				}
+				
+				$("#rememberme").val($("#rememberme").is(":checked") ? true : false);
+				
 				return doSubmit;
 			}
 		);
 		
 		//发送验证码
-		$(".btn-captcha").click(doSend);
 		function doSend() {
 			com.clearMsg(".text-error");
 			
@@ -113,22 +118,20 @@
 					<i class="glyphicon glyphicon-lock"></i>&nbsp;忘记密码
 				</div>
 				<div class="panel-box-content">
-					<form:form id="frmCaptcha" method="POST" commandName="captcha" action="${pageContext.request.contextPath }/user/forgetPwd.do">						
+					<form:form id="frmPwd" method="POST" commandName="password" action="${pageContext.request.contextPath }/user/resetPwd.do">						
 						<div class="text-error form-msg">${error}</div>
 						<div class="form-group">				
-							<div><form:label path="email">邮箱</form:label></div>
+							<div><form:label path="password">新密码</form:label></div>
 							<div>
-								<form:input path="email" type="email" class="form-control" placeholder="请输入用户邮箱" />								
-								<div class="text-error email-msg"><form:errors path="email" /></div>
+								<form:password  path="password" class="form-control" placeholder="请输入用户密码" />								
+								<div class="text-error password-msg"><form:errors path="password" /></div>
 							</div>
 						</div>
 						<div class="form-group">							
-							<div><form:label path="captcha">验证码</form:label></div>
-							<div>
-								<form:input path="captcha" class="form-control" style="width:40%; display:inline;" placeholder="请输入验证码" />
-								<a class="btn btn-link btn-captcha">发送验证码</a>
-								<span class="captcha-success"></span>
-								<div class="text-error captcha-msg"><form:errors path="captcha" /></div>
+							<div><form:label path="checkPassword">确认密码</form:label></div>
+							<div>								
+								<form:password  path="checkPassword" class="form-control" placeholder="请输入确认密码" />
+								<div class="text-error checkPassword-msg"><form:errors path="checkPassword" /></div>
 							</div>
 						</div>
 						<div class="form-group">

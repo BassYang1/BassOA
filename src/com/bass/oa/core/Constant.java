@@ -25,4 +25,9 @@ public class Constant {
 	 * query string param
 	 */
 	public final static String PARAM_LOGIN_CALLBACK = "callback";
+	
+	/*
+	 * model error attribute
+	 */
+	public final static String ATTR_ERROR_MSG = "error";
 }

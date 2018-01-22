@@ -1,7 +1,6 @@
 package com.bass.oa.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +23,8 @@ import com.bass.oa.core.AppUtil;
 import com.bass.oa.core.Constant;
 import com.bass.oa.model.MyResult;
 import com.bass.oa.model.po.UserModel;
+import com.bass.oa.model.vo.Captcha4PwdModel;
+import com.bass.oa.model.vo.PasswordResetModel;
 import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IMailService;
 import com.bass.oa.service.IUserService;
@@ -50,7 +51,7 @@ public class UserController extends BaseController {
 	public String login(@ModelAttribute("user") @Validated UserLoginModel userLoginInfo, BindingResult result, Model model) {
 		if(userLoginInfo == null || result.hasErrors()){
 			_logger.debug(_context.getMessage("user.login.failed"));
-			model.addAttribute("error", _context.getMessage("user.login.failed"));
+			model.addAttribute(Constant.ATTR_ERROR_MSG, _context.getMessage("user.login.failed"));
 			return "login";
 		}
 		
@@ -59,13 +60,13 @@ public class UserController extends BaseController {
 		
 		if(user == null){
 			_logger.debug(myResult.getMessage());
-			model.addAttribute("error", myResult.getMessage());
+			model.addAttribute(Constant.ATTR_ERROR_MSG, myResult.getMessage());
 			return "login";
 		}
 		
 		if(StringUtils.isEmpty(user.getToken())){
 			_logger.debug(_context.getMessage("user.login.failed"));
-			model.addAttribute("error", _context.getMessage("user.login.failed"));
+			model.addAttribute(Constant.ATTR_ERROR_MSG, _context.getMessage("user.login.failed"));
 			return "login";
 		}
 
@@ -117,8 +118,38 @@ public class UserController extends BaseController {
 	}
 	
 	@RequestMapping(value="forgetPwd", method = RequestMethod.GET)
-	public String forgetPassword(){		
-		return "/user/forgetPwd";
+	public ModelAndView forgetPassword(){
+		return new ModelAndView("/user/forgetPwd", "captcha", new Captcha4PwdModel());
+	}
+
+	@RequestMapping(value="forgetPwd", method=RequestMethod.POST)
+	public ModelAndView forgetPassword(@ModelAttribute("captcha") @Validated Captcha4PwdModel captcha, BindingResult result, Model model){
+		if(result.hasErrors()){
+			_logger.debug("验证码验证失败");
+			model.addAttribute(Constant.ATTR_ERROR_MSG, "验证码验证失败");
+			return new ModelAndView("/user/forgetPwd", "captcha", captcha);
+		}
+		
+		MyResult<UserModel> myResult = _userService.getUserByEmail(captcha.getEmail());
+		UserModel user = myResult.getData();
+		
+		if(StringUtils.isNotBlank(myResult.getMessage())){
+			_logger.debug(myResult.getMessage());
+			model.addAttribute(Constant.ATTR_ERROR_MSG, "用户不存在");
+			return new ModelAndView("/user/forgetPwd", "captcha", captcha);
+		}
+		
+		if(captcha.getCaptcha().equals(_userService.getCaptcha4Pwd(user)) == false){
+			model.addAttribute(Constant.ATTR_ERROR_MSG, "验证码已过期");
+			return new ModelAndView("/user/forgetPwd", "captcha", captcha);
+		}
+
+		return new ModelAndView("redirect:/user/resetPwd.do");
+	}
+	
+	@RequestMapping(value="resetPwd", method=RequestMethod.GET)
+	public ModelAndView resetPassword(){
+		return new ModelAndView("/user/resetPwd", "password", new PasswordResetModel());
 	}
 	
 	@RequestMapping(value="sendCaptcha4Pwd", method = RequestMethod.POST)
@@ -127,7 +158,6 @@ public class UserController extends BaseController {
 			_logger.debug(_context.getMessage("Email.captcha.email"));
 			return _context.getMessage("Email.captcha.email");
 		}
-
 		
 		//查找用户
 		MyResult myResult = _userService.getUserByEmail(email);
@@ -138,22 +168,19 @@ public class UserController extends BaseController {
 		}
 		
 		String captcha = _userService.getCaptcha4Pwd((UserModel)myResult.getData());
-		System.out.println(captcha);
-		return captcha;
 		
-		/*
+		
 		//生成验证码
-		String code = AppUtil.getRandomNum(4);
-		myResult = _mailService.sendSimpleText(new String[] { email }, "修改密码验证码", String.format("你的验证码是%s", code));
+		myResult = _mailService.sendSimpleText(new String[] { email }, "修改密码验证码", String.format("你的验证码是%s", captcha));
 
 		if(StringUtils.isNotBlank(myResult.getMessage())){
 			_logger.debug(myResult.getMessage());
 			return myResult.getMessage();
 		}
 		
-		return "";*/
+		return "";
 	}
-	
+
 	@RequestMapping(value = "/{userId}/detail")
 	public ModelAndView showDetail(@PathVariable("userId") int id){
 		UserModel user = _userService.getUserById(id);

@@ -49,6 +49,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 			code = codeBuffer.toString();
 		}
 		
-		request.setAttribute("pageTitle", _context.getMessage(code));
+		//request.setAttribute("pageTitle", _context.getMessage(code));
+		request.setAttribute("pageTitle", "");
 	}
 }
