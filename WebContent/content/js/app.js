@@ -3,57 +3,12 @@
 ===============================================================================================*/
 var com = {};
 
-(function(com, undefined){
-	com.post = function(url, data, async, success, fail){
-		//获取触发事件
-		var event = window.event || arguments.callee.caller.arguments[0]; 
-		
-		if($.trim(url) == "" || event == null){
-			return null;
-		}
-
-		//事件处理函数(click)
-		var func = $(event.target).prop(event.type);
-		//禁用button，防止重复点击
-		com.offButton(event.target);
-		
-		$.when($.ajax({
-			url : url,
-			dataType : "JSON",
-			type : "POST",
-			data : data
-		}))
-		.done(success)
-		.fail(fail)
-		.then(function(data) {
-			//取消禁用
-			com.onButton(event.target, func);
-		});
-	};
-	
+(function(com, undefined){		
 	//清空message
 	com.clearMsg = function (selector){
 		if(selector){
 			$(selector).text("");
 			$(selector).html("");
-		}
-	};
-	
-	//禁用Button
-	com.offButton = function (button){
-		if(button){
-			$(button).attr("disabled", true);
-			$(button).addClass("disabled");
-			$(button).off( "click");
-		}
-	};
-	
-	//启用Button
-	com.onButton = function (button, func){
-		if(button){
-			$(button).removeAttr("disabled");
-			$(button).removeClass("disabled");
-			$(button).click(func);
 		}
 	};
 	
@@ -82,6 +37,24 @@ var com = {};
 			
 		}
 	};
+	
+	//ajax post请求
+	com.post = function(url, data, async, success, fail){
+		if($.trim(url) == "" || event == null){
+			return null;
+		}
+
+		$.when($.ajax({
+			url : url,
+			dataType : "JSON",
+			type : "POST",
+			data : data
+		}))
+		.done(success)
+		.fail(fail)
+		.then(function(data) {
+		});
+	};
 })(com);
 
 com.api = {};
@@ -108,13 +81,53 @@ com.init = {};
 })(com.init);
 
 /* 
+ * Button点击事件处理
+===============================================================================================*/
+var MyButton = function(func){
+	//获取事件
+	this.event = window.event || arguments.callee.caller.arguments[0];
+	this.event = this.event || {};
+	
+	//获取事件类型
+	this.type = this.event.type;
+	
+	//获取事件触发元素
+	this.target = this.event.target;
+	
+	//获取事件处理函数
+	this.func = func;
+};
+
+MyButton.prototype = {
+	off : function (){ //禁用Button			
+		if(this.target){
+			$(this.target).attr("disabled", true);
+			$(this.target).addClass("disabled");
+			
+			if(this.type){
+				$(this.target).off(this.type);
+			}
+		}
+	},	
+	on: function (){ //启用Button		
+		if(this.target){
+			$(this.target).removeAttr("disabled");
+			$(this.target).removeClass("disabled");
+			
+			if(this.type){
+				$(this.target).on(this.type, this.func);
+			}
+		}
+	}
+};
+/* 
  * @description 控制侧边栏高度
 ===============================================================================================*/
 function sidebarHeight(){
 	var clientHeight = document.documentElement.clientHeight;//整个屏幕高度
 	var topNavHeight = $("#topNav").height();//顶部高度
 	var contentHeight = $(".main-content").height();//主内容高度
-	var navHeight = $("#sidebar").height();
+	//var navHeight = $("#sidebar").height();
 					
 	if((clientHeight-topNavHeight) >= contentHeight){
 		$(".sidebar").height(clientHeight-topNavHeight);
@@ -152,13 +165,13 @@ function getSidebarHtml(name,submenu){
 					if(submenu){
 						$(this).addClass("open");
 						$(this).attr("data-blean", "false");
-						$(this).find('b').css({"-webkit-transform" : "rotateX(180deg)"})
+						$(this).find('b').css({"-webkit-transform" : "rotateX(180deg)"});
 						$(this).find(".submenu").css({"display":"block"});
 						$(this).find(".submenu>li").each(function(){
 							if($(this).attr("data-html")==submenu){
 								$(this).addClass("active");
 							}
-						})
+						});
 					}
 				}
 			});			

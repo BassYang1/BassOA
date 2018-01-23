@@ -3,6 +3,13 @@
 	
 <!DOCTYPE html>
 <html>
+<%
+	String pageTitle = (String)request.getAttribute("pageTitle");
+
+	if(pageTitle == "" || pageTitle == ""){
+		request.setAttribute("pageTitle", "用户登录");
+	}
+%>
 <%@ include file="shared/_header.jsp"%>
 <style>
 .login-form {    
@@ -32,29 +39,33 @@
 			$(".userName-msg, .password-msg, .form-msg").text("");
 		});
 		
-		$(".btn-submit").click(
-			function() {
-				var doSubmit = true;
-	
-				if ($.trim($("#userName").val()) == "") {
-					$(".userName-msg").text("<spring:message code="NotEmpty.user.userName"/>");
-					doSubmit = false;
-				}
+		//登录
+		$(".btn-submit").click(doSubmit);		
+		function doSubmit () {
+			var isValid = true;
+			var _btn = new MyButton(doSubmit);
+			_btn.off();
 
-				if ($.trim($("#password").val()) == "") {
-					$(".password-msg").text("<spring:message code="NotEmpty.user.password"/>");
-					doSubmit = false;
-				}
-				
-				if(doSubmit == false){
-					$(".form-msg").text("<spring:message code="user.login.validation.error"/>");
-				}
-				
-				$("#rememberme").val($("#rememberme").is(":checked") ? true : false);
-				
-				return doSubmit;
+			if ($.trim($("#userName").val()) == "") {
+				$(".userName-msg").text("<spring:message code="NotEmpty.user.userName"/>");
+				isValid = false;
 			}
-		);
+
+			if ($.trim($("#password").val()) == "") {
+				$(".password-msg").text("<spring:message code="NotEmpty.user.password"/>");
+				isValid = false;
+			}
+
+			$("#rememberme").val($("#rememberme").is(":checked") ? true : false);
+			
+			if(isValid == false){
+				$(".form-msg").text("<spring:message code="user.login.validation.error"/>");
+				_btn.on();
+				return;
+			}		
+			
+			$("#frmUserLogin").submit();
+		}
 	});
 </script>
 <body>
@@ -88,7 +99,7 @@
 							</label>
 						</div>
 						<div class="form-group">
-							<button class="btn btn-primary btn-block btn-submit">登录 >></button>
+							<input type="button" class="btn btn-primary btn-block btn-submit" value="登录 >>" />
 							<span><a href="${pageContext.request.contextPath }/user/forgetPwd.do" class="pull-right">忘记密码?</a></span>
 						</div>
 					</form:form>

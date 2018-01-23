@@ -9,7 +9,7 @@ public interface IUserService {
 	/*
 	 * 获取修改密码验证码
 	 */
-	public String getCaptcha4Pwd(UserModel user);
+	public String getCaptcha4Pwd(String email);
 	
 	/*
 	 * 根据Token获取用户详细
@@ -40,4 +40,9 @@ public interface IUserService {
 	 * 更新用户
 	 */
 	public boolean updateUser(UserModel user);
+	
+	/*
+	 * 更新用户密码
+	 */
+	public MyResult<Boolean> updatePassword(UserModel user, String newPassword);
 }

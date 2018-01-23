@@ -115,7 +115,7 @@
 		<div class="container">
 			<div class="panel-box login-form">
 				<div class="panel-box-title login-form-title">
-					<i class="glyphicon glyphicon-lock"></i>&nbsp;忘记密码
+					<i class="glyphicon glyphicon-lock"></i>&nbsp;重置密码
 				</div>
 				<div class="panel-box-content">
 					<form:form id="frmPwd" method="POST" commandName="password" action="${pageContext.request.contextPath }/user/resetPwd.do">						
@@ -135,7 +135,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<button class="btn btn-primary btn-block btn-submit">确认 >></button>
+							<button class="btn btn-primary btn-block btn-submit">重置 >></button>
 						</div>
 					</form:form>
 				</div>

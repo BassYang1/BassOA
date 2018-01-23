@@ -19,6 +19,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
+import com.bass.oa.exception.AuthorizationException;
+import com.bass.oa.exception.enums.AuthorizationExEnum;
+
 public class TestDemo {
 	private static Logger LOGGER = LogManager.getLogger(TestDemo.class);
 
@@ -91,7 +94,7 @@ public class TestDemo {
         
         System.out.println();*/
 
-		Properties props = new Properties();
+		/*Properties props = new Properties();
 		
 	    // 邮件发送协议 
         props.setProperty("mail.transport.protocol", "smtp"); 
@@ -130,6 +133,8 @@ public class TestDemo {
         // 将message对象传递给transport对象，将邮件发送出去 
         transport.sendMessage(message, message.getAllRecipients()); 
         // 关闭连接 
-        transport.close(); 
+        transport.close(); */
+		
+		 System.out.println(new AuthorizationException(AuthorizationExEnum.EXPIRED_TOKEN));
 	}
 }

@@ -25,5 +25,9 @@
 	
 	<update id="updateLogoutUser" parameterType="int">
 		UPDATE tbUser SET token=null, series=null, expiredDate=null WHERE userId=#{userId}
+	</update>	
+	
+	<update id="updatePassword">
+		UPDATE tbUser SET password=#{password} WHERE userId=#{userId}
 	</update>
 </mapper>
