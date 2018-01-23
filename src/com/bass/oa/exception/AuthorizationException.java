@@ -19,6 +19,12 @@ public class AuthorizationException extends RuntimeException {
 		this.message = exception.getMessage();
 	}
 
+	public AuthorizationException(String message) {
+		super();
+		this.module = "User";
+		this.message = message;
+	}
+	
 	public void setException(AuthorizationExEnum exception){
 		this.exception = exception;
 	}
@@ -51,8 +57,8 @@ public class AuthorizationException extends RuntimeException {
 		this.message = message;
 	}
 	
-	@Override
+	/*@Override
 	public String toString() {
 		return String.format("[AuthorizationException=%s,%s,%s]", this.module, this.code, this.message);
-	}
+	}*/
 }

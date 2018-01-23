@@ -2,7 +2,6 @@ package com.bass.oa.service;
 
 import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
-import com.bass.oa.model.MyResult;
 
 public interface IUserService {
 
@@ -14,7 +13,7 @@ public interface IUserService {
 	/*
 	 * 根据Token获取用户详细
 	 */
-	public MyResult<UserModel> getUserByToken(String token);
+	public UserModel getUserByToken(String token);
 	
 	/*
 	 * 根据User Id获取用户详细
@@ -24,12 +23,12 @@ public interface IUserService {
 	/*
 	 * 根据User email获取用户详细
 	 */
-	public MyResult<UserModel> getUserByEmail(String email);	
+	public UserModel getUserByEmail(String email);	
 
 	/*
 	 * 用户登录
 	 */
-	public MyResult<UserModel> login(UserLoginModel model);
+	public UserModel login(UserLoginModel model);
 
 	/*
 	 * 用户登出
@@ -39,10 +38,10 @@ public interface IUserService {
 	/*
 	 * 更新用户
 	 */
-	public boolean updateUser(UserModel user);
+	public void updateUser(UserModel user);
 	
 	/*
 	 * 更新用户密码
 	 */
-	public MyResult<Boolean> updatePassword(UserModel user, String newPassword);
+	public void updatePassword(UserModel user, String newPassword);
 }

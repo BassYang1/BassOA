@@ -8,6 +8,7 @@
 </head>
 
 <body>
+${msg }
 	<button id="test3">test3</button>
 </body>
 </html>

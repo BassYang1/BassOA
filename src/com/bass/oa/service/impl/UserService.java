@@ -9,7 +9,6 @@ import net.sf.ehcache.Element;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -18,7 +17,6 @@ import com.bass.oa.core.Constant;
 import com.bass.oa.exception.AuthorizationException;
 import com.bass.oa.exception.enums.AuthorizationExEnum;
 import com.bass.oa.mapper.UserMapper;
-import com.bass.oa.model.MyResult;
 import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IUserService;
@@ -35,8 +33,6 @@ public class UserService extends BaseService implements IUserService {
 
 	@Value("${encrypt.salt ?: }")
 	private String _encryptSalt;
-	
-	private final static Logger _logger = Logger.getLogger(UserService.class);
 	
 	@Autowired
 	private UserMapper _userMapper;
@@ -73,78 +69,51 @@ public class UserService extends BaseService implements IUserService {
 	 * 根据Token获取用户详细
 	 */
 	@Override
-	public MyResult<UserModel> getUserByToken(String token) {
-		MyResult<UserModel> result = new MyResult<UserModel>();
-
-		try {
-			if (StringUtils.isBlank(token)) {
-				throw new AuthorizationException(AuthorizationExEnum.INVALID_TOKEN);
-			}
-
-			UserModel user = _userMapper.getUserByToken(token);
-
-			if (user == null) {
-				throw new AuthorizationException(AuthorizationExEnum.INVALID_TOKEN);
-			}
-
-			if (user.isEnabled() == false) {
-				throw new AuthorizationException(AuthorizationExEnum.DISABLED_USER);
-			}
-
-			String series = encryptSeries(user.getUserName(), user.getExpiredDate());
-
-			if (StringUtils.isEmpty(user.getSeries()) || !user.getSeries().equals(series)) {
-				throw new AuthorizationException(AuthorizationExEnum.EXPIRED_TOKEN);
-			}
-
-			result = new MyResult<UserModel>(true, user);
-		}  
-		catch(AuthorizationException ex){
-			_logger.error(ex);
-			result.setMessage(ex.getMessage());
-		}
-		catch (Exception ex) {
-			result.setMessage(ex.getMessage());
-			_logger.error(ex);
+	public UserModel getUserByToken(String token) {
+		if (StringUtils.isBlank(token)) {
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_TOKEN);
 		}
 
-		return result;
+		UserModel user = _userMapper.getUserByToken(token);
+
+		if (user == null) {
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_TOKEN);
+		}
+
+		if (user.isEnabled() == false) {
+			throw new AuthorizationException(AuthorizationExEnum.DISABLED_USER);
+		}
+
+		//用户密文
+		String series = encryptSeries(user.getUserName(), user.getExpiredDate());
+
+		if (StringUtils.isEmpty(user.getSeries()) || !user.getSeries().equals(series)) {
+			throw new AuthorizationException(AuthorizationExEnum.EXPIRED_TOKEN);
+		}
+
+		return user;
 	}
 
 	/*
 	 * 根据User email获取用户详细
 	 */
 	@Override
-	public MyResult<UserModel> getUserByEmail(String email) {
-		MyResult<UserModel> result = new MyResult<UserModel>();
+	public UserModel getUserByEmail(String email) {
+		if (StringUtils.isBlank(email)) {
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_EMAIL);
+		}
 
-		try {
-			if(StringUtils.isBlank(email)){
-				throw new AuthorizationException(AuthorizationExEnum.INVALID_EMAIL);
-			}
-			
-			UserModel user = _userMapper.getUserByEmail(email);
-			
-			if(user == null){
-				throw new AuthorizationException(AuthorizationExEnum.INVALID_EMAIL);
-			}
-			
-			if(user.isEnabled() == false){
-				throw new AuthorizationException(AuthorizationExEnum.DISABLED_USER);
-			}
-	
-			result = new MyResult<UserModel>(true, user);	
-		}  
-		catch(AuthorizationException ex){
-			_logger.error(ex);
-			result.setMessage(ex.getMessage());
+		UserModel user = _userMapper.getUserByEmail(email);
+
+		if (user == null) {
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_EMAIL);
 		}
-		catch (Exception ex) {
-			result.setMessage(ex.getMessage());
-			_logger.error(ex);
+
+		if (user.isEnabled() == false) {
+			throw new AuthorizationException(AuthorizationExEnum.DISABLED_USER);
 		}
-		
-		return result;
+
+		return user;
 	}
 
 	/*
@@ -162,68 +131,57 @@ public class UserService extends BaseService implements IUserService {
 	 * 用户登录
 	 */
 	@Override
-	public MyResult<UserModel> login(UserLoginModel model) {
-		MyResult<UserModel> result = new MyResult<UserModel>();
-		
-		try {
-			if (model == null || StringUtils.isEmpty(model.getUserName()) || StringUtils.isEmpty(model.getPassword())) {
-				throw new AuthorizationException(AuthorizationExEnum.INVALID_INFO);
-			}
-
-			UserModel user = model.convertToUserModel();
-			user = _userMapper.getUserByUserName(user);
-
-			// 验证用户名是否有效
-			if (user == null) {
-				throw new AuthorizationException(AuthorizationExEnum.INVALID_USERNAME);
-			}
-
-			if(user.isEnabled() == false){
-				throw new AuthorizationException(AuthorizationExEnum.DISABLED_USER);
-			}
-			
-			// 验证是否超过登录次数限制
-			if (_enabledCountLimit && isOverCountLimit(user.getLoginDate(), user.getLoginCount())) {
-				throw new AuthorizationException(AuthorizationExEnum.OVER_LOGIN_LIMIT);
-			}
-
-			// 验证登录密码是否有效
-			String password = encryptPassword(model.getUserName(), model.getPassword());
-			if (!password.equals(user.getPassword())) {
-				// 更新登录次数
-				user.setLoginCount(user.getLoginCount() + 1);
-				user.setLoginDate(new Date());
-				_userMapper.updateLoginLimit(user);
-
-				throw new AuthorizationException(AuthorizationExEnum.INVALID_PASSWORD);
-			}
-
-			// 过期时间
-			Date expiredDate = DateUtils.addDays(new Date(), _tokenDays);
-			// 登录token
-			String token = makeToken(model.getUserName());
-			// 登录有效密文
-			String series = encryptSeries(model.getUserName(), expiredDate);
-
-			// 更新用户
-			user.setExpiredDate(expiredDate);
-			user.setToken(token);
-			user.setSeries(series);
-			user.setLoginDate(new Date());
-			_userMapper.updateLoginUser(user);
-			
-			result = new MyResult<UserModel>(true, user);	
-		} 
-		catch(AuthorizationException ex){
-			_logger.error(ex);
-			result.setMessage(ex.getMessage());
+	public UserModel login(UserLoginModel model) {		
+		if (model == null || StringUtils.isEmpty(model.getUserName())
+				|| StringUtils.isEmpty(model.getPassword())) {
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_INFO);
 		}
-		catch (Exception ex) {
-			_logger.error(ex);
-			result.setMessage(ex.getMessage());
-		}		
-		
-		return result;
+
+		UserModel user = model.convertToUserModel();
+		user = _userMapper.getUserByUserName(user);
+
+		// 验证用户名是否有效
+		if (user == null) {
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_USERNAME);
+		}
+
+		if (user.isEnabled() == false) {
+			throw new AuthorizationException(AuthorizationExEnum.DISABLED_USER);
+		}
+
+		// 验证是否超过登录次数限制
+		if (_enabledCountLimit
+				&& isOverCountLimit(user.getLoginDate(), user.getLoginCount())) {
+			throw new AuthorizationException(AuthorizationExEnum.OVER_LOGIN_LIMIT);
+		}
+
+		// 验证登录密码是否有效
+		String password = encryptPassword(model.getUserName(),
+				model.getPassword());
+		if (!password.equals(user.getPassword())) {
+			// 更新登录次数
+			user.setLoginCount(user.getLoginCount() + 1);
+			user.setLoginDate(new Date());
+			_userMapper.updateLoginLimit(user);
+
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_PASSWORD);
+		}
+
+		// 过期时间
+		Date expiredDate = DateUtils.addDays(new Date(), _tokenDays);
+		// 登录token
+		String token = makeToken(model.getUserName());
+		// 登录有效密文
+		String series = encryptSeries(model.getUserName(), expiredDate);
+
+		// 更新用户
+		user.setExpiredDate(expiredDate);
+		user.setToken(token);
+		user.setSeries(series);
+		user.setLoginDate(new Date());
+		_userMapper.updateLoginUser(user);
+
+		return user;
 	}
 
 	/*
@@ -237,8 +195,7 @@ public class UserService extends BaseService implements IUserService {
 	 * 更新用户
 	 */
 	@Override
-	public boolean updateUser(UserModel user) {
-		return false;
+	public void updateUser(UserModel user) {
 	}
 
 
@@ -246,28 +203,12 @@ public class UserService extends BaseService implements IUserService {
 	 * 更新用户密码
 	 */
 	@Override
-	public MyResult<Boolean> updatePassword(UserModel user, String newPassword) {
-		MyResult<Boolean> result = new MyResult<Boolean>();
-		
-		try {
-			if (user == null || StringUtils.isEmpty(newPassword)) {
-				throw new AuthorizationException(AuthorizationExEnum.INVALID_INFO);
-			}
-
-			_userMapper.updatePassword(user.getUserId(), encryptPassword(user.getUserName(), newPassword));
-
-			result = new MyResult<Boolean>(true, true);
-		} 
-		catch(AuthorizationException ex){
-			_logger.error(ex);
-			result.setMessage(ex.getMessage());
+	public void updatePassword(UserModel user, String newPassword) {
+		if (user == null || StringUtils.isEmpty(newPassword)) {
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_INFO);
 		}
-		catch (Exception ex) {
-			_logger.error(ex);
-			result.setMessage(ex.getMessage());
-		}
-		
-		return result;
+
+		_userMapper.updatePassword(user.getUserId(), encryptPassword(user.getUserName(), newPassword));
 	}
 	
 	/*
@@ -286,9 +227,9 @@ public class UserService extends BaseService implements IUserService {
 	/*
 	 * 加密用户密码
 	 */
-	private String encryptPassword(String userName, String password) throws Exception{
+	private String encryptPassword(String userName, String password){
 		if(StringUtils.isEmpty(userName)){
-			throw new Exception("无效用户");
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_USERNAME);
 		}
 		
 		return AppUtil.sha256Hex(String.format("%s%s", userName, password));
@@ -297,9 +238,9 @@ public class UserService extends BaseService implements IUserService {
 	/*
 	 * 加密用户密文序列
 	 */
-	private String encryptSeries(String userName, Date expiredDate) throws Exception{
+	private String encryptSeries(String userName, Date expiredDate){
 		if(StringUtils.isEmpty(userName)){
-			throw new Exception("无效用户");
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_USERNAME);
 		}
 		
 		return AppUtil.sha256Hex(String.format("%s%s%s", userName, AppUtil.formatDateTime(expiredDate), _encryptSalt));
@@ -308,9 +249,9 @@ public class UserService extends BaseService implements IUserService {
 	/*
 	 * 生成授权令牌
 	 */
-	private String makeToken(String userName) throws Exception{
+	private String makeToken(String userName){
 		if(StringUtils.isEmpty(userName)){
-			throw new Exception("无效用户");
+			throw new AuthorizationException(AuthorizationExEnum.INVALID_USERNAME);
 		}
 		
 		return AppUtil.base64Encode(String.format("%s%s%s", userName, Constant.SEPARATE_USER_TOKEN, UUID.randomUUID().toString()));

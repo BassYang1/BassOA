@@ -31,7 +31,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 			
 			if(StringUtils.isNotBlank(token)){
 				String userName = AppUtil.base64Decode(token).split(Constant.SEPARATE_USER_TOKEN)[0];
-				user = _userService.getUserByToken(token).getData();				
+				user = _userService.getUserByToken(token);				
 				user = user == null || user.getUserName().equals(userName) ? null : user;
 			}
 			

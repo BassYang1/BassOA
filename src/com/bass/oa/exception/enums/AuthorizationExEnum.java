@@ -8,7 +8,9 @@ public enum AuthorizationExEnum implements ExceptionEnum {
 	INVALID_TOKEN("User", "U00004", "无效的用户Token"),
 	EXPIRED_TOKEN("User", "U00005", "过期的用户Token"),
 	DISABLED_USER("User", "U00006", "用户被禁用"),
-	OVER_LOGIN_LIMIT("User", "U00007", "超过用户登录次数限制");
+	OVER_LOGIN_LIMIT("User", "U00007", "超过用户登录次数限制"),
+	INVALID_LOGIN("User", "U00008", "无效的用户名或密码"),
+	UNKNOWN("User", "U00008", "用户登录异常");
 	
 	private String module;
 	private String code;

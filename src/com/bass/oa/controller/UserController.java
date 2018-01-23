@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bass.oa.core.AppUtil;
 import com.bass.oa.core.Constant;
+import com.bass.oa.exception.AuthorizationException;
+import com.bass.oa.exception.enums.AuthorizationExEnum;
 import com.bass.oa.model.MyResult;
 import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.PasswordResetModel;
@@ -36,10 +38,6 @@ public class UserController extends BaseController {
 	
 	@Autowired
 	private IMailService _mailService;
-	
-
-	@Autowired
-	private IMailService _mailService2;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
@@ -48,43 +46,43 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute("user") @Validated UserLoginModel userLoginInfo, BindingResult result, Model model) {
-		if(userLoginInfo == null || result.hasErrors()){
-			_logger.debug(_context.getMessage("user.login.failed"));
-			model.addAttribute(Constant.ATTR_ERROR_MSG, _context.getMessage("user.login.failed"));
-			return "login";
-		}
-		
-		MyResult<UserModel> myResult = _userService.login(userLoginInfo);
-		UserModel user = myResult.getData();
-		
-		if(user == null){
-			_logger.debug(myResult.getMessage());
-			model.addAttribute(Constant.ATTR_ERROR_MSG, myResult.getMessage());
-			return "login";
-		}
-		
-		if(StringUtils.isEmpty(user.getToken())){
-			_logger.debug(_context.getMessage("user.login.failed"));
-			model.addAttribute(Constant.ATTR_ERROR_MSG, _context.getMessage("user.login.failed"));
+		try {
+			if (userLoginInfo == null || result.hasErrors()) {
+				throw new AuthorizationException(AuthorizationExEnum.INVALID_LOGIN);
+			}
+
+			UserModel user = _userService.login(userLoginInfo);
+
+			if (user == null) {
+				throw new AuthorizationException(AuthorizationExEnum.INVALID_LOGIN);
+			}
+
+			if (StringUtils.isEmpty(user.getToken())) {
+				throw new AuthorizationException(AuthorizationExEnum.UNKNOWN);
+			}
+
+			// 添加cookie
+			if (userLoginInfo.isRememberme()) {
+				_context.addCookie(Constant.COOKIE_USER_TOKEN, user.getToken());
+				_context.addCookie(Constant.COOKIE_USER_LOGIN_NAME, user.getUserName());
+			}
+
+			// 存储到session中
+			_context.getSession().setAttribute(Constant.SESSION_USER, user);
+
+			// 页面跳转
+			String callback = _context.getRequest().getParameter(
+					Constant.PARAM_LOGIN_CALLBACK);
+
+			if (StringUtils.isNotBlank(callback)) {
+				return String.format("redirect:%s", callback);
+			}
+		} catch (AuthorizationException ex) {
+			_logger.error(ex);
+			model.addAttribute(Constant.ATTR_ERROR_MSG, ex.getMessage());
 			return "login";
 		}
 
-		//添加cookie
-		if(userLoginInfo.isRememberme()){
-			_context.addCookie(Constant.COOKIE_USER_TOKEN, user.getToken());
-			_context.addCookie(Constant.COOKIE_USER_LOGIN_NAME, user.getUserName());
-		}
-
-		//存储到session中
-		_context.getSession().setAttribute(Constant.SESSION_USER, user);
-
-		//页面跳转
-		String callback = _context.getRequest().getParameter(Constant.PARAM_LOGIN_CALLBACK);
-		
-		if(StringUtils.isNotBlank(callback)){
-			return String.format("redirect:%s", callback);
-		}
-		
 		return "redirect:/index.do";
 	}
 	
@@ -98,14 +96,12 @@ public class UserController extends BaseController {
 			
 			if(StringUtils.isNotBlank(token)){
 				String userName = AppUtil.base64Decode(token).split(Constant.SEPARATE_USER_TOKEN)[0];
-				user = _userService.getUserByToken(token).getData();				
+				user = _userService.getUserByToken(token);				
 				userId = user == null || user.getUserName().equals(userName) ? 0 : user.getUserId();
 			}
 		}
 		
 		if(userId > 0){
-			_logger.debug(_context.getMessage("oa.user.logout"));
-			_logger.debug(user);
 			_userService.logout(userId);
 		}
 		
@@ -123,59 +119,63 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value="forgetPwd", method=RequestMethod.POST)
 	public ModelAndView forgetPassword(@ModelAttribute("password") @Validated PasswordResetModel password, BindingResult result, Model model){
-		if(result.hasErrors()){
-			_logger.debug("验证码验证失败");
-			model.addAttribute(Constant.ATTR_ERROR_MSG, "验证码验证失败");
-			return new ModelAndView("/user/forgetPwd", "password", password);
-		}
-		
-		MyResult<?> myResult = _userService.getUserByEmail(password.getEmail());
-		UserModel user = (UserModel)myResult.getData();
-		
-		if(StringUtils.isNotBlank(myResult.getMessage())){
-			_logger.debug(myResult.getMessage());
-			model.addAttribute(Constant.ATTR_ERROR_MSG, "用户不存在");
-			return new ModelAndView("/user/forgetPwd", "password", password);
-		}
-		
-		if(password.getCaptcha().equals(_userService.getCaptcha4Pwd(password.getEmail())) == false){
-			model.addAttribute(Constant.ATTR_ERROR_MSG, "验证码已过期");
-			return new ModelAndView("/user/forgetPwd", "password", password);
-		}
+		try {
+			if (result.hasErrors()) {
+				throw new AuthorizationException("验证码验证失败");
+			}
 
-		if(password.getPassword().equals(password.getCfmPassword()) == false){
-			model.addAttribute(Constant.ATTR_ERROR_MSG, "新密码和确认密码不一致");
+			UserModel user = _userService.getUserByEmail(password.getEmail());
+
+			if (user == null) {
+				throw new AuthorizationException(AuthorizationExEnum.INVALID_EMAIL);
+			}
+
+			if (password.getCaptcha().equals(
+					_userService.getCaptcha4Pwd(password.getEmail())) == false) {
+				throw new AuthorizationException("验证码已过期");
+			}
+
+			if (password.getPassword().equals(password.getCfmPassword()) == false) {
+				throw new AuthorizationException("新密码和确认密码不一致");
+			}
+
+			_userService.updatePassword(user, password.getPassword());
+
+		} catch (AuthorizationException ex) {
+			_logger.error(ex);
+			model.addAttribute(Constant.ATTR_ERROR_MSG, ex.getMessage());
 			return new ModelAndView("/user/forgetPwd", "password", password);
 		}
 		
-		myResult = _userService.updatePassword(user, password.getPassword());
 		return new ModelAndView("redirect:/user/login.do");
 	}
 	
 	@RequestMapping(value="sendCaptcha4Pwd", method = RequestMethod.POST)
 	public @ResponseBody String sendCaptcha4Pwd(String email){
-		if(StringUtils.isEmpty(email) || !AppUtil.checkEmail(email)){
-			_logger.debug(_context.getMessage("Email.captcha.email"));
-			return _context.getMessage("Email.captcha.email");
-		}
-		
-		//查找用户
-		MyResult<?> myResult = _userService.getUserByEmail(email);
-		
-		if(StringUtils.isNotBlank(myResult.getMessage())){
-			_logger.debug(myResult.getMessage());
-			return myResult.getMessage();
-		}
-				
-		//生成验证码
-		String captcha = _userService.getCaptcha4Pwd(email);	
-		myResult = _mailService.sendSimpleText(new String[] { email }, "修改密码验证码", String.format("你的验证码是%s", captcha));
+		try {
+			if (StringUtils.isEmpty(email) || !AppUtil.checkEmail(email)) {
+				throw new AuthorizationException(AuthorizationExEnum.INVALID_EMAIL);
+			}
 
-		if(StringUtils.isNotBlank(myResult.getMessage())){
-			_logger.debug(myResult.getMessage());
-			return myResult.getMessage();
+			// 查找用户
+			UserModel user = _userService.getUserByEmail(email);
+
+			if (user == null) {
+				throw new AuthorizationException(AuthorizationExEnum.INVALID_EMAIL);
+			}
+
+			// 生成验证码
+			String captcha = _userService.getCaptcha4Pwd(email);
+			_mailService.sendSimpleText(new String[] { email }, "修改密码验证码", String.format("你的验证码是%s", captcha));
+
+		} catch (AuthorizationException ex) {
+			_logger.debug(ex);
+			return ex.getMessage();
+		} catch (Exception ex) {
+			_logger.debug(ex);
+			return ex.getMessage();
 		}
-		
+
 		return "";
 	}
 
@@ -187,7 +187,7 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/detail")
 	public ModelAndView showDetail(@CookieValue (value = "userToken", required = false) String token){
-		UserModel user = _userService.getUserByToken(token).getData();
+		UserModel user = _userService.getUserByToken(token);
 		return new ModelAndView("user/detail", "user", user);
 	}
 		

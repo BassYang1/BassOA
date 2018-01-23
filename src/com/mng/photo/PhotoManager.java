@@ -24,7 +24,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 
 public class PhotoManager {
-	private final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+	private final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmm");
 
 	private String sourcePath;
 	private String cameraPath ;
@@ -35,7 +35,7 @@ public class PhotoManager {
 	private String date;
 	private List<String> renamedFiles = new ArrayList<String>();
 	
-	public PhotoManager(String sourcePath, String cameraPath, String otherPath, String prefix, String suffix, boolean createdFolder){
+	public PhotoManager(String sourcePath, String cameraPath, String otherPath, String prefix, String suffix, boolean createdFolder) throws IOException{
 		this.sourcePath = sourcePath;
 		this.cameraPath = cameraPath;
 		this.otherPath = otherPath;
@@ -44,13 +44,26 @@ public class PhotoManager {
 
 		//创建保存路径
 		mkdirs(cameraPath, createdFolder);
-		mkdirs(otherPath, createdFolder);
+		//mkdirs(otherPath, createdFolder);
 	}
 	
 	public static void main(String[] args) throws JpegProcessingException, IOException {
 		String basePath = "G:\\Photo";
 		String prefix = "YWJ";
 		String suffix = "";
+
+		//照片路径
+		String sourcePath = String.format("%s\\test", basePath);
+		
+		//G:\photo\test
+		//G:\meizu2015\Photo\杨雯嫤
+		//E:\幺儿
+		//sourcePath = "G:\\photo\\test";
+		//sourcePath = "G:\\meizu2015\\Photo\\杨雯嫤";
+		sourcePath = "E:\\幺儿";
+		
+		//是否删除文件夹
+		boolean deleted = false;
 		
 		//录入文件信息
 		/*Scanner input = new Scanner(System.in);
@@ -63,8 +76,6 @@ public class PhotoManager {
 		System.out.println(String.format("文件后缀:%s", suffix));*/	
 
 		
-		//照片路径
-		String sourcePath = String.format("%s\\test", basePath);
 		System.out.println(String.format("文件路径:%s", sourcePath));
 		
 		if(sourcePath.isEmpty()){
@@ -75,10 +86,11 @@ public class PhotoManager {
 		String cameraPath = String.format("%s\\FromCamera", basePath);
 		String otherPath = String.format("%s\\FromOther", basePath);
 		
-		PhotoManager handler = new PhotoManager(sourcePath, cameraPath, otherPath, prefix, suffix, true);
+		PhotoManager handler = new PhotoManager(sourcePath, cameraPath, otherPath, prefix, suffix, deleted);
 		
 		//更新图片
 		handler.updatePhotos();
+		System.out.println("更新完成");
 		//handler.printFileMeta("G:\\photo\\test\\IMG_20171007_190942 (3).jpg");
 		//handler.printFileNio("G:\\photo\\test\\IMG_20171007_190942 (3).jpg");
 	}
@@ -95,11 +107,11 @@ public class PhotoManager {
 	 * @dirName:目录名
 	 * @deleted:若已存在，是否强制删除
 	 */
-	public void mkdirs(String dirName, boolean deleted) {
+	public void mkdirs(String dirName, boolean deleted) throws IOException {
 		File dir = new File(dirName);
 
 		if (deleted || dir.exists() == false) {
-				dir.delete();
+				FileUtils.deleteDirectory(dir);
 				dir.mkdir();
 		} 
 	}
@@ -140,7 +152,8 @@ public class PhotoManager {
 				String year = oriDate != null && oriDate.length() >= 4? oriDate.substring(0, 4) : null;
 				//图片保存位置
 				String storePath = fromCamera ? cameraPath : otherPath;
-				
+				storePath = cameraPath;
+						
 				if(year != null && year != ""){
 					storePath = String.format("%s\\%s", storePath, year);
 				}
@@ -166,7 +179,7 @@ public class PhotoManager {
 				FileUtils.copyFile(srcFile, descFile);
 				//srcFile.renameTo(descFile);
 				System.out.println(newName);
-				// break;
+				//break;
 			}
 		}
 	}
@@ -189,7 +202,8 @@ public class PhotoManager {
 					time1 = exif.getString(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
 					if (time1 != null && time1 != "") {
 						time2 = time1.replace(":", "");
-						return time2.substring(0, 8);
+						time2 = time2.replace(" ", "");
+						return time2.substring(0, 12);
 					}
 				}
 			}
