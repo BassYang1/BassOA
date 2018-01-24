@@ -2,6 +2,7 @@ package com.bass.oa.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,16 +20,20 @@ import com.bass.oa.service.IUserService;
 //@ResponseBody
 @RequestMapping(value = "")
 public class TestController extends BaseController {
+	private final static ThreadLocal<ResourceBundle> lang = new ThreadLocal<ResourceBundle>();
+	
 	@Autowired
 	private ITestService _testService;
 	
 	@RequestMapping(value = "test")
 	public String test(Model model) {
 		try{
+			model.addAttribute("lang", lang.get());
 			model.addAttribute("msg", "未出现异常");
-			_testService.getNum(1);
+			_testService.getNum(0);
 		}
 		catch(AuthorizationException ex){
+			_logger.error(ex);
 			model.addAttribute("msg", ex.getMessage());
 		}
 		

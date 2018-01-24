@@ -102,6 +102,7 @@
 			<mvc:mapping path="/**" />
 
 			<!-- 排除不需要拦截的请求 -->
+			<mvc:exclude-mapping path="/user/login.do" />
 			<mvc:exclude-mapping path="/user/logout.do" />
 			<mvc:exclude-mapping path="/user/forgetPwd.do" />
 			<mvc:exclude-mapping path="/user/sendCaptcha4Pwd.do" />

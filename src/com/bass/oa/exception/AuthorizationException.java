@@ -19,10 +19,19 @@ public class AuthorizationException extends RuntimeException {
 		this.message = exception.getMessage();
 	}
 
-	public AuthorizationException(String message) {
+	/*
+	 * 利用此构函数解决国际化问题
+	 */
+	public AuthorizationException(AuthorizationExEnum exception, String message) {
 		super();
-		this.module = "User";
+		this.exception = exception;
+		this.module = exception.getModule();
+		this.code = exception.getCode();
 		this.message = message;
+	}
+
+	public AuthorizationException(String message) {
+		this(AuthorizationExEnum.UNKNOWN, message);
 	}
 	
 	public void setException(AuthorizationExEnum exception){
@@ -57,8 +66,8 @@ public class AuthorizationException extends RuntimeException {
 		this.message = message;
 	}
 	
-	/*@Override
+	@Override
 	public String toString() {
 		return String.format("[AuthorizationException=%s,%s,%s]", this.module, this.code, this.message);
-	}*/
+	}
 }

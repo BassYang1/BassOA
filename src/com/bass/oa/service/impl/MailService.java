@@ -3,11 +3,15 @@ package com.bass.oa.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 import com.bass.oa.service.IMailService;
 
+@Scope("singleton")
+@Service
 public class MailService extends BaseService implements IMailService {	
 	@Value("${mail.from ?: yjdhmm@sina.com}")
 	private String _from;	

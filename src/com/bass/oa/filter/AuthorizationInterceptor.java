@@ -11,6 +11,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.bass.oa.core.AppUtil;
 import com.bass.oa.core.Constant;
 import com.bass.oa.core.ContextInstance;
+import com.bass.oa.exception.AuthorizationException;
 import com.bass.oa.model.po.UserModel;
 import com.bass.oa.service.IUserService;
 
@@ -31,8 +32,14 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 			
 			if(StringUtils.isNotBlank(token)){
 				String userName = AppUtil.base64Decode(token).split(Constant.SEPARATE_USER_TOKEN)[0];
-				user = _userService.getUserByToken(token);				
-				user = user == null || user.getUserName().equals(userName) ? null : user;
+				
+				try {
+					user = _userService.getUserByToken(token);
+					user = user == null || user.getUserName().equals(userName) ? null : user;
+				} catch (AuthorizationException ex) {
+					_logger.error(ex);
+					user = null;
+				}
 			}
 			
 			//添加session

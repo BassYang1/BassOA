@@ -2,6 +2,13 @@
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
+<%
+	String pageTitle = (String)request.getAttribute("pageTitle");
+
+	if(pageTitle == "" || pageTitle == ""){
+		request.setAttribute("pageTitle", "首页");
+	}
+%>
 <%@ include file="shared/_header.jsp" %>
 
 <body>
@@ -64,7 +71,6 @@
 												</li>
 												<li><i class="fa fa-close"></i> <span class="umar-l"><a></a></span>
 												</li>
-
 											</ul>
 										</div>
 									</div>
@@ -94,13 +100,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="js/app.js"></script>
-	<script>
-		$(function() {
-			setTimeout(function() {
-				sidebarHeight();//控制侧导航的高度
-			}, 0);
-		})
-	</script>
+	<%@ include file="shared/_footer.jsp" %>
+	<%-- <jsp:include page="shared/_footer.jsp" />   --%>
 </body>
 </html>

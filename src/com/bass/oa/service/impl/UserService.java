@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
 import com.bass.oa.core.AppUtil;
 import com.bass.oa.core.Constant;
@@ -21,6 +23,8 @@ import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IUserService;
 
+@Scope("prototype")
+@Service
 public class UserService extends BaseService implements IUserService {	
 	@Value("${enabled.login.count.limit ?: false}")
 	private boolean _enabledCountLimit;	

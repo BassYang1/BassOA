@@ -79,7 +79,7 @@
 					<form:form id="frmUserLogin" method="POST" commandName="user" action="${pageContext.request.contextPath }/user/login.do?${pageContext.request.queryString }">						
 						<div class="text-error form-msg">${error}</div>
 						<div class="form-group">	
-							<div><label>用户名</label></div>
+							<div><label class="control-label">用户名</label></div>
 							<div>
 							<input type="text" class="form-control" id="userName" name="userName"
 								placeholder="请输入用户名" />

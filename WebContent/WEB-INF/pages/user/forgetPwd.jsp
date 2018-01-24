@@ -178,6 +178,7 @@
 						</div>
 						<div class="form-group">
 							<input type="button" class="btn btn-primary btn-block btn-submit" value="提交 >>" />
+							<span><a href="${pageContext.request.contextPath }/user/login.do" class="pull-left">登录</a></span>
 						</div>
 					</form:form>
 				</div>

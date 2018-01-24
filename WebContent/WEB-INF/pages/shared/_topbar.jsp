@@ -20,6 +20,7 @@
 				<i class="fa fa-angle-down nav-icon"></i>
 			</a>
 			<ul class="dropdown-menu" aria-labelledby="userMenu">
+				<li><a href="${pageContext.request.contextPath }/user/detail.do">个人信息</a></li>
 				<li role="separator" class="divider"></li>
 				<li><a href="${pageContext.request.contextPath }/user/logout.do"><spring:message code="oa.logout" /></a></li>
 			</ul>

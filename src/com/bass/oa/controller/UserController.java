@@ -87,31 +87,36 @@ public class UserController extends BaseController {
 	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public String logout() throws UnsupportedEncodingException{
-		UserModel user = (UserModel)_context.getSession().getAttribute(Constant.SESSION_USER);
-		int userId = user == null ? 0 : user.getUserId();
-		
-		if(userId <= 0){
-			String token = _context.getCookieValue(Constant.COOKIE_USER_TOKEN);
-			
-			if(StringUtils.isNotBlank(token)){
-				String userName = AppUtil.base64Decode(token).split(Constant.SEPARATE_USER_TOKEN)[0];
-				user = _userService.getUserByToken(token);				
-				userId = user == null || user.getUserName().equals(userName) ? 0 : user.getUserId();
+	public String logout() throws UnsupportedEncodingException {
+		try {
+			UserModel user = (UserModel) _context.getSession().getAttribute(Constant.SESSION_USER);
+			int userId = user == null ? 0 : user.getUserId();
+
+			if (userId <= 0) {
+				String token = _context.getCookieValue(Constant.COOKIE_USER_TOKEN);
+
+				if (StringUtils.isNotBlank(token)) {
+					String userName = AppUtil.base64Decode(token).split(Constant.SEPARATE_USER_TOKEN)[0];
+					user = _userService.getUserByToken(token);
+					userId = user == null || user.getUserName().equals(userName) ? 0 : user.getUserId();
+				}
 			}
+
+			if (userId > 0) {
+				_userService.logout(userId);
+			}
+
+			_context.removeCookie(Constant.COOKIE_USER_TOKEN);
+			_context.removeCookie(Constant.COOKIE_USER_LOGIN_NAME);
+			_context.getSession().removeAttribute(Constant.SESSION_USER);
+			
+		} catch (AuthorizationException ex) {
+			_logger.error(ex);
 		}
-		
-		if(userId > 0){
-			_userService.logout(userId);
-		}
-		
-		_context.removeCookie(Constant.COOKIE_USER_TOKEN);
-		_context.removeCookie(Constant.COOKIE_USER_LOGIN_NAME);
-		_context.getSession().removeAttribute(Constant.SESSION_USER);
-		
+
 		return "redirect:/user/login.do";
 	}
-	
+
 	@RequestMapping(value="forgetPwd", method = RequestMethod.GET)
 	public ModelAndView forgetPassword(){
 		return new ModelAndView("/user/forgetPwd", "password", new PasswordResetModel());

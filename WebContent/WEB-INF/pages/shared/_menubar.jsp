@@ -19,8 +19,7 @@
 	</a>
 		<ul class="submenu">
 			<li data-html="Simple"><a href="Simple&DataTables.html"> <i
-					class="subnav-icon fa fa-caret-right"></i> <span>Simple &
-						DataTables</span>
+					class="subnav-icon fa fa-caret-right"></i> <span>Simple &amp; DataTables</span>
 			</a></li>
 			<li data-html="jqGrid"><a href="jqGrid.html"> <i
 					class="subnav-icon fa fa-caret-right"></i> <span>jqGrid</span>
