@@ -40,7 +40,8 @@ public class UserController extends BaseController {
 	private IMailService _mailService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login() {
+	public String login(@RequestParam(value = "error", required = false) String error, Model model) {
+		model.addAttribute(Constant.ATTR_ERROR_MSG, error);
 		return "login";
 	}
 	
@@ -192,8 +193,13 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/detail")
 	public ModelAndView showDetail(@CookieValue (value = "userToken", required = false) String token){
-		UserModel user = _userService.getUserByToken(token);
-		return new ModelAndView("user/detail", "user", user);
+		try {
+			UserModel user = _userService.getUserByToken(token);
+			return new ModelAndView("user/detail", "user", user);
+		} catch (AuthorizationException ex) {
+			_logger.error(ex);
+			return new ModelAndView(String.format("redirect:/user/login.do?error=%s", ex.getMessage()));
+		}
 	}
 		
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)

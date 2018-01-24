@@ -13,6 +13,8 @@
 	.module .form-actions .formDel{ background-color: #b1b1b1;}
 	.module .form-actions .formPreview{ background-color: #CB2927;}
 	.module .form-actions .formSave{ background-color: #2B78E4;}
+	.module .form-actions .formEdit{ background-color: #2B78E4;}
+	.module .form-actions .formUpload{ background-color: #2B78E4;}
 
 .module .btnBox{ text-align: center;}
 .module .btnBox > .form-btn:last-child{ margin-right: 0;}

@@ -31,6 +31,11 @@ public class UserModel extends BaseModel {
 	private String name;
 	
 	/*
+	 * 用户邮箱
+	 */
+	private String email;
+	
+	/*
 	 * 登录失败次数
 	 */
 	private int loginCount;
@@ -68,6 +73,14 @@ public class UserModel extends BaseModel {
 
 	public String getName() {
 		return this.name;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getEmail() {
+		return this.email;
 	}
 
 	public void setPassword(String password) {

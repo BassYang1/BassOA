@@ -41,7 +41,6 @@
 							</span>
 						</form>
 					</div>
-
 				</div>
 			</div>
 			<div class="page-content">
@@ -51,26 +50,33 @@
 							<div class="title">
 								<i class="fa fa-file-text-o"></i> <span class="fF lighter">个人信息</span>
 							</div>
-							<div class="module umar-t">
+							<div class="module umar-t" style="margin-top: 0px !important">
 								<div class="container">
 									<div class="row">
 										<div class="form-horizontal">
-											<div class="col-xs-2"></div>
+											<div class="col-xs-1"></div>
 											<div class="col-xs-8">
 												<div class="form-group">
-													<label class="col-sm-2 control-label">用户姓名</label>
-													<div class="col-sm-10">
+													<label class="col-sm-2 control-label">用户姓名 : </label>
+													<div class="col-sm-4">
 														<p class="form-control-static">${user.name }</p>
+													</div>
+													<label class="col-sm-2 control-label">邮箱 : </label>
+													<div class="col-sm-4">
+														<p class="form-control-static">${user.email }</p>
 													</div>
 												</div>
 											</div>
-											<div class="col-xs-2"></div>
+											<div class="col-xs-3">											
+												<div class="form-group">
+													<img alt="${user.name }" src="${pageContext.request.contextPath }/content/images/myphoto.jpg" width=150 height=150 />
+												</div>
+											</div>
 											<div class="form-actions">
 												<div class="col-xs-12">
 													<div class="btnBox">
-														<div class="form-btn formDel">取消</div>
-														<div class="form-btn formPreview">预览</div>
-														<div class="form-btn formSave">保存</div>
+														<a role="button" class="btn btn-primary btn-edit">修改</a>
+														<a role="button" class="btn btn-primary btn-upload">上传图像</a>
 													</div>
 												</div>
 											</div>

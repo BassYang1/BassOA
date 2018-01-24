@@ -3,15 +3,15 @@
 <mapper namespace="com.bass.oa.mapper.UserMapper">
 	<!-- 查询 -->
 	<select id="getUserByUserName" parameterType="userModel" resultType="userModel">
-		SELECT userId, userName, password, name, enabled, loginCount, series, loginDate, expiredDate, createdDate
+		SELECT userId, userName, password, name, email, enabled, loginCount, series, loginDate, expiredDate, createdDate
 		FROM tbUser WHERE userName=#{userName}
 	</select>
 	<select id="getUserByToken" parameterType="string" resultType="userModel">
-		SELECT userId, userName, password, name, enabled, loginCount, series, loginDate, expiredDate, createdDate
+		SELECT userId, userName, password, name, email, enabled, loginCount, series, loginDate, expiredDate, createdDate
 		FROM tbUser WHERE token=#{token}
 	</select>
 	<select id="getUserByEmail" parameterType="string" resultType="userModel">
-		SELECT userId, userName, password, name, enabled, loginCount, series, loginDate, expiredDate, createdDate
+		SELECT userId, userName, password, name, email, enabled, loginCount, series, loginDate, expiredDate, createdDate
 		FROM tbUser WHERE email=#{email}
 	</select>
 	
