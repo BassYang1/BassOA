@@ -19,6 +19,40 @@ CREATE TABLE IF NOT EXISTS tbUser(
 
 INSERT INTO tbUser(userName, password, name, email, createdDate) VALUES('admin', 'd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892', 'AdminUser', '672836012@qq.com',now());
 
+--机构(公司)表
+CREATE TABLE IF NOT EXISTS tbOrganization(
+	id INT PRIMARY KEY auto_increment,
+	name VARCHAR(20) NOT NULL,
+	director VARCHAR(20),
+	contact VARCHAR(20),
+	email VARCHAR(50),
+	url VARCHAR(100),
+	address VARCHAR(100),
+	intro TEXT,
+	createdDate DATETIME
+)engine=innodb DEFAULT charset=utf8 auto_increment=1;
+
+INSERT INTO tbOrganization(name, createdDate) VALUES("TestCompany", NOW());
+
+--部门表
+CREATE TABLE IF NOT EXISTS tbDepartment(
+	id INT PRIMARY KEY auto_increment,
+	orgId INT NOT NULL,
+	parentId INT,
+	name VARCHAR(20) NOT NULL,
+	leader INT,
+	createdDate DATETIME
+)engine=innodb DEFAULT charset=utf8 auto_increment=1;
+
+--部门表
+CREATE TABLE IF NOT EXISTS tbDepartment(
+	id INT PRIMARY KEY auto_increment,
+	parentDept INT,
+	name VARCHAR(20) NOT NULL,
+	leader INT,
+	createdDate DATETIME
+)engine=innodb DEFAULT charset=utf8 auto_increment=1;
+
 --日常用药量
 CREATE TABLE IF NOT EXISTS tbDailyDose(
 	seqNumber INT PRIMARY KEY auto_increment,

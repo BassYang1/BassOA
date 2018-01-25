@@ -15,7 +15,9 @@
 	.module .form-actions .formSave{ background-color: #2B78E4;}
 	.module .form-actions .formEdit{ background-color: #2B78E4;}
 	.module .form-actions .formUpload{ background-color: #2B78E4;}
-
+	.module .form-actions a{color: #333;}
+	.module .form-actions a:hover{color: #b1b1b1;}
+	
 .module .btnBox{ text-align: center;}
 .module .btnBox > .form-btn:last-child{ margin-right: 0;}
 

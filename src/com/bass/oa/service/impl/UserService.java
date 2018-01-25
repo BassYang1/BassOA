@@ -160,8 +160,7 @@ public class UserService extends BaseService implements IUserService {
 		}
 
 		// 验证登录密码是否有效
-		String password = encryptPassword(model.getUserName(),
-				model.getPassword());
+		String password = encryptPassword(model.getUserName(), model.getPassword());
 		if (!password.equals(user.getPassword())) {
 			// 更新登录次数
 			user.setLoginCount(user.getLoginCount() + 1);

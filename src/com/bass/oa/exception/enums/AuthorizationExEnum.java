@@ -25,27 +25,23 @@ public enum AuthorizationExEnum implements ExceptionEnum {
 		this.message = message;		
 	}
 	
-	public void setModule(String module){
-		this.module = module;
-	}
-	
+	@Override
 	public String getModule(){
 		return this.module;
 	}
 
+	@Override
 	public String getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
-	}
-
+	@Override
 	public String getMessage() {
 		return this.message;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	@Override
+	public String toString() {
+		return String.format("[AuthorizationExEnum=%s,%s,%s]", this.module, this.code, this.message);
 	}
 }

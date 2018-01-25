@@ -1,53 +1,27 @@
 <%@ page pageEncoding="utf-8"%>
 <ul class="nav nav-list">
-	<li data-html="index">
+	<%-- <li data-html="index">
 		<a href="${pageContext.request.contextPath }/index.do"> 
 			<i class="nav-icon fa fa-tachometer"></i> 
 			<span class="menu-text">Dashboard</span>
 		</a>
-	</li>
-	<li data-html="jqueryui"><a href="jqueryui.html"> <i
-			class="nav-icon fa fa-magnet"></i> <span class="menu-text">Jquery
-				UI</span>
-	</a></li>
-	<li data-html="echarts"><a href="echarts.html"> <i
-			class="nav-icon fa fa-line-chart"></i> <span class="menu-text">echarts</span>
-	</a></li>
-	<li data-html="table" data-blean="true"><a> <i
-			class="nav-icon fa fa-th-large"></i> <span class="menu-text">table</span>
+	</li> --%>
+	<li data-html="table" data-blean="true">
+		<a> 
+			<i class="nav-icon fa fa-th-large"></i> 
+			<span class="menu-text">组织架构</span>
 			<b class="arrow fa fa-angle-down"></b>
-	</a>
+		</a>
 		<ul class="submenu">
-			<li data-html="Simple"><a href="Simple&DataTables.html"> <i
-					class="subnav-icon fa fa-caret-right"></i> <span>Simple &amp; DataTables</span>
-			</a></li>
-			<li data-html="jqGrid"><a href="jqGrid.html"> <i
-					class="subnav-icon fa fa-caret-right"></i> <span>jqGrid</span>
+			<li data-html="Simple">
+				<a href="${pageContext.request.contextPath }/org/list.do"> 
+					<i class="subnav-icon fa fa-caret-right"></i> <span>公司</span>
+				</a>
+			</li>
+			<li data-html="jqGrid"><a href="${pageContext.request.contextPath }/org/dept/list.do"> <i
+					class="subnav-icon fa fa-caret-right"></i> <span>部门</span>
 			</a></li>
 		</ul></li>
-	<li data-html="form" data-blean="true"><a> <i
-			class="nav-icon fa fa-cloud-upload"></i> <span class="menu-text">form</span>
-			<b class="arrow fa fa-angle-down"></b>
-	</a>
-		<ul class="submenu">
-			<li data-html="formElement"><a href="formElement.html"> <i
-					class="subnav-icon fa fa-caret-right"></i> <span>Form
-						Element</span>
-			</a></li>
-			<li data-html="formWizard"><a href="formWizard.html"> <i
-					class="subnav-icon fa fa-caret-right"></i> <span>Form Wizard</span>
-			</a></li>
-			<li data-html="formEditor"><a href="formEditor.html"> <i
-					class="subnav-icon fa fa-caret-right"></i> <span>Markdown
-						Editor</span>
-			</a></li>
-			<li data-html="dropzone"><a href="dropzone.html"> <i
-					class="subnav-icon fa fa-caret-right"></i> <span>Dropzone</span>
-			</a></li>
-		</ul></li>
-	<li data-html="AngularJs"><a href="angularjs.html"> <i
-			class="nav-icon fa fa-adn"></i> <span class="menu-text">AngularJs</span>
-	</a></li>
 </ul>
 
 <script type="text/javascript">

@@ -19,6 +19,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
+import com.bass.oa.enums.UserGender;
 import com.bass.oa.exception.AuthorizationException;
 import com.bass.oa.exception.enums.AuthorizationExEnum;
 
@@ -135,6 +136,17 @@ public class TestDemo {
         // 关闭连接 
         transport.close(); */
 		
-		 System.out.println(new AuthorizationException(AuthorizationExEnum.EXPIRED_TOKEN));
+		 //System.out.println(new AuthorizationException(AuthorizationExEnum.EXPIRED_TOKEN));
+		
+		int gender = UserGender.MALE.ordinal();
+		System.out.println(gender);
+		System.out.println(UserGender.MALE);
+		System.out.println(UserGender.MALE.name());
+		System.out.println(UserGender.MALE.toString());
+		
+
+		UserGender userGender = UserGender.values()[0];
+		System.out.println(userGender);
+		System.out.println(UserGender.valueOf("MALE"));
 	}
 }

@@ -26,18 +26,23 @@ import com.bass.oa.exception.enums.AuthorizationExEnum;
 import com.bass.oa.model.MyResult;
 import com.bass.oa.model.po.UserModel;
 import com.bass.oa.model.vo.PasswordResetModel;
+import com.bass.oa.model.vo.UserEditModel;
 import com.bass.oa.model.vo.UserLoginModel;
 import com.bass.oa.service.IMailService;
 import com.bass.oa.service.IUserService;
 
 @Controller
 @RequestMapping(value = "/user")
-public class UserController extends BaseController {	
-	@Autowired
+public class UserController extends BaseController {
 	private IUserService _userService;
 	
 	@Autowired
 	private IMailService _mailService;
+	
+	@Autowired
+	public UserController(IUserService userService){
+		this._userService = userService;
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(@RequestParam(value = "error", required = false) String error, Model model) {
@@ -203,16 +208,15 @@ public class UserController extends BaseController {
 	}
 		
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public ModelAndView edit(@RequestParam("userId") int id, @RequestParam("userName") String name){
-		UserModel user = new UserModel();
-		user.setUserId(id);
+	public ModelAndView edit(@ModelAttribute("user") UserEditModel user){
+		/*user.setUserId(id);
 		user.setUserName(name);
-		_userService.updateUser(user);
+		_userService.updateUser(user);*/
 		return new ModelAndView("user/detail", "user", user);
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam("userId") int id){
+	public ModelAndView edit(@RequestParam(value = "userId", required = false) int id){
 		UserModel user = _userService.getUserById(id);
 		user = user == null ? new UserModel() : user;
 		return new ModelAndView("user/edit", "user", user);
