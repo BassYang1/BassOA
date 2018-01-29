@@ -1,4 +1,4 @@
-package com.mng.photo;
+package com.tool.photo;
 
 import java.io.File;
 import java.io.IOException;

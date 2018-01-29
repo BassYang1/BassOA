@@ -13,16 +13,12 @@
 
 <body>
 	<!--引入头部-->
-	<div id="topNav" class="topNav">
-		<%@ include file="../shared/_topbar.jsp"%>
-	</div>
+	<%@ include file="../shared/_topbar.jsp"%>
 
 	<!--中间内容-->
 	<div class="main-container">
 		<!--引入左侧导航-->
-		<div class="sidebar" id="sidebar">
-			<%@ include file="../shared/_menubar.jsp"%>
-		</div>
+		<%@ include file="../shared/_menubar.jsp"%>
 
 		<!--主体内容-->
 		<div class="main-content">

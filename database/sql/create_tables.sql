@@ -22,23 +22,24 @@ INSERT INTO tbUser(userName, password, name, email, createdDate) VALUES('admin',
 --机构(公司)表
 CREATE TABLE IF NOT EXISTS tbOrganization(
 	id INT PRIMARY KEY auto_increment,
-	name VARCHAR(20) NOT NULL,
-	director VARCHAR(20),
-	contact VARCHAR(20),
-	email VARCHAR(50),
-	url VARCHAR(100),
-	address VARCHAR(100),
-	intro TEXT,
+	name VARCHAR(20) NOT NULL, --公司名称
+	director VARCHAR(20), --负责人
+	contact VARCHAR(20), --联系方式
+	email VARCHAR(50), --邮箱
+	url VARCHAR(100), --主页地址
+	address VARCHAR(100), --公司地址
+	intro TEXT, --公司简介
 	createdDate DATETIME
 )engine=innodb DEFAULT charset=utf8 auto_increment=1;
 
-INSERT INTO tbOrganization(name, createdDate) VALUES("TestCompany", NOW());
+INSERT INTO tbOrganization(name, email, createdDate) VALUES("TestCompany", "test@test.com", NOW());
 
 --部门表
 CREATE TABLE IF NOT EXISTS tbDepartment(
 	id INT PRIMARY KEY auto_increment,
 	orgId INT NOT NULL,
 	parentId INT,
+	code VARCHAR(100) NOT NULL,
 	name VARCHAR(20) NOT NULL,
 	leader INT,
 	createdDate DATETIME

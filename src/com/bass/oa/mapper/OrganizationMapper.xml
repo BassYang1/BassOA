@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bass.oa.mapper.OrganizationMapper">
+	<!-- 查询公司 -->
+	<select id="getSingleOrgDetail" resultType="organizationModel">
+		SELECT id, name, director, contact, email, url, address, intro, createdDate
+		FROM tbOrganization LIMIT 1
+	</select>
+	
+	<!-- 查询公司 -->
+	<select id="getOrgDetailById" parameterType="int" resultType="organizationModel">
+		SELECT id, name, director, contact, email, url, address, intro, createdDate
+		FROM tbOrganization WHERE id=#{id}
+	</select>
+	
+	<!-- 查询公司部门 -->
+	<select id="getDeptsByOrgId" parameterType="int" resultType="departmentModel">
+		SELECT id, orgId, parentId, code, name, leader, createdDate
+		FROM tbDepartment WHERE orgId=#{id}
+	</select>
+</mapper>
