@@ -25,9 +25,8 @@
 			<div class="main-content-inner">
 				<div class="contentTop">
 					<ul class="topNavTitle">
-						<li><i class="nav-icon fa fa-home"></i> <a href="#"><span>Home</span></a>
+						<li><i class="nav-icon fa fa-home"></i> <a href="${pageContext.request.contextPath }/index.do"><span>首页</span></a>
 						</li>
-						<li class="active">Dashboard</li>
 					</ul>
 					<div class="nav-search">
 						<form class="form-search">

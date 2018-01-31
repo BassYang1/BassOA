@@ -25,9 +25,9 @@
 			<div class="main-content-inner">
 				<div class="contentTop">
 					<ul class="topNavTitle">
-						<li><i class="nav-icon fa fa-home"></i> <a href="#"><span>Home</span></a>
+						<li><i class="nav-icon fa fa-home"></i> <a href="${pageContext.request.contextPath }/index.do"><span>首页</span></a>
 						</li>
-						<li class="active">Dashboard</li>
+						<li class="active">机构信息</li>
 					</ul>
 					<div class="nav-search">
 						<form class="form-search">
@@ -53,8 +53,28 @@
 											<div class="col-xs-12">
 												<div class="form-group">
 													<label class="col-sm-1 control-label">机构名称 : </label>
-													<div class="col-sm-2">
+													<div class="col-sm-5">
 														<p class="form-control-static">${org.name }</p>
+													</div>
+													<div class="col-xs-6">	
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-1 control-label">负责人 : </label>
+													<div class="col-sm-2">
+														<p class="form-control-static">${org.director }</p>
+													</div>
+													<label class="col-sm-1 control-label">联系方式 : </label>
+													<div class="col-sm-2">
+														<p class="form-control-static">${org.contact }</p>
+													</div>
+													<div class="col-xs-6">	
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-1 control-label">网址 : </label>
+													<div class="col-sm-2">
+														<p class="form-control-static">${org.url }</p>
 													</div>
 													<label class="col-sm-1 control-label">邮箱 : </label>
 													<div class="col-sm-2">
@@ -63,11 +83,27 @@
 													<div class="col-xs-6">	
 													</div>
 												</div>
+												<div class="form-group">
+													<label class="col-sm-1 control-label">地址: </label>
+													<div class="col-sm-5">
+														<p class="form-control-static">${org.address }</p>
+													</div>
+													<div class="col-xs-6">	
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-1 control-label">简介 : </label>
+													<div class="col-sm-5">
+														<p class="form-control-static">${org.intro }</p>
+													</div>
+													<div class="col-xs-6">	
+													</div>
+												</div>
 											</div>
 											<div class="form-actions">
 												<div class="col-xs-6">
-													<div class="btnBox">
-															<div class="form-btn formEdit hidden"><a href="">修改</a></div>
+															<div class="btnBox"><span><a href="${pageContext.request.r }" class="pull-right">忘记密码?</a></span>
+															<div class="form-btn formEdit"><a href="${pageContext.request.contextPath }/org/edit.do">修改</a></div>
 													</div>
 												</div>
 												<div class="col-xs-6">	

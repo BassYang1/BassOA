@@ -36,7 +36,7 @@ public class UserLoginModel extends BaseModel {
 		return this.rememberme;
 	}
 	
-	public UserModel convertToUserModel(){
+	public UserModel convertToPO(){
 		return new UserModel(this.userName, this.password);
 	}
 	

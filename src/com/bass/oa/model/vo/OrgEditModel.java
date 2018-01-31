@@ -1,14 +1,9 @@
-package com.bass.oa.model.po;
+package com.bass.oa.model.vo;
 
-import java.util.Date;
-
-import com.bass.oa.core.AppUtil;
 import com.bass.oa.model.BaseModel;
-import com.bass.oa.model.vo.OrgEditModel;
+import com.bass.oa.model.po.OrganizationModel;
 
-public class OrganizationModel extends BaseModel {
-	private int id;
-	
+public class OrgEditModel extends BaseModel {
 	/*
 	 * 机构名
 	 */
@@ -44,20 +39,10 @@ public class OrganizationModel extends BaseModel {
 	 */
 	private String email;
 	
-	private Date createdDate;
-
-	public OrganizationModel(){
+	public OrgEditModel(){
 		
 	}
 	
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -114,29 +99,21 @@ public class OrganizationModel extends BaseModel {
 		return this.intro;
 	}
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Date getCreatedDate() {
-		return this.createdDate;
-	}
-
-	public OrgEditModel convertToEditVO(){
-		OrgEditModel vo = new OrgEditModel();
-		vo.setName(this.name);
-		vo.setDirector(this.director);
-		vo.setContact(contact);
-		vo.setAddress(address);
-		vo.setEmail(email);
-		vo.setIntro(intro);
-		vo.setUrl(url);
+	public OrganizationModel convertToPO(){
+		OrganizationModel po = new OrganizationModel();
+		po.setName(this.name);
+		po.setDirector(this.director);
+		po.setContact(contact);
+		po.setAddress(address);
+		po.setEmail(email);
+		po.setIntro(intro);
+		po.setUrl(url);
 		
-		return vo;
+		return po;
 	}
 	
 	@Override
 	public String toString(){
-		return String.format("[Organization=%d,%s,%s]", this.id, this.name, AppUtil.formatDateTime(this.createdDate));
+		return String.format("[Organization=%s]", this.name);
 	}
 }

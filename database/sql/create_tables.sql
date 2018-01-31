@@ -1,6 +1,10 @@
 USE oa
 GO
 
+CREATE TABLE IF NOT EXISTS tbModule(
+	
+)engine=innodb DEFAULT charset=utf8 auto_increment=1;
+
 --用户表
 CREATE TABLE IF NOT EXISTS tbUser(
 	userId INT PRIMARY KEY auto_increment,
@@ -40,15 +44,6 @@ CREATE TABLE IF NOT EXISTS tbDepartment(
 	orgId INT NOT NULL,
 	parentId INT,
 	code VARCHAR(100) NOT NULL,
-	name VARCHAR(20) NOT NULL,
-	leader INT,
-	createdDate DATETIME
-)engine=innodb DEFAULT charset=utf8 auto_increment=1;
-
---部门表
-CREATE TABLE IF NOT EXISTS tbDepartment(
-	id INT PRIMARY KEY auto_increment,
-	parentDept INT,
 	name VARCHAR(20) NOT NULL,
 	leader INT,
 	createdDate DATETIME

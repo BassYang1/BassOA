@@ -146,7 +146,7 @@ public class UserModel extends BaseModel {
 	public Date getExpiredDate() {
 		return this.expiredDate;
 	}
-	
+
 	@Override
 	public String toString(){
 		return String.format("[User=%d,%s,%s,%s,%s]", this.userId, this.userName, AppUtil.formatDateTime(this.loginDate), AppUtil.formatDateTime(this.expiredDate), AppUtil.formatDateTime(this.createdDate));

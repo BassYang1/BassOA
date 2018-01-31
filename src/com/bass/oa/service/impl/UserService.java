@@ -141,7 +141,7 @@ public class UserService extends BaseService implements IUserService {
 			throw new AuthorizationException(AuthorizationExEnum.INVALID_INFO);
 		}
 
-		UserModel user = model.convertToUserModel();
+		UserModel user = model.convertToPO();
 		user = _userMapper.getUserByUserName(user);
 
 		// 验证用户名是否有效
