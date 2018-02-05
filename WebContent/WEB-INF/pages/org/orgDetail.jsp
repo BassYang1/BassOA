@@ -84,7 +84,7 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-sm-1 control-label">地址: </label>
+													<label class="col-sm-1 control-label">地址 : </label>
 													<div class="col-sm-5">
 														<p class="form-control-static">${org.address }</p>
 													</div>
@@ -102,8 +102,10 @@
 											</div>
 											<div class="form-actions">
 												<div class="col-xs-6">
-															<div class="btnBox"><span><a href="${pageContext.request.r }" class="pull-right">忘记密码?</a></span>
-															<div class="form-btn formEdit"><a href="${pageContext.request.contextPath }/org/edit.do">修改</a></div>
+													<div class="btnBox">
+														<div class="form-btn formEdit">
+															<a href="${pageContext.request.contextPath }/org/edit.do">修改</a>
+														</div>
 													</div>
 												</div>
 												<div class="col-xs-6">	

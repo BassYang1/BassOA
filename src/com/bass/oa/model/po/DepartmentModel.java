@@ -29,6 +29,18 @@ public class DepartmentModel extends BaseModel
 		return this.orgId;
 	}
 
+	private String orgName;
+
+	public void setOrgName(String orgName)
+	{
+		this.orgName = orgName;
+	}
+
+	public String getOrgName()
+	{
+		return this.orgName;
+	}
+	
 	private int parentId;
 
 	public void setParentId(int parentId)
@@ -41,6 +53,18 @@ public class DepartmentModel extends BaseModel
 		return this.parentId;
 	}
 
+	private String parentName;
+
+	public void setParentName(String parentName)
+	{
+		this.parentName = parentName;
+	}
+
+	public String getParentName()
+	{
+		return this.parentName;
+	}
+	
 	private String code;
 
 	public void setCode(String code)
@@ -77,6 +101,18 @@ public class DepartmentModel extends BaseModel
 		return this.leader;
 	}
 
+	private String leaderName;
+
+	public void setLeaderName(String leaderName)
+	{
+		this.leaderName = leaderName;
+	}
+
+	public String getLeaderName()
+	{
+		return this.leaderName;
+	}
+	
 	private Date createdDate;
 
 	public void setCreatedDate(Date createdDate)

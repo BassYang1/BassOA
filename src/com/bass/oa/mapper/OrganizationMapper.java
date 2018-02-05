@@ -20,4 +20,9 @@ public interface OrganizationMapper {
 	 * 根据Id获取组织部门
 	 */
 	public List<DepartmentModel> getDeptsByOrgId(int id);
+
+	/*
+	 * 更新构机信息
+	 */
+	public void updateOrganization(OrganizationModel po);
 }

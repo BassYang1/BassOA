@@ -1,11 +1,8 @@
 package com.bass.oa.model.vo;
 
-import java.util.Date;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.bass.oa.core.AppUtil;
 import com.bass.oa.enums.UserGender;
 import com.bass.oa.model.BaseModel;
 

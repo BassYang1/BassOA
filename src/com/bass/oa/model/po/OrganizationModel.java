@@ -124,6 +124,7 @@ public class OrganizationModel extends BaseModel {
 
 	public OrgEditModel convertToEditVO(){
 		OrgEditModel vo = new OrgEditModel();
+		vo.setId(id);
 		vo.setName(this.name);
 		vo.setDirector(this.director);
 		vo.setContact(contact);

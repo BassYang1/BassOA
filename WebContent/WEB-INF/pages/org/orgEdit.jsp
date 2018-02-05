@@ -11,6 +11,44 @@
 %>
 <%@ include file="../shared/_header.jsp"%>
 
+<script>
+	$(function() {
+		$("#name, #contact, #email").focus(function(){
+			$(".name-msg, .contact-msg, .email-msg, .form-msg").text("");
+		});
+		
+		//保存
+		$(".formSave").click(doSubmit);
+		
+		function doSubmit () {
+			var name = $.trim($("#name").val());
+			var email = $.trim($("#email").val());
+			
+			var isValid = true;
+			var _btn = new MyButton(doSubmit);
+			_btn.off();
+			$(".text-error").text("");
+
+			if (name == "") {
+				$(".name-msg").text("公司名称不能为空");
+				isValid = false;
+			}
+
+			if(email == "" || !com.checkEmail(email)){
+				$(".email-msg").text("无效的公司邮箱");
+				isValid = false;
+			}
+
+			if(isValid == false){
+				$(".form-msg").text("保存公司信息失败");
+				_btn.on();
+				return;
+			}		
+			
+			$("#frmOrg").submit();
+		}
+	});
+</script>
 <body>
 	<!--引入头部-->
 	<%@ include file="../shared/_topbar.jsp"%>
@@ -42,7 +80,6 @@
 				</div>
 			</div>
 			<div class="page-content">
-
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12">
@@ -54,12 +91,13 @@
 									<div class="row">
 										<div class="col-xs-12">
 											<form:form id="frmOrg" commandName="org" method="POST" action="${pageContext.request.contextPath }/org/edit.do" class="form-horizontal" role="form">
+												<div class="text-error form-msg">${error}</div>
 												<div class="form-group">
 													<form:label path="name" class="col-xs-1 control-label">机构名称 : </form:label>
 													<div class="col-xs-5">
+														<form:input type="hidden" path="id" />
 														<form:input path="name" class="col-xs-12 form-control" placeholder="请输入机构名称" />
-													</div>
-													<div class="col-xs-6">	
+														<div class="text-error name-msg"><form:errors path="name" /></div>
 													</div>
 												</div>
 												<div class="form-group">
@@ -70,6 +108,7 @@
 													<form:label path="contact" class="col-xs-1 control-label">联系方式 : </form:label>
 													<div class="col-xs-2">
 														<form:input path="contact" class="col-xs-12 form-control" placeholder="请输入联系方式" />
+														<div class="text-error contact-msg"><form:errors path="contact" /></div>
 													</div>
 													<div class="col-xs-6">	
 													</div>
@@ -82,6 +121,7 @@
 													<form:label path="email" class="col-xs-1 control-label">邮箱 : </form:label>
 													<div class="col-xs-2">
 														<form:input path="email" type="email" class="col-xs-12 form-control" placeholder="请输入机构邮箱" />
+														<div class="text-error email-msg"><form:errors path="email" /></div>
 													</div>
 													<div class="col-xs-6">	
 													</div>
@@ -105,7 +145,6 @@
 												<div class="form-actions">
 													<div class="col-xs-6">
 														<div class="btnBox">
-															<div class="form-btn formDel">取消</div>
 															<div class="form-btn formSave">保存</div>
 														</div>
 													</div>

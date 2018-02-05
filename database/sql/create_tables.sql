@@ -49,6 +49,10 @@ CREATE TABLE IF NOT EXISTS tbDepartment(
 	createdDate DATETIME
 )engine=innodb DEFAULT charset=utf8 auto_increment=1;
 
+INSERT INTO tbDepartment(orgId, parentId, code, name, leader, createdDate) VALUES(1, null, '00001', 'deptA', 1, NOW());
+INSERT INTO tbDepartment(orgId, parentId, code, name, leader, createdDate) VALUES(1, null, '00002', 'deptB', 1, NOW());
+INSERT INTO tbDepartment(orgId, parentId, code, name, leader, createdDate) VALUES(1, 1, '0000100001', 'deptA1', null, NOW());
+
 --日常用药量
 CREATE TABLE IF NOT EXISTS tbDailyDose(
 	seqNumber INT PRIMARY KEY auto_increment,

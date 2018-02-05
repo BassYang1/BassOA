@@ -1,9 +1,17 @@
 package com.bass.oa.model.vo;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.bass.oa.model.BaseModel;
 import com.bass.oa.model.po.OrganizationModel;
 
 public class OrgEditModel extends BaseModel {
+	/*
+	 * 机构Id
+	 */
+	private int id;
+	
 	/*
 	 * 机构名
 	 */
@@ -42,7 +50,16 @@ public class OrgEditModel extends BaseModel {
 	public OrgEditModel(){
 		
 	}
-	
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	@NotEmpty
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -55,6 +72,8 @@ public class OrgEditModel extends BaseModel {
 		this.email = email;
 	}
 
+	@NotEmpty
+	@Email
 	public String getEmail() {
 		return this.email;
 	}
@@ -101,6 +120,7 @@ public class OrgEditModel extends BaseModel {
 
 	public OrganizationModel convertToPO(){
 		OrganizationModel po = new OrganizationModel();
+		po.setId(id);
 		po.setName(this.name);
 		po.setDirector(this.director);
 		po.setContact(contact);

@@ -40,4 +40,12 @@ public class OrganizationService extends BaseService implements IOrganizationSer
 	public List<DepartmentModel> getDeptsByOrgId(int id){
 		return _orgMapper.getDeptsByOrgId(id);
 	}
+
+	/*
+	 * 更新构机信息
+	 */
+	@Override
+	public void updateOrganization(OrganizationModel po){
+		_orgMapper.updateOrganization(po);
+	}
 }

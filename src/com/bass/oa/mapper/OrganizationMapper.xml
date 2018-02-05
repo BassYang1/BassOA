@@ -15,7 +15,19 @@
 	
 	<!-- 查询公司部门 -->
 	<select id="getDeptsByOrgId" parameterType="int" resultType="departmentModel">
-		SELECT id, orgId, parentId, code, name, leader, createdDate
-		FROM tbDepartment WHERE orgId=#{id}
+		SELECT D.id, D.orgId, O.name AS orgName, D.parentId, D1.name AS parentName, D.code, 
+			D.name, D.leader, U.name AS leaderName, D.createdDate
+		FROM tbDepartment D
+		INNER JOIN tbOrganization O ON D.orgId = O.id
+		LEFT JOIN tbDepartment D1 ON D.parentId = D1.id
+		LEFT JOIN tbUser U ON D.leader = U.userId
+		WHERE D.orgId=#{id}
+	</select>
+	
+	<!-- 更新机构信息 -->
+	<select id="updateOrganization" parameterType="organizationModel">
+		UPDATE tbOrganization SET name=#{name}, director=#{director}, contact=#{contact}, email=#{email}, 
+		url=#{url}, address=#{address}, intro=#{intro}
+		WHERE id=#{id}
 	</select>
 </mapper>
