@@ -404,3 +404,12 @@
 .my-dialog{
 	margin-top: 120px !important;
 }
+
+.my-table{
+	margin-bottom: 0px;	
+}
+
+.my-pager{
+	margin-top: 5px;
+	margin-bottom: 0px;
+}

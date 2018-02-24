@@ -11,6 +11,8 @@
 %>
 <%@ include file="../shared/_header.jsp"%>
 <link href="${pageContext.request.contextPath }/content/css/table.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath }/content/framework/css/bootstrap-pager.css" rel="stylesheet" type="text/css" />
+<script src="${pageContext.request.contextPath }/content/framework/js/bootstrap-pager.js"></script>
 <body>
 	<!--引入头部-->
 	<%@ include file="../shared/_topbar.jsp"%>
@@ -46,7 +48,7 @@
 								<div class="title">
 									<i class="fa fa-table"></i> <span class="fF lighter">部门列表</span>
 								</div>
-								<table class="table umar-t" id="simpleTable">
+								<table class="table umar-t my-table" id="simpleTable">
 									<thead>
 										<tr>
 											<th></th>
@@ -76,61 +78,7 @@
 									</tbody>
 								</table>
 							</div>
-							<div id="grid-pager"
-								class="ui-jqgrid-pager ui-state-default ui-corner-bottom"
-								dir="ltr" style="width: 756px;">
-								<div id="pg_grid-pager" class="ui-pager-control" role="group">
-									<table class="ui-pg-table ui-common-table ui-pager-table ">
-										<tbody>
-											<tr>
-												<td id="grid-pager_left" align="left"></td>
-												<td id="grid-pager_center" align="center"
-													style="white-space: pre; width: 204px;"><table
-														class="ui-pg-table ui-common-table ui-paging-pager">
-														<tbody>
-															<tr>
-																<td id="first_grid-pager"
-																	class="ui-pg-button ui-corner-all ui-state-disabled"
-																	title="First Page" style="cursor: default;"><span
-																	class="ui-icon fa fa-angle-double-left"></span></td>
-																<td id="prev_grid-pager"
-																	class="ui-pg-button ui-corner-all ui-state-disabled"
-																	title="Previous Page" style="cursor: default;"><span
-																	class="ui-icon fa fa-angle-left"></span></td>
-																<td class="ui-pg-button ui-state-disabled"
-																	style="cursor: default;"><span
-																	class="ui-separator"></span></td>
-																<td id="input_grid-pager" dir="ltr">Page <input
-																	class="ui-pg-input ui-corner-all" type="text" size="2"
-																	maxlength="7" value="0" role="textbox"> of <span
-																	id="sp_1_grid-pager">2</span></td>
-																<td class="ui-pg-button ui-state-disabled"><span
-																	class="ui-separator"></span></td>
-																<td id="next_grid-pager"
-																	class="ui-pg-button ui-corner-all" title="Next Page"
-																	style="cursor: default;"><span
-																	class="ui-icon fa fa-angle-right"></span></td>
-																<td id="last_grid-pager"
-																	class="ui-pg-button ui-corner-all" title="Last Page"
-																	style="cursor: default;"><span
-																	class="ui-icon fa fa-angle-double-right"></span></td>
-																<td dir="ltr"><select
-																	class="ui-pg-selbox ui-widget-content ui-corner-all"
-																	role="listbox" title="Records per Page"><option
-																			role="option" value="10" selected="selected">10</option>
-																		<option role="option" value="20">20</option>
-																		<option role="option" value="30">30</option></select></td>
-															</tr>
-														</tbody>
-													</table></td>
-												<td id="grid-pager_right" align="right"><div dir="ltr"
-														style="text-align: right" class="ui-paging-info">View
-														1 - 10 of 15</div></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
+							<div id="page-container-static-normal"></div>
 						</div>
 					</div>
 				</div>
@@ -138,5 +86,19 @@
 		</div>
 	</div>
 	<%@ include file="../shared/_footer.jsp"%>
+	<script type="text/javascript">
+		$("#page-container-static-normal").page({
+			count : 3,
+			theme : "normal",
+			pageSize : 1,
+			pageNum : 2
+		});
+		$("#page-container-static-normal").on("pageChanged",
+				function(e, pg) {
+					console.log(pg);
+					//$(this).data("page").refresh(params);
+					location.href = "${pageContext.request.contextPath }/org/dept/list.do?pgnum=" + pg.pageNum + "&pgsize=" + pg.pageSize;
+				});
+	</script>
 </body>
 </html>
